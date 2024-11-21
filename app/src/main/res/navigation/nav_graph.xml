@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/outfits">
+
+    <fragment
+        android:id="@+id/outfits"
+        android:name="com.example.closet.Outfits"
+        android:label="fragment_outfits"
+        tools:layout="@layout/fragment_outfits" >
+        <action
+            android:id="@+id/action_outfits_to_outfitAdd"
+            app:destination="@id/outfitAdd" />
+        <action
+            android:id="@+id/action_outfits_to_outfitView"
+            app:destination="@id/outfitView" />
+    </fragment>
+    <fragment
+        android:id="@+id/clothesJewerlyTypeSelector"
+        android:name="com.example.closet.ClothesJewerlyTypeSelector"
+        android:label="fragment_clothes_jewerly_type_selector"
+        tools:layout="@layout/fragment_clothes_jewerly_type_selector" >
+        <action
+            android:id="@+id/action_clothesJewerlyTypeSelector_to_clothingSelector"
+            app:destination="@id/clothingSelector" />
+        <action
+            android:id="@+id/action_clothesJewerlyTypeSelector_to_account"
+            app:destination="@id/account" />
+    </fragment>
+    <fragment
+        android:id="@+id/account"
+        android:name="com.example.closet.Account"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account" />
+    <fragment
+        android:id="@+id/clothingSelector"
+        android:name="com.example.closet.ClothingSelector"
+        android:label="fragment_clothing_selector"
+        tools:layout="@layout/fragment_clothing_selector" >
+        <action
+            android:id="@+id/action_clothingSelector_to_clothingView"
+            app:destination="@id/clothingView" />
+    </fragment>
+    <fragment
+        android:id="@+id/clothingView"
+        android:name="com.example.closet.ClothingView"
+        android:label="fragment_clothing_view"
+        tools:layout="@layout/fragment_clothing_view" />
+    <fragment
+        android:id="@+id/outfitAdd"
+        android:name="com.example.closet.OutfitAdd"
+        android:label="fragment_outfit_add"
+        tools:layout="@layout/fragment_outfit_add" >
+        <action
+            android:id="@+id/action_outfitAdd_to_outfitAddTypeSelector"
+            app:destination="@id/outfitAddTypeSelector" />
+    </fragment>
+    <fragment
+        android:id="@+id/outfitAddClothingSelector"
+        android:name="com.example.closet.OutfitAddClothingSelector"
+        android:label="fragment_outfit_add_clothing_selector"
+        tools:layout="@layout/fragment_outfit_add_clothing_selector" />
+    <fragment
+        android:id="@+id/outfitAddTypeSelector"
+        android:name="com.example.closet.OutfitAddTypeSelector"
+        android:label="fragment_outfit_add_type_selector"
+        tools:layout="@layout/fragment_outfit_add_type_selector" >
+        <action
+            android:id="@+id/action_outfitAddTypeSelector_to_outfitAddClothingSelector"
+            app:destination="@id/outfitAddClothingSelector" />
+    </fragment>
+    <fragment
+        android:id="@+id/outfitView"
+        android:name="com.example.closet.OutfitView"
+        android:label="fragment_outfit_view"
+        tools:layout="@layout/fragment_outfit_view" />
+</navigation>
