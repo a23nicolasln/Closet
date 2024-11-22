@@ -16,10 +16,13 @@
         <action
             android:id="@+id/action_outfits_to_outfitView"
             app:destination="@id/outfitView" />
+        <action
+            android:id="@+id/action_outfits_to_clothesJewerlyTypeSelector"
+            app:destination="@id/clothesJewerlyTypeSelector" />
     </fragment>
     <fragment
         android:id="@+id/clothesJewerlyTypeSelector"
-        android:name="com.example.closet.ClothesJewerlyTypeSelector"
+        android:name="com.example.closet.Closet"
         android:label="fragment_clothes_jewerly_type_selector"
         tools:layout="@layout/fragment_clothes_jewerly_type_selector" >
         <action
@@ -28,6 +31,9 @@
         <action
             android:id="@+id/action_clothesJewerlyTypeSelector_to_account"
             app:destination="@id/account" />
+        <action
+            android:id="@+id/action_clothesJewerlyTypeSelector_to_outfits"
+            app:destination="@id/outfits" />
     </fragment>
     <fragment
         android:id="@+id/account"

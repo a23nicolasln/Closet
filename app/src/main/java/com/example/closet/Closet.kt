@@ -8,21 +8,22 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.navigation.findNavController
 
-class Outfits : Fragment() {
+class Closet : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_outfits, container, false)
+        val view = inflater.inflate(R.layout.fragment_clothes_jewerly_type_selector, container, false)
 
         val outfitsIcon = view.findViewById<ImageView>(R.id.outfits_icon)
-        outfitsIcon.isSelected = true
-        val closetIcon = view.findViewById<ImageView>(R.id.closet_icon)
-        closetIcon.isSelected = false
-        closetIcon.setOnClickListener {
-            view.findNavController().navigate(R.id.action_outfits_to_clothesJewerlyTypeSelector)
+        outfitsIcon.isSelected = false
+        outfitsIcon.setOnClickListener {
+            view.findNavController().navigate(R.id.action_clothesJewerlyTypeSelector_to_outfits)
         }
+
+        val closetIcon = view.findViewById<ImageView>(R.id.closet_icon)
+        closetIcon.isSelected = true
 
         return view
     }
