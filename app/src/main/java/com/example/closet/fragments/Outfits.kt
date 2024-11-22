@@ -1,12 +1,17 @@
-package com.example.closet
+package com.example.closet.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.closet.MyRecyclerViewAdapter
+import com.example.closet.R
+
 
 class Outfits : Fragment() {
 
@@ -16,8 +21,18 @@ class Outfits : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_outfits, container, false)
 
-        val outfitsIcon = view.findViewById<ImageView>(R.id.outfits_icon)
-        outfitsIcon.isSelected = true
+
+
+        // set up the RecyclerView
+        val recyclerView: RecyclerView = view.findViewById(R.id.rvOutfits)
+        val numberOfColumns = 6
+        recyclerView.setLayoutManager(GridLayoutManager(, numberOfColumns))
+        adapter = MyRecyclerViewAdapter(this, data)
+        adapter.setClickListener(this)
+        recyclerView.setAdapter(adapter)
+
+
+
         val closetIcon = view.findViewById<ImageView>(R.id.closet_icon)
         closetIcon.isSelected = false
         closetIcon.setOnClickListener {

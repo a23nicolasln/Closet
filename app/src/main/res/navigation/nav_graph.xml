@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/outfits"
-        android:name="com.example.closet.Outfits"
+        android:name="com.example.closet.fragments.Outfits"
         android:label="fragment_outfits"
         tools:layout="@layout/fragment_outfits" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/clothesJewerlyTypeSelector"
-        android:name="com.example.closet.Closet"
+        android:name="com.example.closet.fragments.Closet"
         android:label="fragment_clothes_jewerly_type_selector"
         tools:layout="@layout/fragment_clothes_jewerly_type_selector" >
         <action
@@ -37,12 +37,12 @@
     </fragment>
     <fragment
         android:id="@+id/account"
-        android:name="com.example.closet.Account"
+        android:name="com.example.closet.fragments.Account"
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" />
     <fragment
         android:id="@+id/clothingSelector"
-        android:name="com.example.closet.ClothingSelector"
+        android:name="com.example.closet.fragments.ClothingSelector"
         android:label="fragment_clothing_selector"
         tools:layout="@layout/fragment_clothing_selector" >
         <action
@@ -51,12 +51,12 @@
     </fragment>
     <fragment
         android:id="@+id/clothingView"
-        android:name="com.example.closet.ClothingView"
+        android:name="com.example.closet.fragments.ClothingView"
         android:label="fragment_clothing_view"
         tools:layout="@layout/fragment_clothing_view" />
     <fragment
         android:id="@+id/outfitAdd"
-        android:name="com.example.closet.OutfitAdd"
+        android:name="com.example.closet.fragments.OutfitAdd"
         android:label="fragment_outfit_add"
         tools:layout="@layout/fragment_outfit_add" >
         <action
@@ -65,12 +65,12 @@
     </fragment>
     <fragment
         android:id="@+id/outfitAddClothingSelector"
-        android:name="com.example.closet.OutfitAddClothingSelector"
+        android:name="com.example.closet.fragments.OutfitAddClothingSelector"
         android:label="fragment_outfit_add_clothing_selector"
         tools:layout="@layout/fragment_outfit_add_clothing_selector" />
     <fragment
         android:id="@+id/outfitAddTypeSelector"
-        android:name="com.example.closet.OutfitAddTypeSelector"
+        android:name="com.example.closet.fragments.OutfitAddTypeSelector"
         android:label="fragment_outfit_add_type_selector"
         tools:layout="@layout/fragment_outfit_add_type_selector" >
         <action
@@ -79,7 +79,7 @@
     </fragment>
     <fragment
         android:id="@+id/outfitView"
-        android:name="com.example.closet.OutfitView"
+        android:name="com.example.closet.fragments.OutfitView"
         android:label="fragment_outfit_view"
         tools:layout="@layout/fragment_outfit_view" />
 </navigation>

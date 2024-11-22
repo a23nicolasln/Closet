@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
 
-    <androidx.core.widget.NestedScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvOutfits"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" />
 
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </androidx.core.widget.NestedScrollView>
-
-
-
-
-
+    </RelativeLayout>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,26 +30,26 @@
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:src="@drawable/outfits_icon_white"
             android:background="@drawable/icon_background_selector"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/closet_icon"
-            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/outfits_icon_white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread" />
+            app:layout_constraintEnd_toStartOf="@id/closet_icon"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/closet_icon"
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:src="@drawable/closet_icon_white"
             android:background="@drawable/icon_background_selector"
-            app:layout_constraintStart_toEndOf="@id/outfits_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/closet_icon_white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/outfits_icon"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
