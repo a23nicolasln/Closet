@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.closet.adapters.ClothingAdapter
 import com.example.closet.objects.ClothingItem
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class Outfits : Fragment() {
 
@@ -21,6 +22,11 @@ class Outfits : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_outfits, container, false)
+
+        val accountButton = view.findViewById<FloatingActionButton>(R.id.acount_button)
+        accountButton.setOnClickListener {
+            view.findNavController().navigate(R.id.action_outfits_to_account)
+        }
 
         val closetIcon = view.findViewById<ImageView>(R.id.closet_icon)
         closetIcon.isSelected = false
@@ -33,12 +39,12 @@ class Outfits : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvOutfits)
         recyclerView.layoutManager = GridLayoutManager(context, 2)
         val clothingItems = listOf(
-            ClothingItem(R.drawable.clothing_image_1),
-            ClothingItem(R.drawable.clothing_image_2),
-            ClothingItem(R.drawable.clothing_image_1),
-            ClothingItem(R.drawable.clothing_image_2),
-            ClothingItem(R.drawable.clothing_image_1),
-            ClothingItem(R.drawable.clothing_image_2)
+            ClothingItem("1", "type1", "color1", "size1", "url1"),
+            ClothingItem("2", "type2", "color2", "size2", "url2"),
+            ClothingItem("3", "type3", "color3", "size3", "url3"),
+            ClothingItem("4", "type4", "color4", "size4", "url4"),
+            ClothingItem("5", "type5", "color5", "size5", "url5"),
+            ClothingItem("6", "type6", "color6", "size6", "url6")
             // Add more items as needed
         )
         recyclerView.adapter = ClothingAdapter(clothingItems) {

@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_outfits_to_closet"
             app:destination="@id/closet" />
+        <action
+            android:id="@+id/action_outfits_to_account"
+            app:destination="@id/account" />
     </fragment>
     <fragment
         android:id="@+id/closet"

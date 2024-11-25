@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.closet.R
 import com.example.closet.objects.ClothingItem
 
@@ -37,7 +38,9 @@ class ClothingAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ClothingViewHolder) {
             val clothingItem = clothingItems[position]
-            holder.clothingImage.setImageResource(clothingItem.imageResId)
+            Glide.with(holder.itemView.context)
+                .load(clothingItem.imageUrl)
+                .into(holder.clothingImage)
         }
     }
 

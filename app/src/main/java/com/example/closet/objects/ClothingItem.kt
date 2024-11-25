@@ -1,3 +1,9 @@
 package com.example.closet.objects
 
-data class ClothingItem(val imageResId: Int)
+data class ClothingItem(
+    val id: String,
+    val type: String,
+    val color: String,
+    val size: String,
+    val imageUrl: String
+)
