@@ -15,12 +15,12 @@ class Closet : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_clothes_jewerly_type_selector, container, false)
+        val view = inflater.inflate(R.layout.fragment_closet, container, false)
 
         val outfitsIcon = view.findViewById<ImageView>(R.id.outfits_icon)
         outfitsIcon.isSelected = false
         outfitsIcon.setOnClickListener {
-            view.findNavController().navigate(R.id.action_clothesJewerlyTypeSelector_to_outfits)
+            view.findNavController().navigate(R.id.action_closet_to_outfits)
         }
 
         val closetIcon = view.findViewById<ImageView>(R.id.closet_icon)

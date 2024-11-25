@@ -17,22 +17,22 @@
             android:id="@+id/action_outfits_to_outfitView"
             app:destination="@id/outfitView" />
         <action
-            android:id="@+id/action_outfits_to_clothesJewerlyTypeSelector"
-            app:destination="@id/clothesJewerlyTypeSelector" />
+            android:id="@+id/action_outfits_to_closet"
+            app:destination="@id/closet" />
     </fragment>
     <fragment
-        android:id="@+id/clothesJewerlyTypeSelector"
+        android:id="@+id/closet"
         android:name="com.example.closet.fragments.Closet"
-        android:label="fragment_clothes_jewerly_type_selector"
-        tools:layout="@layout/fragment_clothes_jewerly_type_selector" >
+        android:label="fragment_closet"
+        tools:layout="@layout/fragment_closet" >
         <action
-            android:id="@+id/action_clothesJewerlyTypeSelector_to_clothingSelector"
+            android:id="@+id/action_closet_to_clothingSelector"
             app:destination="@id/clothingSelector" />
         <action
-            android:id="@+id/action_clothesJewerlyTypeSelector_to_account"
+            android:id="@+id/action_closet_to_account"
             app:destination="@id/account" />
         <action
-            android:id="@+id/action_clothesJewerlyTypeSelector_to_outfits"
+            android:id="@+id/action_closet_to_outfits"
             app:destination="@id/outfits" />
     </fragment>
     <fragment

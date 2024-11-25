@@ -2,4 +2,6 @@
     <string name="app_name">Closet</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment"></string>
+    <string name="clothes">Clothes</string>
+    <string name="accessories">Accessories</string>
 </resources>

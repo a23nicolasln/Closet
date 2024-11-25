@@ -2,12 +2,14 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="150dp"
-    android:layout_height="200dp">
+    android:layout_height="200dp"
+    android:layout_margin="20dp">
 
     <ImageView
         android:id="@+id/clothing_item_image"
         android:layout_width="150dp"
         android:layout_height="200dp"
-        android:background="@drawable/rounded_corners_clothing_item"/>
+        android:background="@drawable/rounded_corners_clothing_item"
+        android:scaleType="centerCrop"/>
 
 </androidx.cardview.widget.CardView>

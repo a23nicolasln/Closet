@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="150dp"
+    android:layout_height="200dp"
+    android:background="@drawable/rounded_corners_clothing_item"
+    android:layout_margin="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_corners_clothing_item"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/clothing_item_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_plus"
+            android:layout_marginLeft="40dp"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
