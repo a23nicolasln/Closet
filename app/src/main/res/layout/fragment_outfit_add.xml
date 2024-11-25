@@ -6,6 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".fragments.OutfitAdd">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/icon_back"
+        app:backgroundTint="@color/dark_grey"
+        app:tint="@null"
+        app:fabCustomSize="40dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/acount_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/icon_account"
+        app:backgroundTint="@color/dark_grey"
+        app:tint="@null"
+        app:fabCustomSize="40dp" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,16 +40,25 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
+
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageViewOutfit"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
+                android:src="@drawable/icon_plus"
+                android:background="@color/light_grey"
                 android:scaleType="center" />
 
 
+            <TextView
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/clothes" />
+
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:scrollbars="horizontal">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -37,18 +70,14 @@
             </HorizontalScrollView>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/clothes" />
-
-            <TextView
+                android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/accessories" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:scrollbars="horizontal">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -59,15 +88,21 @@
 
             </HorizontalScrollView>
 
+
+
+                <TextView
+                    android:textSize="20sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:text="@string/save"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:background="@color/light_grey"/>
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="30dp"
-        android:src="@drawable/icon_plus"
-        app:backgroundTint="@color/dark_grey" />
 
 </FrameLayout>

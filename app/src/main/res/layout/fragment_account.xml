@@ -3,12 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.Account">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/icon_back"
+        app:backgroundTint="@color/dark_grey"
+        app:tint="@null"
+        app:fabCustomSize="40dp" />
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_marginTop="20dp"
+        android:id="@+id/imageView"
+        android:layout_width="311dp"
+        android:layout_height="297dp"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_horizontal"
+        app:shapeAppearanceOverlay="@style/RoundImage"
+        tools:src="@tools:sample/avatars" />
 
 </FrameLayout>

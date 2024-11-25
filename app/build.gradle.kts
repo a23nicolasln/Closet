@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(" com.google.android.material:material:1.9.0")
 
     // Navigation dependencies (ensure only one version is used)
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.3") // Keep only the latest version
