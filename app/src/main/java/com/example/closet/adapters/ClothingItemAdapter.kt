@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.closet.R
 import com.example.closet.fragments.ClothingSelector
+import com.example.closet.fragments.ClothingSelectorDirections
 import com.example.closet.objects.ClothingItem
 
 class ClothingItemAdapter(private val dataSet: List<ClothingItem>) :
@@ -53,6 +54,21 @@ class ClothingItemAdapter(private val dataSet: List<ClothingItem>) :
         Glide.with(viewHolder.imageView.context)
             .load(imageUrl)
             .into(viewHolder.imageView)
+
+        if (dataSet[position].type == "Add") {
+            // Set click listener to add a new ClothingItem when clicking on the "Add Item" card
+            viewHolder.imageView.setOnClickListener {
+                val action = ClothingSelectorDirections.actionClothingSelectorToClothingAdd(dataSet[position].type)
+                viewHolder.imageView.findNavController().navigate(action)
+            }
+        }else {
+            // Set click listener to view the ClothingItem details when clicking on the item
+            viewHolder.imageView.setOnClickListener {
+                val action =
+                    ClothingSelectorDirections.actionClothingSelectorToClothingView(dataSet[position].id)
+                viewHolder.imageView.findNavController().navigate(action)
+            }
+        }
 
     }
 

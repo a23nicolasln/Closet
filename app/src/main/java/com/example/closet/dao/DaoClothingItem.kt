@@ -55,4 +55,8 @@ class DaoClothingItem(private val context: Context) {
     fun getClothingByType(type: String): List<ClothingItem> {
         return getClothingItems().filter { it.type == type }
     }
+
+    fun getClothingItemById(id: String): ClothingItem? {
+        return getClothingItems().find { it.id == id }
+    }
 }

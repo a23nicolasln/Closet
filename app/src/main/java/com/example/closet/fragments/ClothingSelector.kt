@@ -13,6 +13,7 @@ import com.example.closet.R
 import com.example.closet.adapters.ClothingItemAdapter
 import com.example.closet.dao.DaoClothingItem
 import com.example.closet.objects.ClothingItem
+import java.nio.file.Paths
 
 class ClothingSelector : Fragment() {
 
@@ -33,7 +34,7 @@ class ClothingSelector : Fragment() {
         val clothingItems: MutableList<ClothingItem> = DaoClothingItem(requireContext()).getClothingItems().toMutableList()
 
         // Add a dummy item for the "Add Item" card
-        clothingItems.add(ClothingItem(id = "add", type = "Add", color = listOf(), size = "", imageUrl = ""))
+        clothingItems.add(ClothingItem(id = "add", type = "Add", color = listOf(), size = "", imageUrl = "file:///android_asset/clothingImages/icon_plus.png"))
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvClothingSelector)
         recyclerView.layoutManager = GridLayoutManager(context, 2)
