@@ -51,12 +51,23 @@
         <action
             android:id="@+id/action_clothingSelector_to_clothingView"
             app:destination="@id/clothingView" />
+        <action
+            android:id="@+id/action_clothingSelector_to_clothingAdd"
+            app:destination="@id/clothingAdd" />
+
+        <argument
+            android:name="clothingType"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/clothingView"
         android:name="com.example.closet.fragments.ClothingView"
         android:label="fragment_clothing_view"
-        tools:layout="@layout/fragment_clothing_view" />
+        tools:layout="@layout/fragment_clothing_view" >
+        <argument
+            android:name="clothingType"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/outfitAdd"
         android:name="com.example.closet.fragments.OutfitAdd"
@@ -70,7 +81,8 @@
         android:id="@+id/outfitAddClothingSelector"
         android:name="com.example.closet.fragments.OutfitAddClothingSelector"
         android:label="fragment_outfit_add_clothing_selector"
-        tools:layout="@layout/fragment_outfit_add_clothing_selector" />
+        tools:layout="@layout/fragment_outfit_add_clothing_selector" >
+    </fragment>
     <fragment
         android:id="@+id/outfitAddTypeSelector"
         android:name="com.example.closet.fragments.OutfitAddTypeSelector"
@@ -85,4 +97,13 @@
         android:name="com.example.closet.fragments.OutfitView"
         android:label="fragment_outfit_view"
         tools:layout="@layout/fragment_outfit_view" />
+    <fragment
+        android:id="@+id/clothingAdd"
+        android:name="com.example.closet.fragments.ClothingAdd"
+        android:label="fragment_clothing_add"
+        tools:layout="@layout/fragment_clothing_add">
+        <argument
+            android:name="clothingType"
+            app:argType="string" />
+    </fragment>
 </navigation>

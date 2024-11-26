@@ -87,7 +87,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/closetBoxOther"
+                            android:id="@+id/closetBoxTrousers"
                             android:layout_width="170dp"
                             android:layout_height="75dp"
                             android:layout_marginStart="5dp"
@@ -101,7 +101,7 @@
                 </LinearLayout>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/closetShoes"
+                    android:id="@+id/closetBoxShoes"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_marginLeft="10dp"
@@ -151,7 +151,7 @@
 
 
             <LinearLayout
-                android:id="@+id/jewerlyBox"
+                android:id="@+id/jewelryBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -166,7 +166,7 @@
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/jewerlyBoxNecklaces"
+                        android:id="@+id/jewelryBoxNecklaces"
                         android:layout_width="110dp"
                         android:layout_height="210dp"
                         android:layout_marginStart="10dp"
@@ -178,7 +178,7 @@
 
                     <androidx.cardview.widget.CardView
 
-                        android:id="@+id/jewerlyBoxRings"
+                        android:id="@+id/jewelryBoxRings"
                         android:layout_width="110dp"
                         android:layout_height="210dp"
                         android:layout_marginStart="5dp"
@@ -195,7 +195,7 @@
 
                         <androidx.cardview.widget.CardView
 
-                            android:id="@+id/jewerlyBoxBracelets"
+                            android:id="@+id/jewelryBoxBracelets"
                             android:layout_width="110dp"
                             android:layout_height="100dp"
                             android:layout_marginStart="5dp"
@@ -207,7 +207,7 @@
 
                         <androidx.cardview.widget.CardView
 
-                            android:id="@+id/jewerlyBoxEarrings"
+                            android:id="@+id/jewelryBoxEarrings"
                             android:layout_width="110dp"
                             android:layout_height="100dp"
                             android:layout_marginStart="5dp"
