@@ -10,7 +10,6 @@ import androidx.navigation.findNavController
 import com.example.closet.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.closet.adapters.ClothingAdapter
 import com.example.closet.objects.ClothingItem
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -37,7 +36,6 @@ class Outfits : Fragment() {
         outfitsIcon.isSelected = true
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvOutfits)
-        recyclerView.layoutManager = GridLayoutManager(context, 2)
 
 
         return view

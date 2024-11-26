@@ -17,6 +17,10 @@ class ClothingAdd : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_clothing_add, container, false)
 
+        val backButton = view.findViewById<View>(R.id.back_button)
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
 
 
         return view

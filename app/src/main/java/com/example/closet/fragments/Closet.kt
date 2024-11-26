@@ -9,7 +9,10 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.closet.R
+import com.example.closet.dao.DaoClothingItem
+import com.example.closet.objects.ClothingItem
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.UUID
 
 class Closet : Fragment() {
 

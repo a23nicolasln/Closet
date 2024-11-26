@@ -1,0 +1,352 @@
+[
+  {
+    "id": "1",
+    "type": "Rings",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "2",
+    "type": "Bracelets",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "3",
+    "type": "Earrings",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "4",
+    "type": "Necklaces",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "5",
+    "type": "Shoes",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "6",
+    "type": "Trousers",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "7",
+    "type": "Jumpers",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "8",
+    "type": "T-shirts",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "9",
+    "type": "Jackets",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "10",
+    "type": "Rings",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "11",
+    "type": "Bracelets",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "12",
+    "type": "Earrings",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "13",
+    "type": "Necklaces",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "14",
+    "type": "Shoes",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "15",
+    "type": "Trousers",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "16",
+    "type": "Jumpers",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "17",
+    "type": "T-shirts",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "18",
+    "type": "Jackets",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "19",
+    "type": "Rings",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "20",
+    "type": "Bracelets",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "21",
+    "type": "Earrings",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "22",
+    "type": "Necklaces",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "23",
+    "type": "Shoes",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "24",
+    "type": "Trousers",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "25",
+    "type": "Jumpers",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "26",
+    "type": "T-shirts",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "27",
+    "type": "Jackets",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "28",
+    "type": "Rings",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "29",
+    "type": "Bracelets",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "30",
+    "type": "Earrings",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "31",
+    "type": "Necklaces",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "32",
+    "type": "Shoes",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "33",
+    "type": "Trousers",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "34",
+    "type": "Jumpers",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "35",
+    "type": "T-shirts",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "36",
+    "type": "Jackets",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "37",
+    "type": "Rings",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "38",
+    "type": "Bracelets",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "39",
+    "type": "Earrings",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "40",
+    "type": "Necklaces",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "41",
+    "type": "Shoes",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "42",
+    "type": "Trousers",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "43",
+    "type": "Jumpers",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "44",
+    "type": "T-shirts",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "45",
+    "type": "Jackets",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "46",
+    "type": "Rings",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "47",
+    "type": "Bracelets",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "48",
+    "type": "Earrings",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  },
+  {
+    "id": "49",
+    "type": "Necklaces",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_1.jpg"
+  },
+  {
+    "id": "50",
+    "type": "Shoes",
+    "color": ["Black"],
+    "size": "M",
+    "imageUrl": "file:///android_asset/clothingImages/clothing_image_2.jpg"
+  }
+]

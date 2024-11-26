@@ -19,7 +19,7 @@
         app:fabCustomSize="40dp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/rvClothingSelector"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

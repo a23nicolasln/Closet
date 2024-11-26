@@ -3,20 +3,25 @@ package com.example.closet.dao
 import android.content.Context
 import com.example.closet.objects.ClothingItem
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 
-class DaoClothingItem (private val context: Context) {
-    private val gson :Gson = Gson()
-    private val file :String = "clothing_items.json"
+class DaoClothingItem(private val context: Context) {
+    private val gson: Gson = Gson()
+    private val file: String = "clothing_items.json"
 
     fun getClothingItems(): List<ClothingItem> {
         val assetManager = context.assets
         val inputStream = assetManager.open(file)
         val reader = InputStreamReader(inputStream)
         val clothingItemsType = object : TypeToken<List<ClothingItem>>() {}.type
-        return gson.fromJson(reader, clothingItemsType)
+        return try {
+            gson.fromJson(reader, clothingItemsType) ?: emptyList()
+        } catch (e: JsonSyntaxException) {
+            emptyList()
+        }
     }
 
     fun saveClothingItem(clothingItem: ClothingItem) {

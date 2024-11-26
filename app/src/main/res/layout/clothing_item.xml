@@ -11,5 +11,13 @@
         android:layout_height="200dp"
         android:background="@drawable/rounded_corners_clothing_item"
         android:scaleType="centerCrop"/>
+    <TextView
+        android:id="@+id/clothing_item_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:text="Add Item"/>
 
 </androidx.cardview.widget.CardView>
