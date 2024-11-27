@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.closet.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class OutfitView : Fragment() {
@@ -14,6 +16,14 @@ class OutfitView : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_outfit_view, container, false)
+        val view = inflater.inflate(R.layout.fragment_outfit_view, container, false)
+
+        // Navigation for back button
+        val backButton = view.findViewById<FloatingActionButton>(R.id.back_button)
+        backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        return view
     }
 }

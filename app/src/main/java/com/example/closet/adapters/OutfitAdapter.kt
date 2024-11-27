@@ -9,12 +9,14 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.closet.R
-import com.example.closet.fragments.ClothingSelectorDirections
+import com.example.closet.fragments.OutfitsDirections
+import com.example.closet.fragments.Outfits
 import com.example.closet.objects.ClothingItem
+import com.example.closet.objects.Outfit
 import java.io.File
 
-class ClothingItemAdapter(private val dataSet: List<ClothingItem>) :
-    RecyclerView.Adapter<ClothingItemAdapter.ViewHolder>() {
+class OutfitAdapter(private val dataSet: List<Outfit>) :
+    RecyclerView.Adapter<OutfitAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
@@ -46,7 +48,7 @@ class ClothingItemAdapter(private val dataSet: List<ClothingItem>) :
 
             viewHolder.imageView.setOnClickListener {
                 val action =
-                    ClothingSelectorDirections.actionClothingSelectorToClothingAdd(dataSet[position].type)
+                    OutfitsDirections.actionOutfitsToOutfitAdd()
                 viewHolder.imageView.findNavController().navigate(action)
             }
 
@@ -62,7 +64,7 @@ class ClothingItemAdapter(private val dataSet: List<ClothingItem>) :
 
             viewHolder.imageView.setOnClickListener {
                 val action =
-                    ClothingSelectorDirections.actionClothingSelectorToClothingView(dataSet[position].id)
+                    OutfitsDirections.actionOutfitsToOutfitView(dataSet[position].id)
                 viewHolder.imageView.findNavController().navigate(action)
             }
 

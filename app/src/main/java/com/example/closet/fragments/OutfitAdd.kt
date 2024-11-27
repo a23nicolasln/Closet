@@ -11,12 +11,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.closet.R
+import com.example.closet.dao.DaoOutfit
+import com.example.closet.objects.Outfit
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class OutfitAdd : Fragment() {
@@ -32,11 +35,13 @@ class OutfitAdd : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_outfit_add, container, false)
 
+        // Navigation for back button
         val backButton = view.findViewById<FloatingActionButton>(R.id.back_button)
         backButton.setOnClickListener {
             findNavController().navigateUp()
         }
 
+        // Image view and button to add images
         imageViewOutfit = view.findViewById(R.id.imageViewOutfit)
         imageViewOutfit.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_IMAGES)
@@ -49,6 +54,20 @@ class OutfitAdd : Fragment() {
 
         val recyclerViewClothes = view.findViewById<RecyclerView>(R.id.recyclerViewClothes)
         val recyclerViewAccessories = view.findViewById<RecyclerView>(R.id.recyclerViewAccessories)
+
+        // Save button
+        val saveButton = view.findViewById<TextView>(R.id.save_button)
+        saveButton.setOnClickListener {
+            val daoOutfit = DaoOutfit(requireContext())
+            val outfit = Outfit(
+                name = "Outfit",
+                clothingItems = emptyList(),
+                imageUrl = ""
+            )
+            daoOutfit.saveOutfit(outfit)
+
+            findNavController().navigateUp()
+        }
 
         return view
     }

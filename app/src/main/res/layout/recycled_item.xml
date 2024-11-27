@@ -6,7 +6,7 @@
     android:layout_margin="20dp">
 
     <ImageView
-        android:id="@+id/clothing_item_image"
+        android:id="@+id/item_image"
         android:layout_width="150dp"
         android:layout_height="200dp"
         android:background="@drawable/rounded_corners_clothing_item"

@@ -65,6 +65,10 @@ class ClothingAdd : Fragment() {
             )
             val daoClothingItem = DaoClothingItem(requireContext())
             daoClothingItem.saveClothingItem(clothingItem)
+
+            // Navigate back to the previous fragment
+            requireActivity().onBackPressed()
+
         }
 
         return view

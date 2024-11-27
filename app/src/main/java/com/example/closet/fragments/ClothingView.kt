@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.closet.R
 import com.example.closet.dao.DaoClothingItem
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import java.io.File
 
 class ClothingView : Fragment() {
 
@@ -30,10 +32,25 @@ class ClothingView : Fragment() {
 
         // Show the clothing item details as a json string
         val clothingItemId = arguments?.getString("id")
-        DaoClothingItem(requireContext()).getClothingItemById(clothingItemId!!)?.let { clothingItem ->
-            val gson = GsonBuilder().setPrettyPrinting().create()
-            val clothingItemJson = gson.toJson(clothingItem)
-            view.findViewById<TextView>(R.id.textViewClothingJson).text = clothingItemJson
+
+        val daoClothingItem = DaoClothingItem(requireContext())
+        val clothingItem = clothingItemId?.let { daoClothingItem.getClothingItemById(it) }
+
+        if (clothingItem != null) {
+            view.findViewById<TextView>(R.id.colors).text = clothingItem.color.toString()
+            view.findViewById<TextView>(R.id.brand).text = clothingItem.brand
+            view.findViewById<TextView>(R.id.size).text = clothingItem.size
+            Glide.with(requireContext())
+                .load(File(clothingItem.imageUrl))
+                .into(view.findViewById(R.id.imageViewClothing))
+        }
+
+        val deleteButton = view.findViewById<TextView>(R.id.delete_button)
+        deleteButton.setOnClickListener {
+            if (clothingItem != null) {
+                daoClothingItem.deleteClothingItem(clothingItem)
+            }
+            findNavController().navigateUp()
         }
 
         return view
