@@ -14,6 +14,7 @@ import com.example.closet.R
 import com.example.closet.fragments.ClothingSelector
 import com.example.closet.fragments.ClothingSelectorDirections
 import com.example.closet.objects.ClothingItem
+import java.io.File
 
 class ClothingItemAdapter(private val dataSet: List<ClothingItem>) :
     RecyclerView.Adapter<ClothingItemAdapter.ViewHolder>() {
@@ -23,13 +24,11 @@ class ClothingItemAdapter(private val dataSet: List<ClothingItem>) :
      * (custom ViewHolder)
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView
         val imageView: ImageView
 
         init {
             // Define click listener for the ViewHolder's View
             imageView = view.findViewById(R.id.clothing_item_image)
-            textView = view.findViewById(R.id.clothing_item_text)
         }
     }
 
@@ -44,32 +43,24 @@ class ClothingItemAdapter(private val dataSet: List<ClothingItem>) :
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        viewHolder.textView.text = dataSet[position].type
-
         val imageUrl = dataSet[position].imageUrl
         Log.d("ClothingItemAdapter", "Loading image URL: $imageUrl")
 
         Glide.with(viewHolder.imageView.context)
-            .load(imageUrl)
+            .load(File(imageUrl))
             .into(viewHolder.imageView)
 
-        if (dataSet[position].type == "Add") {
-            // Set click listener to add a new ClothingItem when clicking on the "Add Item" card
+        if (dataSet[position].id == "add") {
             viewHolder.imageView.setOnClickListener {
                 val action = ClothingSelectorDirections.actionClothingSelectorToClothingAdd(dataSet[position].type)
                 viewHolder.imageView.findNavController().navigate(action)
             }
-        }else {
-            // Set click listener to view the ClothingItem details when clicking on the item
+        } else {
             viewHolder.imageView.setOnClickListener {
-                val action =
-                    ClothingSelectorDirections.actionClothingSelectorToClothingView(dataSet[position].id)
+                val action = ClothingSelectorDirections.actionClothingSelectorToClothingView(dataSet[position].id)
                 viewHolder.imageView.findNavController().navigate(action)
             }
         }
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)

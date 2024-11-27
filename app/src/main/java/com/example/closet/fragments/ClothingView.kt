@@ -11,6 +11,7 @@ import com.example.closet.R
 import com.example.closet.dao.DaoClothingItem
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 
 class ClothingView : Fragment() {
 
@@ -30,7 +31,8 @@ class ClothingView : Fragment() {
         // Show the clothing item details as a json string
         val clothingItemId = arguments?.getString("id")
         DaoClothingItem(requireContext()).getClothingItemById(clothingItemId!!)?.let { clothingItem ->
-            val clothingItemJson = Gson().toJson(clothingItem)
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            val clothingItemJson = gson.toJson(clothingItem)
             view.findViewById<TextView>(R.id.textViewClothingJson).text = clothingItemJson
         }
 
