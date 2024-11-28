@@ -83,6 +83,9 @@
         android:name="com.example.closet.fragments.OutfitAddClothingSelector"
         android:label="fragment_outfit_add_clothing_selector"
         tools:layout="@layout/fragment_outfit_add_clothing_selector" >
+        <action
+            android:id="@+id/action_outfitAddClothingSelector_to_outfitAdd"
+            app:destination="@id/outfitAdd" />
     </fragment>
     <fragment
         android:id="@+id/outfitAddTypeSelector"

@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
+import com.example.closet.utils.FileUtils
 
 class DaoClothingItem(private val context: Context) {
     private val gson: Gson = Gson()
@@ -49,6 +50,9 @@ class DaoClothingItem(private val context: Context) {
         val writer = OutputStreamWriter(file.outputStream())
         gson.toJson(clothingItems, writer)
         writer.close()
+
+        // Delete the image file
+        FileUtils.deleteImageFromInternalStorage(context, clothingItem.imageUrl)
     }
 
     fun updateClothingItem(clothingItem: ClothingItem) {

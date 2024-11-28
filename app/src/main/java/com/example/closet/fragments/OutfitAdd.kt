@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -16,16 +18,23 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.closet.R
+import com.example.closet.adapters.ClothingItemAdapter
+import com.example.closet.dao.DaoClothingItem
 import com.example.closet.dao.DaoOutfit
+import com.example.closet.objects.ClothingItem
 import com.example.closet.objects.Outfit
+import com.example.closet.utils.FileUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.InputStream
+import java.util.UUID
 
 class OutfitAdd : Fragment() {
 
-    private val REQUEST_CODE_GALLERY = 100
-    private val PERMISSION_REQUEST_CODE = 101
+    private var imagePath: String? = null
     private lateinit var imageViewOutfit: ImageView
 
     override fun onCreateView(
@@ -41,28 +50,33 @@ class OutfitAdd : Fragment() {
             findNavController().navigateUp()
         }
 
-        // Image view and button to add images
+        //Set the image view to the selected image
         imageViewOutfit = view.findViewById(R.id.imageViewOutfit)
         imageViewOutfit.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_IMAGES)
-                != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_MEDIA_IMAGES), PERMISSION_REQUEST_CODE)
-            } else {
-                openGallery()
-            }
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE)
         }
 
-        val recyclerViewClothes = view.findViewById<RecyclerView>(R.id.recyclerViewClothes)
-        val recyclerViewAccessories = view.findViewById<RecyclerView>(R.id.recyclerViewAccessories)
+        //RecyclerView for items
+        val daoClothingItem = DaoClothingItem(requireContext())
+        var items :MutableList<ClothingItem> = daoClothingItem.getClothingItems().toMutableList()
+        items.add(ClothingItem(id = "add", type = "", brand = "", color = listOf(), size = "", imageUrl = ""))
+
+        val recyclerViewItems = view.findViewById<RecyclerView>(R.id.recyclerViewItems)
+        recyclerViewItems.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewItems.adapter = ClothingItemAdapter(items)
+
+
 
         // Save button
         val saveButton = view.findViewById<TextView>(R.id.save_button)
         saveButton.setOnClickListener {
             val daoOutfit = DaoOutfit(requireContext())
             val outfit = Outfit(
-                name = "Outfit",
+                name = view.findViewById<TextView>(R.id.outfitName).text.toString(),
                 clothingItems = emptyList(),
-                imageUrl = ""
+                imageUrl = imagePath ?: "file:///android_asset/clothingImages/default_outfit.jpg"
             )
             daoOutfit.saveOutfit(outfit)
 
@@ -72,23 +86,23 @@ class OutfitAdd : Fragment() {
         return view
     }
 
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, REQUEST_CODE_GALLERY)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_GALLERY && resultCode == Activity.RESULT_OK && data != null) {
-            val selectedImage: Uri? = data.data
-            imageViewOutfit.setImageURI(selectedImage)
+        if (requestCode == REQUEST_CODE_SELECT_IMAGE && resultCode == Activity.RESULT_OK) {
+            val imageUri: Uri? = data?.data
+            imageUri?.let {
+                val imageStream: InputStream? = requireContext().contentResolver.openInputStream(it)
+                val selectedImage: Bitmap = BitmapFactory.decodeStream(imageStream)
+                imageViewOutfit.setImageBitmap(selectedImage)
+
+                // Save the image to internal storage
+                val imageName = "outfit_image_${UUID.randomUUID()}.jpg"
+                imagePath = FileUtils.saveImageToInternalStorage(requireContext(), imageName, data)
+            }
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERMISSION_REQUEST_CODE && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            openGallery()
-        }
+    companion object {
+        private const val REQUEST_CODE_SELECT_IMAGE = 100
     }
 }

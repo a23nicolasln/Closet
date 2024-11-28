@@ -39,6 +39,7 @@ class ClothingAdd : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_clothing_add, container, false)
 
+        //Set the image view to the selected image
         imageViewClothing = view.findViewById(R.id.imageViewClothing)
         imageViewClothing.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
@@ -61,7 +62,7 @@ class ClothingAdd : Fragment() {
                 brand = view.findViewById<TextInputEditText>(R.id.brand).text.toString(),
                 color = view.findViewById<TextInputEditText>(R.id.colors).text.toString().split(","),
                 size = view.findViewById<TextInputEditText>(R.id.size).text.toString(),
-                imageUrl = imagePath ?: "file:///android_asset/clothingImages/clothing_image_1.jpg"
+                imageUrl = imagePath ?: "file:///android_asset/clothingImages/default_clothingItem.jpg"
             )
             val daoClothingItem = DaoClothingItem(requireContext())
             daoClothingItem.saveClothingItem(clothingItem)

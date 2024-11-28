@@ -42,34 +42,33 @@
                 android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/clothes" />
+                android:text="@string/outfit_name" />
 
-            <HorizontalScrollView
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:scrollbars="horizontal">
+                android:layout_height="match_parent">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewClothes"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/outfitName"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
-
-            </HorizontalScrollView>
+                    android:hint="" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/accessories" />
+                android:text="@string/items" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="260dp"
                 android:scrollbars="horizontal">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewAccessories"
+                    android:id="@+id/recyclerViewItems"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" />

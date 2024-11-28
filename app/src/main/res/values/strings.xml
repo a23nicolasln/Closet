@@ -14,4 +14,6 @@
     <string name="size">Size</string>
     <string name="brand">Brand</string>
     <string name="delete">Delete</string>
+    <string name="items">Items</string>
+    <string name="outfit_name">Outfit name</string>
 </resources>

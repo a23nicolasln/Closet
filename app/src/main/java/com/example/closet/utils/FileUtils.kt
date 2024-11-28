@@ -21,4 +21,11 @@ object FileUtils {
         }
         return file.absolutePath
     }
+
+    fun deleteImageFromInternalStorage(context: Context, imagePath: String) {
+        val file = File(imagePath)
+        if (file.exists()) {
+            file.delete()
+        }
+    }
 }

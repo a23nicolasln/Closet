@@ -2,6 +2,7 @@ package com.example.closet.dao
 
 import android.content.Context
 import com.example.closet.objects.Outfit
+import com.example.closet.utils.FileUtils
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
@@ -11,7 +12,7 @@ import java.io.OutputStreamWriter
 
 class DaoOutfit(private val context: Context) {
     private val gson: Gson = Gson()
-    private val filePath: String = "Outfits.json"
+    private val filePath: String = "outfits.json"
 
     private fun getFile(): File {
         return File(context.filesDir, filePath)
@@ -49,6 +50,9 @@ class DaoOutfit(private val context: Context) {
         val writer = OutputStreamWriter(file.outputStream())
         gson.toJson(outfits, writer)
         writer.close()
+
+        // Delete the image file
+        FileUtils.deleteImageFromInternalStorage(context, outfit.imageUrl)
     }
 
     fun updateOutfit(outfit: Outfit) {

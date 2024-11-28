@@ -31,13 +31,13 @@ class ClothingSelector : Fragment() {
         }
 
         val type = args.clothingType
-        val clothingItems: MutableList<ClothingItem> = DaoClothingItem(requireContext()).getClothingItems().toMutableList()
+        val clothingItems: MutableList<ClothingItem> = DaoClothingItem(requireContext()).getClothingByType(type).toMutableList()
 
         // Add a dummy item for the "Add Item" card
         clothingItems.add(ClothingItem(id = "add", type = type, brand = "", color = listOf(), size = "", imageUrl = ""))
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvClothingSelector)
         recyclerView.layoutManager = GridLayoutManager(context, 2)
-        recyclerView.adapter = ClothingItemAdapter(clothingItems.filter { it.type == type || it.type == "Add" })
+        recyclerView.adapter = ClothingItemAdapter(clothingItems)
 
         return view
     }
