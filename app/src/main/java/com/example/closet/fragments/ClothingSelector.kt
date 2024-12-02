@@ -37,7 +37,15 @@ class ClothingSelector : Fragment() {
         clothingItems.add(ClothingItem(id = "add", type = type, brand = "", color = listOf(), size = "", imageUrl = ""))
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvClothingSelector)
         recyclerView.layoutManager = GridLayoutManager(context, 2)
-        recyclerView.adapter = ClothingItemAdapter(clothingItems)
+        recyclerView.adapter = ClothingItemAdapter(clothingItems) { clothingItem ->
+            if (clothingItem.id == "add") {
+                val action = ClothingSelectorDirections.actionClothingSelectorToClothingAdd(clothingItem.type)
+                view.findNavController().navigate(action)
+            } else {
+                val action = ClothingSelectorDirections.actionClothingSelectorToClothingView(clothingItem.id)
+                view.findNavController().navigate(action)
+            }
+        }
 
         return view
     }

@@ -77,6 +77,15 @@
         <action
             android:id="@+id/action_outfitAdd_to_outfitAddTypeSelector"
             app:destination="@id/outfitAddTypeSelector" />
+        <argument
+            android:name="newClothingItemID"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_outfitAdd_to_clothingView"
+            app:destination="@id/clothingView" />
+        <action
+            android:id="@+id/action_outfitAdd_to_outfits"
+            app:destination="@id/outfits" />
     </fragment>
     <fragment
         android:id="@+id/outfitAddClothingSelector"
@@ -86,6 +95,9 @@
         <action
             android:id="@+id/action_outfitAddClothingSelector_to_outfitAdd"
             app:destination="@id/outfitAdd" />
+        <argument
+            android:name="clothingType"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/outfitAddTypeSelector"
@@ -95,6 +107,9 @@
         <action
             android:id="@+id/action_outfitAddTypeSelector_to_outfitAddClothingSelector"
             app:destination="@id/outfitAddClothingSelector" />
+        <action
+            android:id="@+id/action_outfitAddTypeSelector_to_outfitAdd"
+            app:destination="@id/outfitAdd" />
     </fragment>
     <fragment
         android:id="@+id/outfitView"
@@ -104,6 +119,9 @@
         <argument
             android:name="id"
             app:argType="string" />
+        <action
+            android:id="@+id/action_outfitView_to_clothingView"
+            app:destination="@id/clothingView" />
     </fragment>
     <fragment
         android:id="@+id/clothingAdd"

@@ -17,10 +17,13 @@ import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.closet.R
 import com.example.closet.adapters.ClothingItemAdapter
 import com.example.closet.dao.DaoClothingItem
@@ -28,14 +31,18 @@ import com.example.closet.dao.DaoOutfit
 import com.example.closet.objects.ClothingItem
 import com.example.closet.objects.Outfit
 import com.example.closet.utils.FileUtils
+import com.example.closet.viewModels.OutfitAddViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.File
 import java.io.InputStream
+import java.util.EnumSet.copyOf
 import java.util.UUID
 
 class OutfitAdd : Fragment() {
 
     private var imagePath: String? = null
     private lateinit var imageViewOutfit: ImageView
+    private val viewModel: OutfitAddViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,27 +54,47 @@ class OutfitAdd : Fragment() {
         // Navigation for back button
         val backButton = view.findViewById<FloatingActionButton>(R.id.back_button)
         backButton.setOnClickListener {
-            findNavController().navigateUp()
+            viewModel.items.clear()
+            findNavController().navigate(OutfitAddDirections.actionOutfitAddToOutfits())
         }
 
-        //Set the image view to the selected image
+        // Set the image view to the selected image
         imageViewOutfit = view.findViewById(R.id.imageViewOutfit)
+        if (viewModel.outfitImageUri != null) {
+            imageViewOutfit.setImageURI(Uri.parse(viewModel.outfitImageUri))
+            imageViewOutfit.scaleType = ImageView.ScaleType.FIT_CENTER
+        }
+
+        // Select image button
         imageViewOutfit.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE)
         }
 
-        //RecyclerView for items
-        val daoClothingItem = DaoClothingItem(requireContext())
-        var items :MutableList<ClothingItem> = daoClothingItem.getClothingItems().toMutableList()
+
+
+        // Add the new clothing item to the list
+        if (arguments?.getString("newClothingItemID") != "") {
+            DaoClothingItem(requireContext()).getClothingItemById(arguments?.getString("newClothingItemID")!!)
+                ?.let { viewModel.items.add(it) }
+        }
+
+        //Copy the items of the view model to a new list
+        val items = viewModel.items.toMutableList()
+
         items.add(ClothingItem(id = "add", type = "", brand = "", color = listOf(), size = "", imageUrl = ""))
 
+        // RecyclerView for items
         val recyclerViewItems = view.findViewById<RecyclerView>(R.id.recyclerViewItems)
         recyclerViewItems.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewItems.adapter = ClothingItemAdapter(items)
-
-
+        recyclerViewItems.adapter = ClothingItemAdapter(items) { clothingItem ->
+            if (clothingItem.id == "add") {
+                findNavController().navigate(OutfitAddDirections.actionOutfitAddToOutfitAddTypeSelector())
+            } else {
+                findNavController().navigate(OutfitAddDirections.actionOutfitAddToClothingView(clothingItem.id))
+            }
+        }
 
         // Save button
         val saveButton = view.findViewById<TextView>(R.id.save_button)
@@ -75,12 +102,12 @@ class OutfitAdd : Fragment() {
             val daoOutfit = DaoOutfit(requireContext())
             val outfit = Outfit(
                 name = view.findViewById<TextView>(R.id.outfitName).text.toString(),
-                clothingItems = emptyList(),
+                clothingItems = viewModel.items,
                 imageUrl = imagePath ?: "file:///android_asset/clothingImages/default_outfit.jpg"
             )
             daoOutfit.saveOutfit(outfit)
-
-            findNavController().navigateUp()
+            viewModel.items.clear()
+            findNavController().navigate(OutfitAddDirections.actionOutfitAddToOutfits())
         }
 
         return view
@@ -98,6 +125,7 @@ class OutfitAdd : Fragment() {
                 // Save the image to internal storage
                 val imageName = "outfit_image_${UUID.randomUUID()}.jpg"
                 imagePath = FileUtils.saveImageToInternalStorage(requireContext(), imageName, data)
+                viewModel.outfitImageUri = imagePath
             }
         }
     }

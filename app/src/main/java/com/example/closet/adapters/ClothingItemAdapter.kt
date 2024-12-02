@@ -13,63 +13,38 @@ import com.example.closet.fragments.ClothingSelectorDirections
 import com.example.closet.objects.ClothingItem
 import java.io.File
 
-class ClothingItemAdapter(private val dataSet: List<ClothingItem>) :
-    RecyclerView.Adapter<ClothingItemAdapter.ViewHolder>() {
+class ClothingItemAdapter(
+private val dataSet: List<ClothingItem>,
+private val onItemClick: (ClothingItem) -> Unit
+) : RecyclerView.Adapter<ClothingItemAdapter.ViewHolder>() {
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder)
-     */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imageView: ImageView
-
-        init {
-            // Define click listener for the ViewHolder's View
-            imageView = view.findViewById(R.id.item_image)
-        }
+        val imageView: ImageView = view.findViewById(R.id.item_image)
     }
 
-    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.recycled_item, viewGroup, false)
-
         return ViewHolder(view)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        if (dataSet[position].id == "add") {
+        val clothingItem = dataSet[position]
+        if (clothingItem.id == "add") {
             viewHolder.imageView.setImageResource(R.drawable.icon_plus)
             viewHolder.imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
-
-            viewHolder.imageView.setOnClickListener {
-                val action =
-                    ClothingSelectorDirections.actionClothingSelectorToClothingAdd(dataSet[position].type)
-                viewHolder.imageView.findNavController().navigate(action)
-            }
-
         } else {
-
-            val imageUrl = dataSet[position].imageUrl
+            val imageUrl = clothingItem.imageUrl
             Log.d("ClothingItemAdapter", "Loading image URL: $imageUrl")
-
             Glide.with(viewHolder.imageView.context)
                 .load(File(imageUrl))
                 .into(viewHolder.imageView)
+        }
 
-
-            viewHolder.imageView.setOnClickListener {
-                val action =
-                    ClothingSelectorDirections.actionClothingSelectorToClothingView(dataSet[position].id)
-                viewHolder.imageView.findNavController().navigate(action)
-            }
-
+        viewHolder.imageView.setOnClickListener {
+            onItemClick(clothingItem)
         }
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
-
 }
