@@ -56,6 +56,12 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_jacket"
+                            android:layout_gravity="center"
+                            />
 
                     </androidx.cardview.widget.CardView>
 
@@ -73,6 +79,13 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="5dp">
 
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_t_shirt"
+                                android:layout_gravity="center"
+                                />
+
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
@@ -84,6 +97,13 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="5dp">
 
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_jumper"
+                                android:layout_gravity="center"
+                                />
+
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
@@ -94,6 +114,13 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="5dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_trousers"
+                                android:layout_gravity="center"
+                                />
 
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
@@ -108,6 +135,13 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_shoes"
+                        android:layout_gravity="center"
+                        />
 
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -174,6 +208,13 @@
                         android:layout_marginEnd="5dp"
                         android:layout_marginBottom="10dp">
 
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_necklace"
+                            android:layout_gravity="center"
+                            />
+
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
@@ -185,6 +226,13 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="5dp"
                         android:layout_marginBottom="10dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_ring"
+                            android:layout_gravity="center"
+                            />
 
                     </androidx.cardview.widget.CardView>
 
@@ -203,6 +251,13 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="5dp">
 
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_bracelet"
+                                android:layout_gravity="center"
+                                />
+
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
@@ -214,6 +269,13 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="10dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_earrings"
+                                android:layout_gravity="center"
+                                />
 
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>

@@ -55,6 +55,7 @@ class OutfitAdd : Fragment() {
         val backButton = view.findViewById<FloatingActionButton>(R.id.back_button)
         backButton.setOnClickListener {
             viewModel.items.clear()
+            viewModel.outfitImageUri = null
             findNavController().navigate(OutfitAddDirections.actionOutfitAddToOutfits())
         }
 
@@ -107,6 +108,7 @@ class OutfitAdd : Fragment() {
             )
             daoOutfit.saveOutfit(outfit)
             viewModel.items.clear()
+            viewModel.outfitImageUri = null
             findNavController().navigate(OutfitAddDirections.actionOutfitAddToOutfits())
         }
 
