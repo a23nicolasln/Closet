@@ -18,7 +18,7 @@ class DaoClothingItem(private val context: Context) {
         return File(context.filesDir, filePath)
     }
 
-    fun getClothingItems(): List<ClothingItem> {
+    fun getAllClothingItems(): List<ClothingItem> {
         val file = getFile()
         if (!file.exists()) {
             return emptyList()
@@ -34,8 +34,9 @@ class DaoClothingItem(private val context: Context) {
         }
     }
 
+
     fun saveClothingItem(clothingItem: ClothingItem) {
-        val clothingItems = getClothingItems().toMutableList()
+        val clothingItems = getAllClothingItems().toMutableList()
         clothingItems.add(clothingItem)
         val file = getFile()
         val writer = OutputStreamWriter(file.outputStream())
@@ -43,8 +44,15 @@ class DaoClothingItem(private val context: Context) {
         writer.close()
     }
 
+    fun saveClothingItems(clothingItems: List<ClothingItem>) {
+        val file = getFile()
+        val writer = OutputStreamWriter(file.outputStream())
+        gson.toJson(clothingItems, writer)
+        writer.close()
+    }
+
     fun deleteClothingItem(clothingItem: ClothingItem) {
-        val clothingItems = getClothingItems().toMutableList()
+        val clothingItems = getAllClothingItems().toMutableList()
         clothingItems.remove(clothingItem)
         val file = getFile()
         val writer = OutputStreamWriter(file.outputStream())
@@ -56,7 +64,7 @@ class DaoClothingItem(private val context: Context) {
     }
 
     fun updateClothingItem(clothingItem: ClothingItem) {
-        val clothingItems = getClothingItems().toMutableList()
+        val clothingItems = getAllClothingItems().toMutableList()
         val index = clothingItems.indexOfFirst { it.id == clothingItem.id }
         clothingItems[index] = clothingItem
         val file = getFile()
@@ -66,10 +74,10 @@ class DaoClothingItem(private val context: Context) {
     }
 
     fun getClothingByType(type: String): List<ClothingItem> {
-        return getClothingItems().filter { it.type == type }
+        return getAllClothingItems().filter { it.type == type }
     }
 
     fun getClothingItemById(id: String): ClothingItem? {
-        return getClothingItems().find { it.id == id }
+        return getAllClothingItems().find { it.id == id }
     }
 }

@@ -18,7 +18,7 @@ class DaoOutfit(private val context: Context) {
         return File(context.filesDir, filePath)
     }
 
-    fun getOutfits(): List<Outfit> {
+    fun getAllOutfits(): List<Outfit> {
         val file = getFile()
         if (!file.exists()) {
             return emptyList()
@@ -35,7 +35,7 @@ class DaoOutfit(private val context: Context) {
     }
 
     fun saveOutfit(outfit: Outfit) {
-        val outfits = getOutfits().toMutableList()
+        val outfits = getAllOutfits().toMutableList()
         outfits.add(outfit)
         val file = getFile()
         val writer = OutputStreamWriter(file.outputStream())
@@ -43,8 +43,15 @@ class DaoOutfit(private val context: Context) {
         writer.close()
     }
 
+    fun saveOutfits(outfits: List<Outfit>) {
+        val file = getFile()
+        val writer = OutputStreamWriter(file.outputStream())
+        gson.toJson(outfits, writer)
+        writer.close()
+    }
+
     fun deleteOutfit(outfit: Outfit) {
-        val outfits = getOutfits().toMutableList()
+        val outfits = getAllOutfits().toMutableList()
         outfits.remove(outfit)
         val file = getFile()
         val writer = OutputStreamWriter(file.outputStream())
@@ -56,7 +63,7 @@ class DaoOutfit(private val context: Context) {
     }
 
     fun updateOutfit(outfit: Outfit) {
-        val outfits = getOutfits().toMutableList()
+        val outfits = getAllOutfits().toMutableList()
         val index = outfits.indexOfFirst { it.id == outfit.id }
         if (index != -1) {
             outfits[index] = outfit
@@ -68,6 +75,6 @@ class DaoOutfit(private val context: Context) {
     }
 
     fun getOutfitById(id: String): Outfit? {
-        return getOutfits().find { it.id == id }
+        return getAllOutfits().find { it.id == id }
     }
 }

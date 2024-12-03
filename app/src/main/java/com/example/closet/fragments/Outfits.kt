@@ -8,9 +8,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.closet.R
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.closet.objects.ClothingItem
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.closet.adapters.OutfitAdapter
 import com.example.closet.dao.DaoOutfit
@@ -49,7 +47,7 @@ class Outfits : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvOutfits)
         recyclerView.layoutManager = GridLayoutManager(context, 2)
         val daoOutfit = DaoOutfit(requireContext())
-        recyclerView.adapter = OutfitAdapter(daoOutfit.getOutfits() + addOutfit)
+        recyclerView.adapter = OutfitAdapter(daoOutfit.getAllOutfits() + addOutfit)
 
 
 
