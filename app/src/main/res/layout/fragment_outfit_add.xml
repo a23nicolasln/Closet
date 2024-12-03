@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.OutfitAdd">
+    tools:context=".fragments.OutfitAdd"
+    android:background="@color/dark_grey">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/back_button"
@@ -34,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
                 android:src="@drawable/icon_plus"
-                android:background="@color/light_grey"
+                android:background="@color/box_color"
                 android:scaleType="center" />
 
 
@@ -42,6 +43,7 @@
                 android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:textColor="@color/white"
                 android:text="@string/outfit_name" />
 
 
@@ -53,18 +55,13 @@
                     android:id="@+id/outfitName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:hint="" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/items" />
-
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
+                android:layout_height="wrap_content"
                 android:scrollbars="horizontal">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -85,9 +82,10 @@
                     android:layout_height="35dp"
                     android:text="@string/save"
                     android:textColor="@color/white"
+                    android:layout_marginBottom="15dp"
                     android:layout_gravity="center"
                     android:textAlignment="center"
-                    android:background="@color/light_grey"/>
+                    android:background="@drawable/box_save_button"/>
 
 
         </LinearLayout>

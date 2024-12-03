@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/dark_grey">
 
 
     <RelativeLayout
@@ -24,12 +25,14 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
-        android:background="@drawable/rounded_corners_bottom_navigation">
+        android:background="@drawable/box_bottom_navigation">
 
         <ImageView
             android:id="@+id/outfits_icon"
-            android:layout_width="50dp"
-            android:layout_height="40dp"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:layout_gravity="center_vertical|center_horizontal"
             android:background="@drawable/icon_background_selector"
             android:src="@drawable/outfits_icon_white"
@@ -41,8 +44,10 @@
 
         <ImageView
             android:id="@+id/closet_icon"
-            android:layout_width="50dp"
-            android:layout_height="40dp"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:layout_gravity="center_vertical|center_horizontal"
             android:background="@drawable/icon_background_selector"
             android:src="@drawable/closet_icon_white"
@@ -62,7 +67,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:src="@drawable/icon_account_small"
-        app:backgroundTint="@color/dark_grey"
+        app:backgroundTint="@color/black"
         app:tint="@null"
         app:fabCustomSize="40dp" />
 

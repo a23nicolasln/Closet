@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_grey"
     tools:context=".fragments.OutfitAdd">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -11,12 +12,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|start"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/icon_back"
-        app:backgroundTint="@color/dark_grey"
-        app:tint="@null"
-        app:fabCustomSize="40dp" />
+        app:backgroundTint="@color/black"
+        app:fabCustomSize="40dp"
+        app:tint="@null" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -33,38 +34,33 @@
                 android:id="@+id/imageViewOutfit"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
-                android:src="@drawable/icon_plus"
                 android:background="@color/light_grey"
-                android:scaleType="center" />
-
-
-            <TextView
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/outfit_name" />
+                android:scaleType="center"
+                android:src="@drawable/icon_plus" />
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/box_outfit_name">
 
                 <TextView
                     android:id="@+id/outfitName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    />
+                    android:layout_gravity="center"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="20sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/items" />
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
+                android:layout_height="wrap_content"
                 android:scrollbars="horizontal">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -76,18 +72,20 @@
             </ScrollView>
 
 
-
             <TextView
                 android:id="@+id/delete_button"
-                android:textSize="20sp"
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:text="@string/delete"
-                android:textColor="@color/white"
+                android:layout_height="45dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/box_delete_button"
+                android:text="@string/delete"
                 android:textAlignment="center"
-                android:background="@color/light_grey"/>
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
 
         </LinearLayout>
