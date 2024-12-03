@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import com.example.closet.R
 import com.example.closet.dao.DaoClothingItem
@@ -59,9 +60,9 @@ class ClothingAdd : Fragment() {
             // Save the clothing item
             val clothingItem = ClothingItem(
                 type = clothingType ?: "",
-                brand = view.findViewById<TextInputEditText>(R.id.brand).text.toString(),
-                color = view.findViewById<TextInputEditText>(R.id.colors).text.toString().split(","),
-                size = view.findViewById<TextInputEditText>(R.id.size).text.toString(),
+                brand = view.findViewById<EditText>(R.id.brand).text.toString(),
+                color = view.findViewById<EditText>(R.id.colors).text.toString().split(","),
+                size = view.findViewById<EditText>(R.id.size).text.toString(),
                 imageUrl = imagePath ?: "file:///android_asset/clothingImages/default_clothingItem.jpg"
             )
             val daoClothingItem = DaoClothingItem(requireContext())

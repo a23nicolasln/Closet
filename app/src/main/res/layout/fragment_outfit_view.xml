@@ -34,7 +34,7 @@
                 android:id="@+id/imageViewOutfit"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
-                android:background="@color/light_grey"
+                android:background="@color/box_color"
                 android:scaleType="center"
                 android:src="@drawable/icon_plus" />
 

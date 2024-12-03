@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.OutfitAdd"
-    android:background="@color/dark_grey">
+    android:background="@color/dark_grey"
+    tools:context=".fragments.OutfitAdd">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|start"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/icon_back"
-        app:backgroundTint="@color/dark_grey"
-        app:tint="@null"
-        app:fabCustomSize="40dp" />
+        app:backgroundTint="@color/black"
+        app:fabCustomSize="40dp"
+        app:tint="@null" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -34,76 +34,58 @@
                 android:id="@+id/imageViewClothing"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
-                android:src="@drawable/icon_plus"
-                android:background="@color/light_grey"
-                android:scaleType="center" />
+                android:background="@color/box_color"
+                android:scaleType="center"
+                android:src="@drawable/icon_plus" />
 
 
-            <TextView
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/colors" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
+            <EditText
+                android:id="@+id/colors"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/colors"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/brand" />
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/box_outfit_name"
+                android:hint="@string/colors"
+                android:textAlignment="center"
+                android:textColor="@color/dark_grey"
+                android:textColorHint="@color/dark_grey" />
 
 
-            <com.google.android.material.textfield.TextInputLayout
+            <EditText
+                android:id="@+id/brand"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/brand"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/size" />
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/box_outfit_name"
+                android:hint="@string/brand"
+                android:textAlignment="center"
+                android:textColor="@color/dark_grey"
+                android:textColorHint="@color/dark_grey"/>
 
 
-            <com.google.android.material.textfield.TextInputLayout
+            <EditText
+                android:id="@+id/size"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/box_outfit_name"
+                android:hint="@string/size"
+                android:textAlignment="center"
+                android:textColor="@color/dark_grey"
+                android:textColorHint="@color/dark_grey"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="" />
-            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/save_button"
-                android:textSize="20sp"
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:text="@string/save"
-                android:textColor="@color/white"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/box_save_button"
+                android:text="@string/save"
                 android:textAlignment="center"
-                android:background="@color/light_grey"/>
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
 
         </LinearLayout>

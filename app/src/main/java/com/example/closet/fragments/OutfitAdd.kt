@@ -62,8 +62,7 @@ class OutfitAdd : Fragment() {
         // Set the image view to the selected image
         imageViewOutfit = view.findViewById(R.id.imageViewOutfit)
         if (viewModel.outfitImageUri != null) {
-            imageViewOutfit.setImageURI(Uri.parse(viewModel.outfitImageUri))
-            imageViewOutfit.scaleType = ImageView.ScaleType.FIT_CENTER
+            Glide.with(this).load(viewModel.outfitImageUri).into(imageViewOutfit)
         }
 
         // Select image button
@@ -72,7 +71,6 @@ class OutfitAdd : Fragment() {
             intent.type = "image/*"
             startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE)
         }
-
 
 
         // Add the new clothing item to the list

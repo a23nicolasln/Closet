@@ -34,15 +34,15 @@ class OutfitAddTypeSelector : Fragment() {
         val closetBoxShoes = view.findViewById<CardView>(R.id.closetBoxShoes)
 
         closetBoxJackets.setOnClickListener {
-            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("Jackets")
+            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("Jacket")
             view.findNavController().navigate(action)
         }
         closetBoxTshirts.setOnClickListener {
-            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("T-shirts")
+            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("T-shirt")
             view.findNavController().navigate(action)
         }
         closetBoxJumpers.setOnClickListener {
-            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("Jumpers")
+            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("Jumper")
             view.findNavController().navigate(action)
         }
         closetBoxTrousers.setOnClickListener {
@@ -60,21 +60,21 @@ class OutfitAddTypeSelector : Fragment() {
         val jewelryBoxRings = view.findViewById<CardView>(R.id.jewelryBoxRings)
 
         jewelryBoxNecklaces.setOnClickListener {
-            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("Necklaces")
+            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("Necklace")
             view.findNavController().navigate(action)
         }
 
         jewelryBoxEarrings.setOnClickListener {
-            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("Earrings")
+            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("Earring")
             view.findNavController().navigate(action)
         }
         jewelryBoxBracelets.setOnClickListener {
-            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("Bracelets")
+            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("Bracelet")
             view.findNavController().navigate(action)
         }
 
         jewelryBoxRings.setOnClickListener {
-            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("Rings")
+            val action = OutfitAddTypeSelectorDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector("Ring")
             view.findNavController().navigate(action)
         }
 
