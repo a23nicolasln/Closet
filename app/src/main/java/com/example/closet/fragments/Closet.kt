@@ -25,8 +25,10 @@ class Closet : Fragment() {
         val view = inflater.inflate(R.layout.fragment_closet, container, false)
 
 
-        //Insert data from Presentation.kt
-        val presentation = com.example.closet.presentation.Presentation(requireContext())
+        //Insert data from Presentation.kt ,descomentar el siguiente comentario de codigo y
+        // añadir todas las imagenes dentro de prestancion a la carpeta de archivos de la app para tener datos de prueba
+
+        /*val presentation = com.example.closet.presentation.Presentation(requireContext())
         val daoClothingItem = DaoClothingItem(requireContext())
         val clothingItems = presentation.getClothingItems()
 
@@ -42,7 +44,7 @@ class Closet : Fragment() {
             outfits.forEach {
                 daoOutfit.saveOutfit(it)
             }
-        }
+        }*/
 
 
 
