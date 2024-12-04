@@ -102,7 +102,7 @@ class OutfitAdd : Fragment() {
             val outfit = Outfit(
                 name = view.findViewById<TextView>(R.id.outfitName).text.toString(),
                 clothingItems = viewModel.items,
-                imageUrl = imagePath ?: "file:///android_asset/clothingImages/default_outfit.jpg"
+                imageUrl = viewModel.outfitImageUri ?: "file:///android_asset/clothingImages/default_outfit.jpg"
             )
             daoOutfit.saveOutfit(outfit)
             viewModel.items.clear()
@@ -112,6 +112,8 @@ class OutfitAdd : Fragment() {
 
         return view
     }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
