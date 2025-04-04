@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/outfits"
-        android:name="com.example.closet.fragments.Outfits"
+        android:name="com.example.closet.ui.fragments.OutfitsFragment"
         android:label="fragment_outfits"
         tools:layout="@layout/fragment_outfits" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/closet"
-        android:name="com.example.closet.fragments.Closet"
+        android:name="com.example.closet.ui.fragments.ClosetFragment"
         android:label="fragment_closet"
         tools:layout="@layout/fragment_closet" >
         <action
@@ -40,12 +40,12 @@
     </fragment>
     <fragment
         android:id="@+id/account"
-        android:name="com.example.closet.fragments.Account"
+        android:name="com.example.closet.ui.fragments.Account"
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" />
     <fragment
         android:id="@+id/clothingSelector"
-        android:name="com.example.closet.fragments.ClothingSelector"
+        android:name="com.example.closet.ui.fragments.ClothingSelectorFragment"
         android:label="fragment_clothing_selector"
         tools:layout="@layout/fragment_clothing_selector" >
         <action
@@ -61,17 +61,17 @@
     </fragment>
     <fragment
         android:id="@+id/clothingView"
-        android:name="com.example.closet.fragments.ClothingView"
+        android:name="com.example.closet.ui.fragments.ClothingViewFragment"
         android:label="fragment_clothing_view"
         tools:layout="@layout/fragment_clothing_view" >
 
         <argument
             android:name="id"
-            app:argType="string" />
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/outfitAdd"
-        android:name="com.example.closet.fragments.OutfitAdd"
+        android:name="com.example.closet.ui.fragments.OutfitAddFragment"
         android:label="fragment_outfit_add"
         tools:layout="@layout/fragment_outfit_add" >
         <action
@@ -79,7 +79,7 @@
             app:destination="@id/outfitAddTypeSelector" />
         <argument
             android:name="newClothingItemID"
-            app:argType="string" />
+            app:argType="long" />
         <action
             android:id="@+id/action_outfitAdd_to_clothingView"
             app:destination="@id/clothingView" />
@@ -89,7 +89,7 @@
     </fragment>
     <fragment
         android:id="@+id/outfitAddClothingSelector"
-        android:name="com.example.closet.fragments.OutfitAddClothingSelector"
+        android:name="com.example.closet.ui.fragments.OutfitAddClothingSelectorFragment"
         android:label="fragment_outfit_add_clothing_selector"
         tools:layout="@layout/fragment_outfit_add_clothing_selector" >
         <action
@@ -101,7 +101,7 @@
     </fragment>
     <fragment
         android:id="@+id/outfitAddTypeSelector"
-        android:name="com.example.closet.fragments.OutfitAddTypeSelector"
+        android:name="com.example.closet.ui.fragments.OutfitAddTypeSelectorFragment"
         android:label="fragment_outfit_add_type_selector"
         tools:layout="@layout/fragment_outfit_add_type_selector" >
         <action
@@ -113,19 +113,19 @@
     </fragment>
     <fragment
         android:id="@+id/outfitView"
-        android:name="com.example.closet.fragments.OutfitView"
+        android:name="com.example.closet.ui.fragments.OutfitViewFragment"
         android:label="fragment_outfit_view"
         tools:layout="@layout/fragment_outfit_view" >
         <argument
             android:name="id"
-            app:argType="string" />
+            app:argType="long" />
         <action
             android:id="@+id/action_outfitView_to_clothingView"
             app:destination="@id/clothingView" />
     </fragment>
     <fragment
         android:id="@+id/clothingAdd"
-        android:name="com.example.closet.fragments.ClothingAdd"
+        android:name="com.example.closet.ui.fragments.ClothingAddFragment"
         android:label="fragment_clothing_add"
         tools:layout="@layout/fragment_clothing_add">
         <argument
