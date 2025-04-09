@@ -1,7 +1,9 @@
 package com.example.closet.repository
 
+import androidx.lifecycle.LiveData
 import com.example.closet.data.dao.ClothingItemDao
 import com.example.closet.data.model.ClothingItem
+import kotlinx.coroutines.flow.Flow
 
 
 class ClothingItemRepository (private val clothingItemDao: ClothingItemDao) {
@@ -10,7 +12,7 @@ class ClothingItemRepository (private val clothingItemDao: ClothingItemDao) {
         clothingItemDao.insert(clothingItem)
     }
 
-    suspend fun getAll(): List<ClothingItem> {
+    fun getAll(): LiveData<List<ClothingItem>> {
         return clothingItemDao.getAll()
     }
 
@@ -26,7 +28,7 @@ class ClothingItemRepository (private val clothingItemDao: ClothingItemDao) {
         clothingItemDao.update(clothingItem)
     }
 
-    suspend fun getByType(type: String): List<ClothingItem>? {
+    fun getByType(type: String): LiveData<List<ClothingItem>>? {
         return clothingItemDao.getByType(type)
     }
 

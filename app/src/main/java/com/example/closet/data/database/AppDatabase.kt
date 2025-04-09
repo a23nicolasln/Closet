@@ -28,7 +28,6 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "closetDB"
                 )   .fallbackToDestructiveMigration()
-                    .addCallback(roomCallback)
                     .build()
                 INSTANCE = instance
                 instance

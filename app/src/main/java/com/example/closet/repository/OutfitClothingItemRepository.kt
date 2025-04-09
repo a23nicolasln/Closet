@@ -1,7 +1,11 @@
 package com.example.closet.repository
 
+import androidx.lifecycle.LiveData
 import com.example.closet.data.dao.OutfitClothingItemDao
+import com.example.closet.data.model.ClothingItemWithOutfits
 import com.example.closet.data.model.OutfitClothingItemCrossRef
+import com.example.closet.data.model.OutfitWithClothingItems
+import kotlinx.coroutines.flow.Flow
 
 
 class OutfitClothingItemRepository(private val outfitClothingItemDao: OutfitClothingItemDao) {
@@ -9,12 +13,12 @@ class OutfitClothingItemRepository(private val outfitClothingItemDao: OutfitClot
         outfitClothingItemDao.insert(outfitClothingItem)
     }
 
-    suspend fun getOutfitWithClothingItems(outfitId: Long){
-        outfitClothingItemDao.getOutfitWithClothingItems(outfitId)
+    fun getOutfitWithClothingItems(outfitId: Long): LiveData<List<OutfitWithClothingItems>> {
+        return outfitClothingItemDao.getOutfitWithClothingItems(outfitId)
     }
 
-    suspend fun getClothingItemWithOutfits(clothingItemId: Long) {
-        outfitClothingItemDao.getClothingItemWithOutfits(clothingItemId)
+    fun getClothingItemWithOutfits(clothingItemId: Long): LiveData<List<ClothingItemWithOutfits>> {
+        return outfitClothingItemDao.getClothingItemWithOutfits(clothingItemId)
     }
 
 }

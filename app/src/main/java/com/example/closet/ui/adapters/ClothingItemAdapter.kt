@@ -8,12 +8,12 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.closet.R
-import com.example.closet.data.model.*
+import com.example.closet.data.model.ClothingItem
 import java.io.File
 
 class ClothingItemAdapter(
-private val dataSet: List<ClothingItem>,
-private val onItemClick: (ClothingItem) -> Unit
+    private var dataSet: List<ClothingItem>,
+    private val onItemClick: (ClothingItem) -> Unit
 ) : RecyclerView.Adapter<ClothingItemAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -28,6 +28,7 @@ private val onItemClick: (ClothingItem) -> Unit
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val clothingItem = dataSet[position]
+
         if (clothingItem.clothingItemId == 1L) {
             viewHolder.imageView.setImageResource(R.drawable.icon_plus)
             viewHolder.imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
@@ -45,4 +46,10 @@ private val onItemClick: (ClothingItem) -> Unit
     }
 
     override fun getItemCount() = dataSet.size
+
+    // Method to update the list dynamically
+    fun updateItems(newItems: List<ClothingItem>) {
+        dataSet = newItems
+        notifyDataSetChanged()
+    }
 }

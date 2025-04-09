@@ -1,28 +1,30 @@
 package com.example.closet.data.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.closet.data.model.Outfit
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface OutfitDao{
 
     @Query("SELECT * FROM Outfit")
-    suspend fun getAll(): List<Outfit>
+    fun getAll(): LiveData<List<Outfit>>
 
     @Insert
     suspend fun insert(outfit: Outfit): Long
 
     @Delete
-    fun delete(outfit: Outfit)
+    suspend fun delete(outfit: Outfit)
 
     @Query("DELETE FROM Outfit")
-    fun deleteAll()
+    suspend fun deleteAll()
 
     @Update
-    fun update(outfit: Outfit)
+    suspend fun update(outfit: Outfit)
 
     @Query("SELECT * FROM Outfit WHERE outfitId == :outfitId")
-    fun getById(outfitId: Long): Outfit?
+    suspend fun getById(outfitId: Long): Outfit?
 
 }

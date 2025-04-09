@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.closet.R
 import com.example.closet.ui.adapters.ClothingItemAdapter
-import com.example.closet.ui.viewmodels.ClothingAddViewModel
+import com.example.closet.ui.viewmodels.OutfitAddViewModel
 import com.example.closet.utils.FileUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.InputStream
@@ -39,7 +38,6 @@ class OutfitAddFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_outfit_add, container, false)
         return view}}
-
         /*
         // ViewModel to manage the outfit data
         val factory = ViewModelProvider.NewInstanceFactory()
@@ -50,7 +48,7 @@ class OutfitAddFragment : Fragment() {
         backButton.setOnClickListener {
             viewModel.items.clear()
             viewModel.outfitImageUri = null
-            findNavController().navigate(OutfitAddDirections.actionOutfitAddToOutfits())
+            findNavController().navigate(OutfitAddFragmentDirections.actionOutfitAddToOutfits())
         }
 
         // Set the image view to the selected image
@@ -83,9 +81,9 @@ class OutfitAddFragment : Fragment() {
         recyclerViewItems.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewItems.adapter = ClothingItemAdapter(items) { clothingItem ->
             if (clothingItem.id == "add") {
-                findNavController().navigate(OutfitAddDirections.actionOutfitAddToOutfitAddTypeSelector())
+                findNavController().navigate(OutfitAddFragmentDirections.actionOutfitAddToOutfitAddTypeSelector())
             } else {
-                findNavController().navigate(OutfitAddDirections.actionOutfitAddToClothingView(clothingItem.id))
+                findNavController().navigate(OutfitAddFragmentDirections.actionOutfitAddToClothingView(clothingItem.id))
             }
         }
 
@@ -101,8 +99,8 @@ class OutfitAddFragment : Fragment() {
             daoOutfit.saveOutfit(outfit)
             viewModel.items.clear()
             viewModel.outfitImageUri = null
-            findNavController().navigate(OutfitAddDirections.actionOutfitAddToOutfits())
-        }
+            findNavController().navigate(OutfitAddFragmentDirections.actionOutfitAddToOutfits())
+        }*/
 
         return view
     }
@@ -129,5 +127,4 @@ class OutfitAddFragment : Fragment() {
     companion object {
         private const val REQUEST_CODE_SELECT_IMAGE = 100
     }
-}
-*/
+}*/
