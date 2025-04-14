@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -61,6 +62,13 @@ class OutfitsFragment : Fragment() {
         // Observe LiveData and update the adapter
         viewModel.getAll().observe(viewLifecycleOwner) { outfits ->
             adapter.updateItems(outfits)  // Update the adapter with new data
+        }
+
+        // Set up navigation for adding a new outfit
+        val addOutfitButton = view.findViewById<FloatingActionButton>(R.id.add_button)
+        addOutfitButton.setOnClickListener {
+            val action = OutfitsFragmentDirections.actionOutfitsToOutfitAdd(0L)
+            view.findNavController().navigate(action)
         }
 
         return view

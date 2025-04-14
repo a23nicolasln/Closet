@@ -29,16 +29,11 @@ class ClothingItemAdapter(
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val clothingItem = dataSet[position]
 
-        if (clothingItem.clothingItemId == 1L) {
-            viewHolder.imageView.setImageResource(R.drawable.icon_plus)
-            viewHolder.imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
-        } else {
-            val imageUrl = clothingItem.imageUrl
-            Log.d("ClothingItemAdapter", "Loading image URL: $imageUrl")
-            Glide.with(viewHolder.imageView.context)
-                .load(File(imageUrl))
-                .into(viewHolder.imageView)
-        }
+        val imageUrl = clothingItem.imageUrl
+        Log.d("ClothingItemAdapter", "Loading image URL: $imageUrl")
+        Glide.with(viewHolder.imageView.context)
+            .load(File(imageUrl))
+            .into(viewHolder.imageView)
 
         viewHolder.imageView.setOnClickListener {
             onItemClick(clothingItem)

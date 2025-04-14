@@ -3,12 +3,11 @@ package com.example.closet.repository
 import androidx.lifecycle.LiveData
 import com.example.closet.data.dao.OutfitDao
 import com.example.closet.data.model.Outfit
-import kotlinx.coroutines.flow.Flow
 
 
 class OutfitRepository(private val outfitDao: OutfitDao) {
-    suspend fun insert(outfit: Outfit) {
-        outfitDao.insert(outfit)
+    suspend fun insert(outfit: Outfit): Long {
+        return outfitDao.insert(outfit)
     }
 
     fun getAll(): LiveData<List<Outfit>> {

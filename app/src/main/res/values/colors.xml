@@ -5,4 +5,5 @@
     <color name="dark_grey">#3B3B3B</color>
     <color name="light_grey">#575656</color>
     <color name="box_color">#C1C0C0</color>
+    <color name="primary">#970000</color>
 </resources>

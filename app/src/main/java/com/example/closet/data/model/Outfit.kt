@@ -6,7 +6,7 @@ import java.util.UUID
 
 @Entity
 data class Outfit(
-    @PrimaryKey(autoGenerate = true) val outfitId: Long = 0L,
+    @PrimaryKey(autoGenerate = true) var outfitId: Long = 0L,
     val name: String,
-    val imageUrl: String
+    var imageUrl: String
 )

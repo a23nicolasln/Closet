@@ -9,10 +9,7 @@ import com.example.closet.repository.ClothingItemRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class ClothingViewViewModel(
-    private val repository: ClothingItemRepository,
-
-) : ViewModel() {
+class ClothingViewViewModel(private val repository: ClothingItemRepository) : ViewModel() {
     private val _clothingItem = MutableLiveData<ClothingItem?>()
     val clothingItem: LiveData<ClothingItem?> = _clothingItem
 

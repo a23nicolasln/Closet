@@ -12,13 +12,33 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.closet.R
+import com.example.closet.data.database.AppDatabase
+import com.example.closet.repository.ClothingItemRepository
+import com.example.closet.repository.OutfitClothingItemRepository
+import com.example.closet.repository.OutfitRepository
 import com.example.closet.ui.adapters.ClothingItemAdapter
 import com.example.closet.ui.viewmodels.ClothingAddViewModel
 import com.example.closet.ui.viewmodels.OutfitViewViewModel
+import com.example.closet.ui.viewmodels.ViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.File
 
 class OutfitViewFragment : Fragment() {
+
+    private lateinit var viewModel: OutfitViewViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val db = AppDatabase.getDatabase(requireContext())
+        val viewModelFactory = ViewModelFactory {
+            OutfitViewViewModel(
+                OutfitRepository(db.outfitDao()),
+                OutfitClothingItemRepository(db.outfitClothingItemDao())
+            )
+        }
+        viewModel = ViewModelProvider(this, viewModelFactory)[OutfitViewViewModel::class.java]
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,8 +54,7 @@ class OutfitViewFragment : Fragment() {
 
         //Get the object from the id
         val id = arguments?.getLong("id")
-        val factory = ViewModelProvider.NewInstanceFactory()
-        val viewModel = ViewModelProvider(this, factory)[OutfitViewViewModel::class.java]
+
         val outfit = viewModel.getById(id ?: 0)
 
         // Write name of outfit to screen
@@ -53,10 +72,13 @@ class OutfitViewFragment : Fragment() {
         }
 
         //Recycle view for the outfit
+
+
+
         val recyclerViewItems = view.findViewById<RecyclerView>(R.id.recyclerViewItems)
         recyclerViewItems.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        /*if (outfit != null) {
+       /* if (outfit != null) {
             recyclerViewItems.adapter = ClothingItemAdapter(outfit.clothingItems) { clothingItem ->
                 findNavController().navigate(OutfitViewFragmentDirections.actionOutfitViewToClothingView(clothingItem.clothingItemId))
             }

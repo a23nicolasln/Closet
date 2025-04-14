@@ -16,4 +16,5 @@
     <string name="delete">Delete</string>
     <string name="items">Items</string>
     <string name="outfit_name">Outfit name</string>
+    <string name="add_clothing">Add Clothing</string>
 </resources>

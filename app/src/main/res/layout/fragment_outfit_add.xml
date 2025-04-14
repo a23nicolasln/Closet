@@ -64,6 +64,18 @@
 
             </ScrollView>
 
+            <Button
+                android:id="@+id/add_clothing_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/box_add_clothing"
+                android:text="@string/add_clothing"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+
 
             <TextView
                 android:id="@+id/save_button"

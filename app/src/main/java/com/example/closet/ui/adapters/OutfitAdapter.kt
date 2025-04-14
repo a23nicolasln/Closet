@@ -34,29 +34,17 @@ class OutfitAdapter(private var dataSet: List<Outfit>) :
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        if (dataSet[position].outfitId == 1L) {
-            viewHolder.imageView.setImageResource(R.drawable.icon_plus)
-            viewHolder.imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+        val imageUrl = dataSet[position].imageUrl
+        Log.d("ClothingItemAdapter", "Loading image URL: $imageUrl")
 
-            viewHolder.imageView.setOnClickListener {
-                val action =
-                    OutfitsFragmentDirections.actionOutfitsToOutfitAdd(0)
-                viewHolder.imageView.findNavController().navigate(action)
-            }
+        Glide.with(viewHolder.imageView.context)
+            .load(File(imageUrl))
+            .into(viewHolder.imageView)
 
-        } else {
-            val imageUrl = dataSet[position].imageUrl
-            Log.d("ClothingItemAdapter", "Loading image URL: $imageUrl")
-
-            Glide.with(viewHolder.imageView.context)
-                .load(File(imageUrl))
-                .into(viewHolder.imageView)
-
-            viewHolder.imageView.setOnClickListener {
-                val action =
-                    OutfitsFragmentDirections.actionOutfitsToOutfitView(dataSet[position].outfitId)
-                viewHolder.imageView.findNavController().navigate(action)
-            }
+        viewHolder.imageView.setOnClickListener {
+            val action =
+                OutfitsFragmentDirections.actionOutfitsToOutfitView(dataSet[position].outfitId)
+            viewHolder.imageView.findNavController().navigate(action)
         }
     }
 

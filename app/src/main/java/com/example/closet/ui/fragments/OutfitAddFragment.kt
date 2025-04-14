@@ -1,130 +1,158 @@
 package com.example.closet.ui.fragments
 
-
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.closet.MainActivity
 import com.example.closet.R
+import com.example.closet.data.database.AppDatabase
+import com.example.closet.data.model.Outfit
+import com.example.closet.repository.ClothingItemRepository
+import com.example.closet.repository.OutfitClothingItemRepository
+import com.example.closet.repository.OutfitRepository
 import com.example.closet.ui.adapters.ClothingItemAdapter
-import com.example.closet.ui.viewmodels.OutfitAddViewModel
+import com.example.closet.ui.viewmodels.OutfitCreationViewModel
+import com.example.closet.ui.viewmodels.ViewModelFactory
 import com.example.closet.utils.FileUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.io.InputStream
-import java.util.UUID
-
+import kotlinx.coroutines.launch
+import java.util.*
 class OutfitAddFragment : Fragment() {
-
     private var imagePath: String? = null
     private lateinit var imageViewOutfit: ImageView
 
+    private val sharedVM: OutfitCreationViewModel by activityViewModels {
+        val application = requireActivity().application
+        val database = AppDatabase.getDatabase(application)
+        ViewModelFactory {
+            OutfitCreationViewModel(
+                outfitRepo = OutfitRepository(database.outfitDao()),
+                clothingRepo = ClothingItemRepository(database.clothingItemDao()),
+                joinRepo = OutfitClothingItemRepository(database.outfitClothingItemDao())
+            )
+        }
+    }
+
+    private val selectImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val imageUri = result.data?.data
+            imageUri?.let { uri ->
+                val imageStream = requireContext().contentResolver.openInputStream(uri)
+                val selectedImage = BitmapFactory.decodeStream(imageStream)
+                imageViewOutfit.setImageBitmap(selectedImage)
+
+                val imageName = "outfit_image_${UUID.randomUUID()}.jpg"
+                imagePath = FileUtils.saveImageToInternalStorage(requireContext(), imageName, result.data)
+
+                // Use ViewModel's public method instead of direct value assignment
+                sharedVM.currentOutfit.value?.let { currentOutfit ->
+                    sharedVM.updateOutfit(currentOutfit.copy(imageUrl = imagePath ?: ""))
+                }
+            }
+        }
+    }
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_outfit_add, container, false)
-        return view}}
-        /*
-        // ViewModel to manage the outfit data
-        val factory = ViewModelProvider.NewInstanceFactory()
-        val viewModel = ViewModelProvider(this, factory)[OutfitAddViewModel::class.java]
-
-        // Navigation for back button
-        val backButton = view.findViewById<FloatingActionButton>(R.id.back_button)
-        backButton.setOnClickListener {
-            viewModel.items.clear()
-            viewModel.outfitImageUri = null
-            findNavController().navigate(OutfitAddFragmentDirections.actionOutfitAddToOutfits())
-        }
-
-        // Set the image view to the selected image
         imageViewOutfit = view.findViewById(R.id.imageViewOutfit)
-        if (viewModel.outfitImageUri != null) {
-            Glide.with(this).load(viewModel.outfitImageUri).into(imageViewOutfit)
-        }
 
-        // Select image button
-        imageViewOutfit.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE)
-        }
-
-
-        // Add the new clothing item to the list
-        if (arguments?.getString("newClothingItemID") != "") {
-            DaoClothingItem(requireContext()).getClothingItemById(arguments?.getString("newClothingItemID")!!)
-                ?.let { viewModel.items.add(it) }
-        }
-
-        //Copy the items of the view model to a new list
-        val items = viewModel.items.toMutableList()
-
-        items.add(ClothingItem(id = "add", type = "", brand = "", color = listOf(), size = "", imageUrl = ""))
-
-        // RecyclerView for items
-        val recyclerViewItems = view.findViewById<RecyclerView>(R.id.recyclerViewItems)
-        recyclerViewItems.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewItems.adapter = ClothingItemAdapter(items) { clothingItem ->
-            if (clothingItem.id == "add") {
-                findNavController().navigate(OutfitAddFragmentDirections.actionOutfitAddToOutfitAddTypeSelector())
-            } else {
-                findNavController().navigate(OutfitAddFragmentDirections.actionOutfitAddToClothingView(clothingItem.id))
+        // Initialize new outfit if needed
+        if (sharedVM.currentOutfit.value == null) {
+            lifecycleScope.launch {
+                sharedVM.createNewOutfit()
             }
         }
 
-        // Save button
-        val saveButton = view.findViewById<TextView>(R.id.save_button)
-        saveButton.setOnClickListener {
-            val daoOutfit = com.example.closet.old.dao.DaoOutfit(requireContext())
-            val outfit = Outfit(
-                name = view.findViewById<TextView>(R.id.outfitName).text.toString(),
-                clothingItems = viewModel.items,
-                imageUrl = viewModel.outfitImageUri ?: "file:///android_asset/clothingImages/default_outfit.jpg"
-            )
-            daoOutfit.saveOutfit(outfit)
-            viewModel.items.clear()
-            viewModel.outfitImageUri = null
-            findNavController().navigate(OutfitAddFragmentDirections.actionOutfitAddToOutfits())
-        }*/
+        // Observe outfit data with null checks
+        sharedVM.currentOutfit.observe(viewLifecycleOwner) { outfit ->
+            outfit?.let {
+                if (it.imageUrl.isNotEmpty()) {
+                    Glide.with(requireContext())
+                        .load(it.imageUrl)
+                        .placeholder(R.drawable.default_outfit)
+                        .into(imageViewOutfit)
+                }
+                view.findViewById<TextView>(R.id.outfitName)?.text = it.name
+            }
+        }
 
+        // Observe selected items with empty state handling
+        sharedVM.selectedItems.observe(viewLifecycleOwner) { items ->
+            val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewItems)
+            recyclerView.layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            recyclerView.adapter = ClothingItemAdapter(items ?: emptyList()) { item ->
+                findNavController().navigate(
+                    OutfitAddFragmentDirections.actionOutfitAddToClothingView(item.clothingItemId)
+                )
+            }
+        }
+
+        setupButtons(view)
         return view
     }
 
+    private fun setupButtons(view: View) {
+        // Back button - clears ViewModel state
+        view.findViewById<FloatingActionButton>(R.id.back_button).setOnClickListener {
+            sharedVM.clearOutfitData()
+            findNavController().navigateUp()
+        }
 
+        // Image picker
+        imageViewOutfit.setOnClickListener {
+            selectImageLauncher.launch(
+                Intent(Intent.ACTION_PICK).apply { type = "image/*" }
+            )
+        }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_SELECT_IMAGE && resultCode == Activity.RESULT_OK) {
-            val imageUri: Uri? = data?.data
-            imageUri?.let {
-                val imageStream: InputStream? = requireContext().contentResolver.openInputStream(it)
-                val selectedImage: Bitmap = BitmapFactory.decodeStream(imageStream)
-                imageViewOutfit.setImageBitmap(selectedImage)
+        // Add clothing item
+        view.findViewById<Button>(R.id.add_clothing_button).setOnClickListener {
+            findNavController().navigate(
+                OutfitAddFragmentDirections.actionOutfitAddToOutfitAddTypeSelector()
+            )
+        }
 
-                // Save the image to internal storage
-                val imageName = "outfit_image_${UUID.randomUUID()}.jpg"
-                imagePath = FileUtils.saveImageToInternalStorage(requireContext(), imageName, data)
-                viewModel.outfitImageUri = imagePath
+        // Save button - handles null states
+        view.findViewById<TextView>(R.id.save_button).setOnClickListener {
+            lifecycleScope.launch {
+                val outfitName = view.findViewById<TextView>(R.id.outfitName)?.text?.toString() ?: "New Outfit"
+                sharedVM.currentOutfit.value?.let { current ->
+                    sharedVM.updateOutfit(current.copy(name = outfitName))
+                    // Save outfit with image path
+                    sharedVM.currentOutfit.value?.let { outfit ->
+                        if (imagePath != null) {
+                            outfit.imageUrl = imagePath!!
+                        }
+                    }
+                    // Save outfit to database
+                    sharedVM.saveOutfit()
+                    // Navigate back to main activity
+                    findNavController().navigateUp()
+                }
             }
         }
     }
-
-    companion object {
-        private const val REQUEST_CODE_SELECT_IMAGE = 100
-    }
-}*/
+}
