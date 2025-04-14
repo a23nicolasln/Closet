@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.closet.data.model.ClothingItem
 import com.example.closet.data.model.Outfit
 import com.example.closet.data.model.OutfitClothingItemCrossRef
+import com.example.closet.data.model.OutfitWithClothingItems
 import com.example.closet.repository.ClothingItemRepository
 import com.example.closet.repository.OutfitClothingItemRepository
 import com.example.closet.repository.OutfitRepository
@@ -26,8 +27,37 @@ class OutfitCreationViewModel(
     val currentOutfit: LiveData<Outfit?> = _currentOutfit
     val selectedItems: LiveData<List<ClothingItem>> = _selectedItems
 
-    fun updateOutfit(outfit: Outfit) {
+    suspend fun updateOutfit(outfit: Outfit) {
+        outfitRepo.update(outfit)
         _currentOutfit.value = outfit
+    }
+
+    fun deleteOutfit(outfit: Outfit) {
+        viewModelScope.launch {
+            outfitRepo.delete(outfit)
+        }
+        clearOutfitData()
+    }
+
+    fun setCurrentOutfit(outfit: Outfit) {
+        _currentOutfit.value = outfit
+        // Update selected items based on the outfit
+    }
+
+    fun setSelectedItems(items: List<ClothingItem>) {
+        _selectedItems.value = items
+    }
+
+    fun removeClothingItem(item: ClothingItem) {
+        _selectedItems.value = _selectedItems.value?.filter { it.clothingItemId != item.clothingItemId }
+    }
+
+    suspend fun getOutfitById(id: Long): Outfit? {
+        return outfitRepo.getById(id)
+    }
+
+    fun getClothingItemsByOutfitId(outfitId: Long): LiveData<List<OutfitWithClothingItems>> {
+        return joinRepo.getOutfitWithClothingItems(outfitId)
     }
 
     fun addClothingItem(item: ClothingItem) {

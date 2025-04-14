@@ -60,8 +60,13 @@ class OutfitAddFragment : Fragment() {
                 imagePath = FileUtils.saveImageToInternalStorage(requireContext(), imageName, result.data)
 
                 // Use ViewModel's public method instead of direct value assignment
-                sharedVM.currentOutfit.value?.let { currentOutfit ->
-                    sharedVM.updateOutfit(currentOutfit.copy(imageUrl = imagePath ?: ""))
+                lifecycleScope.launch {
+                    val outfit = sharedVM.currentOutfit.value
+                    if (outfit != null) {
+                        sharedVM.updateOutfit(outfit.copy(imageUrl = imagePath ?: ""))
+                    } else {
+                        sharedVM.createNewOutfit()
+                    }
                 }
             }
         }
@@ -77,9 +82,35 @@ class OutfitAddFragment : Fragment() {
 
         // Initialize new outfit if needed
         if (sharedVM.currentOutfit.value == null) {
-            lifecycleScope.launch {
-                sharedVM.createNewOutfit()
+            //check if the outfitId from the arguments is not null
+            val outfitId = OutfitAddFragmentArgs.fromBundle(requireArguments()).outfitId
+            if (outfitId != 0L) {
+                lifecycleScope.launch {
+                    sharedVM.getOutfitById(outfitId)
+                    val items = sharedVM.getClothingItemsByOutfitId(outfitId)
+                    items.observe(viewLifecycleOwner) { outfitWithClothingItems ->
+                        val clothingItems = outfitWithClothingItems.flatMap { it.clothingItems }
+                        sharedVM.setSelectedItems(clothingItems)
+                    }
+                }
+                lifecycleScope.launch {
+                    sharedVM.getOutfitById(outfitId)?.let { outfit ->
+                        sharedVM.setCurrentOutfit(outfit)
+                        if (outfit.imageUrl.isNotEmpty()) {
+                            Glide.with(requireContext())
+                                .load(outfit.imageUrl)
+                                .placeholder(R.drawable.default_outfit)
+                                .into(imageViewOutfit)
+                        }
+                    }
+                }
+                view.findViewById<TextView>(R.id.outfitName)?.text = sharedVM.currentOutfit.value?.name
+            } else {
+                lifecycleScope.launch {
+                    sharedVM.createNewOutfit()
+                }
             }
+
         }
 
         // Observe outfit data with null checks
@@ -123,6 +154,12 @@ class OutfitAddFragment : Fragment() {
 
         // Image picker
         imageViewOutfit.setOnClickListener {
+            val outfitName = view.findViewById<TextView>(R.id.outfitName)?.text?.toString() ?: ""
+            lifecycleScope.launch {
+                sharedVM.currentOutfit.value?.let { current ->
+                    sharedVM.updateOutfit(current.copy(name = outfitName))
+                }
+            }
             selectImageLauncher.launch(
                 Intent(Intent.ACTION_PICK).apply { type = "image/*" }
             )
@@ -130,6 +167,12 @@ class OutfitAddFragment : Fragment() {
 
         // Add clothing item
         view.findViewById<Button>(R.id.add_clothing_button).setOnClickListener {
+            val outfitName = view.findViewById<TextView>(R.id.outfitName)?.text?.toString() ?: ""
+            lifecycleScope.launch {
+                sharedVM.currentOutfit.value?.let { current ->
+                    sharedVM.updateOutfit(current.copy(name = outfitName))
+                }
+            }
             findNavController().navigate(
                 OutfitAddFragmentDirections.actionOutfitAddToOutfitAddTypeSelector()
             )
@@ -150,6 +193,16 @@ class OutfitAddFragment : Fragment() {
                     // Save outfit to database
                     sharedVM.saveOutfit()
                     // Navigate back to main activity
+                    findNavController().navigateUp()
+                }
+            }
+        }
+
+        // Delete button - handles null states
+        view.findViewById<TextView>(R.id.delete_button).setOnClickListener {
+            lifecycleScope.launch {
+                sharedVM.currentOutfit.value?.let { current ->
+                    sharedVM.deleteOutfit(current)
                     findNavController().navigateUp()
                 }
             }
