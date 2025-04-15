@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 class ClothingSelectorViewModel (private val repository: ClothingItemRepository) : ViewModel() {
 
 
-    fun getByType(type: String): LiveData<List<ClothingItem>>? {
-        return repository.getByType(type)
+    fun getClothingItemsByTypeId(type: Long): LiveData<List<ClothingItem>> {
+        return repository.getClothingItemsByTypeId(type)
     }
 
 }

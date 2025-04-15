@@ -54,7 +54,7 @@
 
         <argument
             android:name="clothingType"
-            app:argType="string" />
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/clothingView"
@@ -118,7 +118,7 @@
         tools:layout="@layout/fragment_clothing_add">
         <argument
             android:name="clothingType"
-            app:argType="string" />
+            app:argType="long" />
 
     </fragment>
 </navigation>

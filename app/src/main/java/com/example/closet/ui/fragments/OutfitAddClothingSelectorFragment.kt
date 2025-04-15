@@ -43,7 +43,7 @@ class OutfitAddClothingSelectorFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_clothing_selector, container, false)
 
         // Get clothing type from arguments
-        val clothingType = arguments?.getString("clothingType") ?: ""
+        val clothingType = arguments?.getLong("clothingType") ?: 0L
 
         setupRecyclerView(view, clothingType)
         setupBackButton(view)
@@ -51,7 +51,7 @@ class OutfitAddClothingSelectorFragment : Fragment() {
         return view
     }
 
-    private fun setupRecyclerView(view: View, clothingType: String) {
+    private fun setupRecyclerView(view: View, clothingType: Long) {
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvClothingSelector)
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 

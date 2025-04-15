@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,15 +16,13 @@ import com.example.closet.ui.viewmodels.ClothingSelectorViewModel
 import com.example.closet.ui.viewmodels.ViewModelFactory
 import com.example.closet.MyApp
 import com.example.closet.repository.ClothingItemRepository
-import com.example.closet.ui.viewmodels.ClothingAddViewModel
-import com.example.closet.ui.viewmodels.ClothingViewViewModel
 
 class ClothingSelectorFragment : Fragment() {
 
-    private val args: ClothingSelectorFragmentArgs by navArgs()
     private lateinit var viewModel: ClothingSelectorViewModel
     private lateinit var adapter: ClothingItemAdapter
     private lateinit var repository: ClothingItemRepository
+    private val args: ClothingSelectorFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,18 +34,20 @@ class ClothingSelectorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Access repository from Application class (assuming MyApp provides the repository)
+        // Access repository from Application class
         val application = requireActivity().application as MyApp
         repository = application.clothingItemRepository
 
-        // Initialize ViewModel with the factory
-        val viewModelFactory = ViewModelFactory(
-            creator = { ClothingSelectorViewModel(repository) }
-        )
-        val viewModel = ViewModelProvider(this, viewModelFactory)[ClothingSelectorViewModel::class.java]
-        // Set up RecyclerView
+        // Properly assign to the class-level viewModel
+        val viewModelFactory = ViewModelFactory {
+            ClothingSelectorViewModel(repository)
+        }
+        viewModel = ViewModelProvider(this, viewModelFactory)[ClothingSelectorViewModel::class.java]
+
+        // Setup RecyclerView
         adapter = ClothingItemAdapter(emptyList()) { clothingItem ->
-            val action = ClothingSelectorFragmentDirections.actionClothingSelectorToClothingView(clothingItem.clothingItemId)
+            val action = ClothingSelectorFragmentDirections
+                .actionClothingSelectorToClothingView(clothingItem.clothingItemId)
             view.findNavController().navigate(action)
         }
 
@@ -56,14 +55,16 @@ class ClothingSelectorFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         recyclerView.adapter = adapter
 
-        // Observe filtered clothing items
-        viewModel.getByType(args.clothingType)?.observe(viewLifecycleOwner) { clothingItems ->
+        // Observe filtered clothing items by typeId
+        val typeId = args.clothingType
+        viewModel.getClothingItemsByTypeId(typeId).observe(viewLifecycleOwner) { clothingItems ->
             adapter.updateItems(clothingItems)
         }
 
-        // Set up click listener for the "Add" button
+        // Add button
         view.findViewById<View>(R.id.add_button).setOnClickListener {
-            val action = ClothingSelectorFragmentDirections.actionClothingSelectorToClothingAdd(args.clothingType)
+            val action = ClothingSelectorFragmentDirections
+                .actionClothingSelectorToClothingAdd(args.clothingType)
             view.findNavController().navigate(action)
         }
 

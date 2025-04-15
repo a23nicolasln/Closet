@@ -29,6 +29,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_gravity="bottom"
+        android:elevation="6dp"
         android:background="@drawable/box_bottom_navigation">
 
         <ImageView
@@ -72,6 +73,7 @@
         android:layout_marginEnd="10dp"
         android:src="@drawable/icon_account_small"
         app:backgroundTint="@color/primary"
+        android:elevation="6dp"
         app:tint="@null"
         app:fabCustomSize="40dp" />
 
@@ -84,6 +86,7 @@
         android:layout_marginEnd="25dp"
         android:src="@drawable/icon_plus"
         app:backgroundTint="@color/primary"
+        android:elevation="6dp"
         app:tint="@null"/>
 
 </FrameLayout>

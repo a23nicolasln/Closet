@@ -65,8 +65,8 @@ class OutfitCreationViewModel(
         _selectedItems.value = _selectedItems.value.orEmpty() + item
     }
 
-    fun getClothingItemsByType(type: String): LiveData<List<ClothingItem>>? {
-        return clothingRepo.getByType(type)
+    fun getClothingItemsByType(type: Long): LiveData<List<ClothingItem>> {
+        return clothingRepo.getClothingItemsByTypeId(type)
     }
 
     suspend fun createNewOutfit() {

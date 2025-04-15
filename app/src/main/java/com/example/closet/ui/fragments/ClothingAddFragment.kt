@@ -26,7 +26,7 @@ import java.util.UUID
 
 class ClothingAddFragment : Fragment() {
 
-    private var clothingType: String? = null
+    private var clothingType: Long? = null
     private var imagePath: String? = null
     private lateinit var imageViewClothing: ImageView
     private lateinit var repository: ClothingItemRepository
@@ -34,7 +34,7 @@ class ClothingAddFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            clothingType = it.getString("clothingType")
+            clothingType = it.getLong("clothingType")
         }
 
         // Initialize the repository here
@@ -68,7 +68,7 @@ class ClothingAddFragment : Fragment() {
         val saveButton = view.findViewById<View>(R.id.save_button)
         saveButton.setOnClickListener {
             val clothingItem = ClothingItem(
-                type = clothingType ?: "",
+                typeOwnerId = clothingType ?: 0L,
                 brand = view.findViewById<EditText>(R.id.brand).text.toString(),
                 color = view.findViewById<EditText>(R.id.colors).text.toString(),
                 size = view.findViewById<EditText>(R.id.size).text.toString(),
