@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -30,7 +29,7 @@ class OutfitsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_outfits, container, false)
 
         // Set up navigation for account button
-        val accountButton = view.findViewById<FloatingActionButton>(R.id.acount_button)
+        val accountButton = view.findViewById<FloatingActionButton>(R.id.account_button)
         accountButton.setOnClickListener {
             view.findNavController().navigate(R.id.action_outfits_to_account)
         }

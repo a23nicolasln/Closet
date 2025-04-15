@@ -14,9 +14,6 @@
             android:id="@+id/action_outfits_to_outfitAdd"
             app:destination="@id/outfitAdd" />
         <action
-            android:id="@+id/action_outfits_to_outfitView"
-            app:destination="@id/outfitView" />
-        <action
             android:id="@+id/action_outfits_to_closet"
             app:destination="@id/closet" />
         <action
@@ -113,18 +110,6 @@
         <action
             android:id="@+id/action_outfitAddTypeSelector_to_outfitAdd"
             app:destination="@id/outfitAdd" />
-    </fragment>
-    <fragment
-        android:id="@+id/outfitView"
-        android:name="com.example.closet.ui.fragments.OutfitViewFragment"
-        android:label="fragment_outfit_view"
-        tools:layout="@layout/fragment_outfit_view" >
-        <argument
-            android:name="id"
-            app:argType="long" />
-        <action
-            android:id="@+id/action_outfitView_to_clothingView"
-            app:destination="@id/clothingView" />
     </fragment>
     <fragment
         android:id="@+id/clothingAdd"

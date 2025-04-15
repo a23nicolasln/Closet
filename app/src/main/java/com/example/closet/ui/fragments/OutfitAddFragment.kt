@@ -181,7 +181,7 @@ class OutfitAddFragment : Fragment() {
         // Save button - handles null states
         view.findViewById<TextView>(R.id.save_button).setOnClickListener {
             lifecycleScope.launch {
-                val outfitName = view.findViewById<TextView>(R.id.outfitName)?.text?.toString() ?: "New Outfit"
+                val outfitName = view.findViewById<TextView>(R.id.outfitName)?.text?.toString() ?: ""
                 sharedVM.currentOutfit.value?.let { current ->
                     sharedVM.updateOutfit(current.copy(name = outfitName))
                     // Save outfit with image path

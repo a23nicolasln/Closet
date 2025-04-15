@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.closet.R
 import com.example.closet.data.database.AppDatabase
 import com.example.closet.utils.FileUtils
@@ -95,13 +96,14 @@ class ClothingAddFragment : Fragment() {
         if (requestCode == REQUEST_CODE_SELECT_IMAGE && resultCode == Activity.RESULT_OK) {
             val imageUri: Uri? = data?.data
             imageUri?.let {
-                val imageStream: InputStream? = requireContext().contentResolver.openInputStream(it)
-                val selectedImage: Bitmap = BitmapFactory.decodeStream(imageStream)
-                imageViewClothing.setImageBitmap(selectedImage)
-
-                // Save the image to internal storage
                 val imageName = "clothing_image_${UUID.randomUUID()}.jpg"
                 imagePath = FileUtils.saveImageToInternalStorage(requireContext(), imageName, data)
+
+                // Use Glide to load the image into the ImageView
+                Glide.with(requireContext())
+                    .load(imagePath)
+                    .centerCrop()
+                    .into(imageViewClothing)
             }
         }
     }
