@@ -136,7 +136,7 @@ class OutfitAddFragment : Fragment() {
             )
             recyclerView.adapter = ClothingItemAdapterSmall(items ?: emptyList()) { item ->
                 findNavController().navigate(
-                    OutfitAddFragmentDirections.actionOutfitAddToClothingView(item.clothingItemId)
+                    OutfitAddFragmentDirections.actionOutfitAddToClothingAdd(item.typeOwnerId,item.clothingItemId)
                 )
             }
         }
@@ -148,38 +148,6 @@ class OutfitAddFragment : Fragment() {
     private fun setupButtons(view: View) {
         // Back button - clears ViewModel state
         view.findViewById<FloatingActionButton>(R.id.back_button).setOnClickListener {
-            sharedVM.clearOutfitData()
-            findNavController().navigateUp()
-        }
-
-        // Image picker
-        imageViewOutfit.setOnClickListener {
-            val outfitName = view.findViewById<TextView>(R.id.outfitName)?.text?.toString() ?: ""
-            lifecycleScope.launch {
-                sharedVM.currentOutfit.value?.let { current ->
-                    sharedVM.updateOutfit(current.copy(name = outfitName))
-                }
-            }
-            selectImageLauncher.launch(
-                Intent(Intent.ACTION_PICK).apply { type = "image/*" }
-            )
-        }
-
-        // Add clothing item
-        view.findViewById<Button>(R.id.add_clothing_button).setOnClickListener {
-            val outfitName = view.findViewById<TextView>(R.id.outfitName)?.text?.toString() ?: ""
-            lifecycleScope.launch {
-                sharedVM.currentOutfit.value?.let { current ->
-                    sharedVM.updateOutfit(current.copy(name = outfitName))
-                }
-            }
-            findNavController().navigate(
-                OutfitAddFragmentDirections.actionOutfitAddToOutfitAddTypeSelector()
-            )
-        }
-
-        // Save button - handles null states
-        view.findViewById<TextView>(R.id.save_button).setOnClickListener {
             lifecycleScope.launch {
                 val outfitName = view.findViewById<TextView>(R.id.outfitName)?.text?.toString() ?: ""
                 sharedVM.currentOutfit.value?.let { current ->
@@ -200,8 +168,34 @@ class OutfitAddFragment : Fragment() {
             }
         }
 
+        // Image picker
+        imageViewOutfit.setOnClickListener {
+            val outfitName = view.findViewById<TextView>(R.id.outfitName)?.text?.toString() ?: ""
+            lifecycleScope.launch {
+                sharedVM.currentOutfit.value?.let { current ->
+                    sharedVM.updateOutfit(current.copy(name = outfitName))
+                }
+            }
+            selectImageLauncher.launch(
+                Intent(Intent.ACTION_PICK).apply { type = "image/*" }
+            )
+        }
+
+        // Add clothing item
+        view.findViewById<TextView>(R.id.add_clothing_button).setOnClickListener {
+            val outfitName = view.findViewById<TextView>(R.id.outfitName)?.text?.toString() ?: ""
+            lifecycleScope.launch {
+                sharedVM.currentOutfit.value?.let { current ->
+                    sharedVM.updateOutfit(current.copy(name = outfitName))
+                }
+            }
+            findNavController().navigate(
+                OutfitAddFragmentDirections.actionOutfitAddToOutfitAddTypeSelector()
+            )
+        }
+
         // Delete button - handles null states
-        view.findViewById<TextView>(R.id.delete_button).setOnClickListener {
+        view.findViewById<FloatingActionButton>(R.id.delete_button).setOnClickListener {
             lifecycleScope.launch {
                 sharedVM.currentOutfit.value?.let { current ->
                     sharedVM.deleteOutfit(current)

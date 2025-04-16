@@ -47,7 +47,7 @@ class ClothingSelectorFragment : Fragment() {
         // Setup RecyclerView
         adapter = ClothingItemAdapter(emptyList()) { clothingItem ->
             val action = ClothingSelectorFragmentDirections
-                .actionClothingSelectorToClothingView(clothingItem.clothingItemId)
+                .actionClothingSelectorToClothingAdd(clothingItem.typeOwnerId,clothingItem.clothingItemId)
             view.findNavController().navigate(action)
         }
 
@@ -64,7 +64,7 @@ class ClothingSelectorFragment : Fragment() {
         // Add button
         view.findViewById<View>(R.id.add_button).setOnClickListener {
             val action = ClothingSelectorFragmentDirections
-                .actionClothingSelectorToClothingAdd(args.clothingType)
+                .actionClothingSelectorToClothingAdd(args.clothingType,0L)
             view.findNavController().navigate(action)
         }
 

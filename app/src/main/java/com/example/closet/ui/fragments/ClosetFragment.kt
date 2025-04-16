@@ -100,7 +100,7 @@ class ClosetFragment : Fragment() {
 
     // Handle clothing item click event
     private fun onClothingItemClick(clothingItem: ClothingItem) {
-        val action = ClosetFragmentDirections.actionClosetToClothingView(clothingItem.clothingItemId)
+        val action = ClosetFragmentDirections.actionClosetToClothingAdd(clothingItem.typeOwnerId,clothingItem.clothingItemId)
         view?.findNavController()?.navigate(action)
     }
 

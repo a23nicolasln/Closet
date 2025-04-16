@@ -15,6 +15,10 @@ class TypeRepository(private val typeDao: TypeDao) {
         return typeDao.getAllTypes()
     }
 
+    fun getTypeById(typeId: Long): LiveData<Type> {
+        return typeDao.getTypeById(typeId)
+    }
+
     suspend fun delete(type: Type) {
         typeDao.deleteType(type)
     }

@@ -19,4 +19,8 @@ interface TypeDao {
 
     @Delete
     suspend fun deleteType(type: Type)
+
+    @Query("SELECT * FROM Type WHERE typeId = :typeId")
+    fun getTypeById(typeId: Long): LiveData<Type>
+
 }

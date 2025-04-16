@@ -14,10 +14,24 @@
         android:layout_gravity="top|start"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/icon_back"
-        app:backgroundTint="@color/black"
+        android:src="@drawable/back"
+        app:backgroundTint="@color/primary"
         app:fabCustomSize="40dp"
         app:tint="@null" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/trash"
+        app:backgroundTint="@color/grey"
+        app:fabCustomSize="40dp"
+        app:tint="@null" />
+
+
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -31,7 +45,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="500dp">
+                android:layout_height="600dp">
 
                 <ImageView
                     android:id="@+id/imageViewOutfit"
@@ -41,69 +55,44 @@
                     android:scaleType="center"
                     android:src="@drawable/icon_plus" />
 
-                <!-- Gradient overlay -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_gravity="bottom"
                     android:background="@drawable/background_image_fade" />
+
+                <EditText
+                    android:id="@+id/outfitName"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:hint="@string/outfit_name"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:layout_gravity="bottom|center"
+                    android:background="@android:color/transparent"
+                    android:textSize="25sp"/>
+
             </FrameLayout>
-
-
-
-            <EditText
-                android:id="@+id/outfitName"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/box_outfit_name"
-                android:hint="@string/outfit_name"
-                android:textAlignment="center"
-                android:textColor="@color/dark_grey"
-                android:textColorHint="@color/dark_grey" />
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewItems"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"/>
 
 
-            <Button
+            <TextView
                 android:id="@+id/add_clothing_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:background="@drawable/box_add_clothing"
                 android:text="@string/add_clothing"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-
-            <TextView
-                android:id="@+id/save_button"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/box_save_button"
-                android:text="@string/save"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/delete_button"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/box_delete_button"
-                android:text="@string/delete"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
