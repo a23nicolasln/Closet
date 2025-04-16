@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey"
+    android:background="@color/black"
     tools:context=".ui.fragments.OutfitAddFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -30,14 +30,25 @@
             android:orientation="vertical">
 
 
-            <ImageView
-                android:id="@+id/imageViewClothing"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:background="@color/box_color"
-                android:scaleType="center"
-                android:src="@drawable/icon_plus" />
+                android:layout_height="500dp">
 
+                <ImageView
+                    android:id="@+id/imageViewClothing"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/grey"
+                    android:scaleType="center"
+                    android:src="@drawable/icon_plus" />
+
+                <!-- Gradient overlay -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/background_image_fade" />
+            </FrameLayout>
 
             <EditText
                 android:id="@+id/colors"

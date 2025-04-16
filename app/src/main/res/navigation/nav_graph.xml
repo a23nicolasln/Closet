@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_closet_to_outfits"
             app:destination="@id/outfits" />
+        <action
+            android:id="@+id/action_closet_to_clothingView"
+            app:destination="@id/clothingView" />
     </fragment>
     <fragment
         android:id="@+id/account"
@@ -74,9 +77,6 @@
         <action
             android:id="@+id/action_outfitAdd_to_outfitAddTypeSelector"
             app:destination="@id/outfitAddTypeSelector" />
-        <argument
-            android:name="newClothingItemID"
-            app:argType="long" />
         <action
             android:id="@+id/action_outfitAdd_to_clothingView"
             app:destination="@id/clothingView" />
@@ -97,7 +97,7 @@
             app:destination="@id/outfitAdd" />
         <argument
             android:name="clothingType"
-            app:argType="string" />
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/outfitAddTypeSelector"

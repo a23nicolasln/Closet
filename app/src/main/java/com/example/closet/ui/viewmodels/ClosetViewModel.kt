@@ -1,8 +1,6 @@
 package com.example.closet.ui.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.closet.data.model.ClothingItem
 import com.example.closet.data.model.Type
 import com.example.closet.repository.ClothingItemRepository
@@ -16,13 +14,16 @@ class ClosetViewModel(
 
     val allTypes: LiveData<List<Type>> = typeRepository.getAllTypes()
 
+    val allClothingItems: LiveData<List<ClothingItem>> = clothingItemRepository.getAllClothingItems()
+
+    val clothingItemsByType: LiveData<Map<Long, List<ClothingItem>>> = allClothingItems.map { items ->
+        items.groupBy { it.typeOwnerId }
+    }
+
     fun insertType(type: Type) {
         viewModelScope.launch {
             typeRepository.insert(type)
         }
     }
-
-    fun getClothingItemsByTypeId(typeId: Long): LiveData<List<ClothingItem>> {
-        return clothingItemRepository.getClothingItemsByTypeId(typeId)
-    }
 }
+

@@ -13,6 +13,7 @@ import com.example.closet.databinding.ActivityMainBinding
 import com.example.closet.repository.ClothingItemRepository
 import com.example.closet.repository.OutfitClothingItemRepository
 import com.example.closet.repository.OutfitRepository
+import com.example.closet.repository.TypeRepository
 import com.example.closet.ui.viewmodels.OutfitCreationViewModel
 import com.example.closet.ui.viewmodels.ViewModelFactory
 
@@ -24,7 +25,8 @@ class MainActivity : AppCompatActivity() {
             OutfitCreationViewModel(
                 outfitRepo = OutfitRepository(database.outfitDao()),
                 clothingRepo = ClothingItemRepository(database.clothingItemDao()),
-                joinRepo = OutfitClothingItemRepository(database.outfitClothingItemDao())
+                joinRepo = OutfitClothingItemRepository(database.outfitClothingItemDao()),
+                typeRepo = TypeRepository(database.typeDao())
             )
         }
     }

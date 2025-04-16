@@ -18,14 +18,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.closet.MainActivity
 import com.example.closet.R
 import com.example.closet.data.database.AppDatabase
-import com.example.closet.data.model.Outfit
 import com.example.closet.repository.ClothingItemRepository
 import com.example.closet.repository.OutfitClothingItemRepository
 import com.example.closet.repository.OutfitRepository
-import com.example.closet.ui.adapters.ClothingItemAdapter
+import com.example.closet.repository.TypeRepository
+import com.example.closet.ui.adapters.ClothingItemAdapterSmall
 import com.example.closet.ui.viewmodels.OutfitCreationViewModel
 import com.example.closet.ui.viewmodels.ViewModelFactory
 import com.example.closet.utils.FileUtils
@@ -43,7 +42,8 @@ class OutfitAddFragment : Fragment() {
             OutfitCreationViewModel(
                 outfitRepo = OutfitRepository(database.outfitDao()),
                 clothingRepo = ClothingItemRepository(database.clothingItemDao()),
-                joinRepo = OutfitClothingItemRepository(database.outfitClothingItemDao())
+                joinRepo = OutfitClothingItemRepository(database.outfitClothingItemDao()),
+                typeRepo = TypeRepository(database.typeDao())
             )
         }
     }
@@ -134,7 +134,7 @@ class OutfitAddFragment : Fragment() {
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
-            recyclerView.adapter = ClothingItemAdapter(items ?: emptyList()) { item ->
+            recyclerView.adapter = ClothingItemAdapterSmall(items ?: emptyList()) { item ->
                 findNavController().navigate(
                     OutfitAddFragmentDirections.actionOutfitAddToClothingView(item.clothingItemId)
                 )
@@ -191,9 +191,11 @@ class OutfitAddFragment : Fragment() {
                         }
                     }
                     // Save outfit to database
-                    sharedVM.saveOutfit()
+                    sharedVM.saveOutfitAndClear()
                     // Navigate back to main activity
-                    findNavController().navigateUp()
+                    val action =
+                        OutfitAddFragmentDirections.actionOutfitAddToOutfits()
+                    findNavController().navigate(action)
                 }
             }
         }

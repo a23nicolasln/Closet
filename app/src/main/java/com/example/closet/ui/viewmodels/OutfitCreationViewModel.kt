@@ -3,21 +3,24 @@ package com.example.closet.ui.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.closet.R
 import com.example.closet.data.model.ClothingItem
 import com.example.closet.data.model.Outfit
 import com.example.closet.data.model.OutfitClothingItemCrossRef
 import com.example.closet.data.model.OutfitWithClothingItems
+import com.example.closet.data.model.Type
 import com.example.closet.repository.ClothingItemRepository
 import com.example.closet.repository.OutfitClothingItemRepository
 import com.example.closet.repository.OutfitRepository
+import com.example.closet.repository.TypeRepository
 import kotlinx.coroutines.launch
 
 class OutfitCreationViewModel(
     private val outfitRepo: OutfitRepository,
     private val clothingRepo: ClothingItemRepository,
-    private val joinRepo: OutfitClothingItemRepository
+    private val joinRepo: OutfitClothingItemRepository,
+    private val typeRepo: TypeRepository
 ) : ViewModel() {
 
     // Private mutable backing properties
@@ -27,6 +30,31 @@ class OutfitCreationViewModel(
     // Public immutable LiveData
     val currentOutfit: LiveData<Outfit?> = _currentOutfit
     val selectedItems: LiveData<List<ClothingItem>> = _selectedItems
+    val allTypes: LiveData<List<Type>> = typeRepo.getAllTypes()
+
+    // New LiveData to hold clothing items grouped by type
+    val allClothingItems: LiveData<List<ClothingItem>> = clothingRepo.getAllClothingItems()
+    val clothingItemsByType: LiveData<Map<Long, List<ClothingItem>>> = allClothingItems.map { items ->
+        items.groupBy { it.typeOwnerId }
+    }
+
+
+    // Load clothing items by type and update the LiveData
+    fun loadClothingItemsByType() {
+        viewModelScope.launch {
+            val types = allTypes.value ?: return@launch
+            val groupedItems = types.associate { type ->
+                type.typeId to (clothingRepo.getClothingItemsByTypeId(type.typeId).value ?: emptyList())
+            }
+            (clothingItemsByType as MutableLiveData).value = groupedItems
+        }
+    }
+
+
+
+    fun getClothingItemsByTypeId(typeId: Long): LiveData<List<ClothingItem>> {
+        return clothingRepo.getClothingItemsByTypeId(typeId)
+    }
 
     suspend fun updateOutfit(outfit: Outfit) {
         outfitRepo.update(outfit)
@@ -42,7 +70,6 @@ class OutfitCreationViewModel(
 
     fun setCurrentOutfit(outfit: Outfit) {
         _currentOutfit.value = outfit
-        // Update selected items based on the outfit
     }
 
     fun setSelectedItems(items: List<ClothingItem>) {
@@ -80,7 +107,7 @@ class OutfitCreationViewModel(
         _selectedItems.value = emptyList()
     }
 
-    fun saveOutfit() {
+    fun saveOutfitAndClear() {
         viewModelScope.launch {
             val outfit = _currentOutfit.value ?: return@launch
             val items = _selectedItems.value ?: emptyList()
@@ -97,6 +124,13 @@ class OutfitCreationViewModel(
 
             // Clear data after saving
             clearOutfitData()
+        }
+    }
+
+    fun saveOutfit() {
+        viewModelScope.launch {
+            val outfit = _currentOutfit.value ?: return@launch
+            outfitRepo.update(outfit)
         }
     }
 }

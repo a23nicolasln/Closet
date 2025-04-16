@@ -1,24 +1,31 @@
 package com.example.closet.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.closet.R
 import com.example.closet.data.database.AppDatabase
+import com.example.closet.data.model.ClothingItem
+import com.example.closet.data.model.Type
 import com.example.closet.repository.ClothingItemRepository
 import com.example.closet.repository.OutfitClothingItemRepository
 import com.example.closet.repository.OutfitRepository
+import com.example.closet.repository.TypeRepository
+import com.example.closet.ui.adapters.TypeAdapter
 import com.example.closet.ui.viewmodels.OutfitCreationViewModel
 import com.example.closet.ui.viewmodels.ViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class OutfitAddTypeSelectorFragment : Fragment() {
 
+    // Shared ViewModel
     private val sharedVM: OutfitCreationViewModel by activityViewModels {
         val application = requireActivity().application
         val database = AppDatabase.getDatabase(application)
@@ -26,7 +33,8 @@ class OutfitAddTypeSelectorFragment : Fragment() {
             OutfitCreationViewModel(
                 outfitRepo = OutfitRepository(database.outfitDao()),
                 clothingRepo = ClothingItemRepository(database.clothingItemDao()),
-                joinRepo = OutfitClothingItemRepository(database.outfitClothingItemDao())
+                joinRepo = OutfitClothingItemRepository(database.outfitClothingItemDao()),
+                typeRepo = TypeRepository(database.typeDao())
             )
         }
     }
@@ -38,43 +46,48 @@ class OutfitAddTypeSelectorFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_outfit_add_type_selector, container, false)
 
-        // Navigation for back button - no need to pass IDs
-        view.findViewById<FloatingActionButton>(R.id.back_button).setOnClickListener {
-            view.findNavController().navigateUp()
+        // Set up RecyclerView
+        val recyclerView = view.findViewById<RecyclerView>(R.id.typesRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Create an empty adapter initially
+        val typeAdapter = TypeAdapter(emptyList(), emptyMap(), ::onTypeClick, ::onClothingItemClick)
+        recyclerView.adapter = typeAdapter
+
+        // Observe changes in types and clothing items
+        sharedVM.allTypes.observe(viewLifecycleOwner) { types ->
+            val groupedItems = sharedVM.clothingItemsByType.value ?: emptyMap()
+            typeAdapter.updateItems(types, groupedItems)
         }
 
-        // Setup all category buttons
-        setupCategoryButtons(view)
+        sharedVM.clothingItemsByType.observe(viewLifecycleOwner) { groupedItems ->
+            val types = sharedVM.allTypes.value ?: emptyList()
+            typeAdapter.updateItems(types, groupedItems)
+        }
+
+        //Set up back button
+        val backButton = view.findViewById<FloatingActionButton>(R.id.back_button)
+        backButton.setOnClickListener {
+            requireView().findNavController().popBackStack()
+        }
 
         return view
     }
 
-    private fun setupCategoryButtons(view: View) {
-        // Map of button IDs to clothing types
-        val categoryButtons = mapOf(
-            R.id.closetBoxJackets to "Jacket",
-            R.id.closetBoxTshirts to "T-shirt",
-            R.id.closetBoxJumpers to "Jumper",
-            R.id.closetBoxTrousers to "Trousers",
-            R.id.closetBoxShoes to "Shoes",
-            R.id.jewelryBoxNecklaces to "Necklace",
-            R.id.jewelryBoxEarrings to "Earring",
-            R.id.jewelryBoxBracelets to "Bracelet",
-            R.id.jewelryBoxRings to "Ring"
-        )
-
-        // Set up all buttons with a loop
-        categoryButtons.forEach { (buttonId, clothingType) ->
-            view.findViewById<CardView>(buttonId).setOnClickListener {
-                navigateToClothingSelector(clothingType)
-            }
-        }
+    // Handle type click event
+    private fun onTypeClick(type: Type) {
+        val action = OutfitAddTypeSelectorFragmentDirections.actionOutfitAddTypeSelectorToOutfitAddClothingSelector(type.typeId)
+        view?.findNavController()?.navigate(action)
     }
 
-    private fun navigateToClothingSelector(clothingType: String) {
-        // No need to pass outfitId - it's in the shared ViewModel
-        val action = OutfitAddTypeSelectorFragmentDirections
-            .actionOutfitAddTypeSelectorToOutfitAddClothingSelector(clothingType)
-        requireView().findNavController().navigate(action)
+    // Handle clothing item click event
+    private fun onClothingItemClick(clothingItem: ClothingItem) {
+
+        sharedVM.addClothingItem(clothingItem)
+        sharedVM.saveOutfit()
+        val action =
+            OutfitAddTypeSelectorFragmentDirections.actionOutfitAddTypeSelectorToOutfitAdd(sharedVM.currentOutfit.value?.outfitId ?: 0L)
+        view?.findNavController()?.navigate(action)
     }
+
 }

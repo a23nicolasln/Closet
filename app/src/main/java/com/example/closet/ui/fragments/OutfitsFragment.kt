@@ -66,7 +66,7 @@ class OutfitsFragment : Fragment() {
         // Set up navigation for adding a new outfit
         val addOutfitButton = view.findViewById<FloatingActionButton>(R.id.add_button)
         addOutfitButton.setOnClickListener {
-            val action = OutfitsFragmentDirections.actionOutfitsToOutfitAdd(0L,0L)
+            val action = OutfitsFragmentDirections.actionOutfitsToOutfitAdd(0L)
             view.findNavController().navigate(action)
         }
 

@@ -16,7 +16,7 @@ class ClothingItemRepository (private val clothingItemDao: ClothingItemDao) {
         clothingItemDao.insert(clothingItem)
     }
 
-    fun getAll(): LiveData<List<ClothingItem>> {
+    fun getAllClothingItems(): LiveData<List<ClothingItem>> {
         return clothingItemDao.getAll()
     }
 

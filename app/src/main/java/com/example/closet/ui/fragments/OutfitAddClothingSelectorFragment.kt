@@ -16,6 +16,7 @@ import com.example.closet.data.model.ClothingItem
 import com.example.closet.repository.ClothingItemRepository
 import com.example.closet.repository.OutfitClothingItemRepository
 import com.example.closet.repository.OutfitRepository
+import com.example.closet.repository.TypeRepository
 import com.example.closet.ui.adapters.ClothingItemAdapter
 import com.example.closet.ui.viewmodels.OutfitCreationViewModel
 import com.example.closet.ui.viewmodels.ViewModelFactory
@@ -29,7 +30,8 @@ class OutfitAddClothingSelectorFragment : Fragment() {
             OutfitCreationViewModel(
                 outfitRepo = OutfitRepository(database.outfitDao()),
                 clothingRepo = ClothingItemRepository(database.clothingItemDao()),
-                joinRepo = OutfitClothingItemRepository(database.outfitClothingItemDao())
+                joinRepo = OutfitClothingItemRepository(database.outfitClothingItemDao()),
+                typeRepo = TypeRepository(database.typeDao())
             )
         }
     }
@@ -58,7 +60,10 @@ class OutfitAddClothingSelectorFragment : Fragment() {
         adapter = ClothingItemAdapter(emptyList()) { clothingItem ->
             // Add selected item to shared ViewModel and navigate back
             sharedVM.addClothingItem(clothingItem)
-            findNavController().navigateUp()
+            sharedVM.saveOutfit()
+            val action =
+                OutfitAddClothingSelectorFragmentDirections.actionOutfitAddClothingSelectorToOutfitAdd(sharedVM.currentOutfit.value?.outfitId ?: 0L)
+            findNavController().navigate(action)
         }
         recyclerView.adapter = adapter
 

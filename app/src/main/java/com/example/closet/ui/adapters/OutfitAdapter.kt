@@ -43,7 +43,7 @@ class OutfitAdapter(private var dataSet: List<Outfit>) :
 
         viewHolder.imageView.setOnClickListener {
             val action =
-                OutfitsFragmentDirections.actionOutfitsToOutfitAdd(0, dataSet[position].outfitId)
+                OutfitsFragmentDirections.actionOutfitsToOutfitAdd(dataSet[position].outfitId)
             viewHolder.imageView.findNavController().navigate(action)
         }
     }

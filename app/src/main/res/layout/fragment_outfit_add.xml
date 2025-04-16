@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey"
+    android:background="@color/black"
     tools:context=".ui.fragments.OutfitAddFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -29,14 +29,26 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
-
-            <ImageView
-                android:id="@+id/imageViewOutfit"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:background="@color/box_color"
-                android:scaleType="center"
-                android:src="@drawable/icon_plus" />
+                android:layout_height="500dp">
+
+                <ImageView
+                    android:id="@+id/imageViewOutfit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/grey"
+                    android:scaleType="center"
+                    android:src="@drawable/icon_plus" />
+
+                <!-- Gradient overlay -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/background_image_fade" />
+            </FrameLayout>
+
 
 
             <EditText
@@ -48,21 +60,15 @@
                 android:hint="@string/outfit_name"
                 android:textAlignment="center"
                 android:textColor="@color/dark_grey"
-                android:textColorHint="@color/dark_grey"/>
+                android:textColorHint="@color/dark_grey" />
 
 
-            <ScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewItems"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="horizontal">
+                android:orientation="horizontal" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewItems"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
-
-            </ScrollView>
 
             <Button
                 android:id="@+id/add_clothing_button"
@@ -74,7 +80,6 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
-
 
 
             <TextView
