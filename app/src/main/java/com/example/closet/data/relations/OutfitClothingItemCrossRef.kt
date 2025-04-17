@@ -1,4 +1,4 @@
-package com.example.closet.data.model
+package com.example.closet.data.relations
 
 import androidx.room.Entity
 

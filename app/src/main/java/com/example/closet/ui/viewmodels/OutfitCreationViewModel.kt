@@ -7,8 +7,8 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.closet.data.model.ClothingItem
 import com.example.closet.data.model.Outfit
-import com.example.closet.data.model.OutfitClothingItemCrossRef
-import com.example.closet.data.model.OutfitWithClothingItems
+import com.example.closet.data.relations.OutfitClothingItemCrossRef
+import com.example.closet.data.relations.OutfitWithClothingItems
 import com.example.closet.data.model.Type
 import com.example.closet.repository.ClothingItemRepository
 import com.example.closet.repository.OutfitClothingItemRepository
@@ -114,10 +114,12 @@ class OutfitCreationViewModel(
 
             // Save relations
             items.forEach { item ->
-                joinRepo.insert(OutfitClothingItemCrossRef(
+                joinRepo.insert(
+                    OutfitClothingItemCrossRef(
                     outfitId = outfit.outfitId,
                     clothingItemId = item.clothingItemId
-                ))
+                )
+                )
             }
             // Save outfit
             outfitRepo.update(outfit)

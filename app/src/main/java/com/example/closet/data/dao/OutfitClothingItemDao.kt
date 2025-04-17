@@ -2,10 +2,9 @@ package com.example.closet.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.closet.data.model.ClothingItemWithOutfits
-import com.example.closet.data.model.OutfitClothingItemCrossRef
-import com.example.closet.data.model.OutfitWithClothingItems
-import kotlinx.coroutines.flow.Flow
+import com.example.closet.data.relations.ClothingItemWithOutfits
+import com.example.closet.data.relations.OutfitClothingItemCrossRef
+import com.example.closet.data.relations.OutfitWithClothingItems
 
 
 @Dao

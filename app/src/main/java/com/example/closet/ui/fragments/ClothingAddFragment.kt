@@ -77,10 +77,6 @@ class ClothingAddFragment : Fragment() {
                     .load(it.imageUrl)
                     .centerCrop()
                     .into(imageViewClothing)
-
-                view.findViewById<EditText>(R.id.brand).setText(it.brand)
-                view.findViewById<EditText>(R.id.colors).setText(it.color)
-                view.findViewById<EditText>(R.id.size).setText(it.size)
             }
         }
 
@@ -98,9 +94,6 @@ class ClothingAddFragment : Fragment() {
             val clothingItem = ClothingItem(
                 clothingItemId = clothingId ?: 0L,
                 typeOwnerId = clothingType ?: 0L,
-                brand = view.findViewById<EditText>(R.id.brand).text.toString(),
-                color = view.findViewById<EditText>(R.id.colors).text.toString(),
-                size = view.findViewById<EditText>(R.id.size).text.toString(),
                 imageUrl = imagePath
                     ?: "file:///android_asset/clothingImages/default_clothingItem.jpg"
             )

@@ -2,10 +2,9 @@ package com.example.closet.repository
 
 import androidx.lifecycle.LiveData
 import com.example.closet.data.dao.OutfitClothingItemDao
-import com.example.closet.data.model.ClothingItemWithOutfits
-import com.example.closet.data.model.OutfitClothingItemCrossRef
-import com.example.closet.data.model.OutfitWithClothingItems
-import kotlinx.coroutines.flow.Flow
+import com.example.closet.data.relations.ClothingItemWithOutfits
+import com.example.closet.data.relations.OutfitClothingItemCrossRef
+import com.example.closet.data.relations.OutfitWithClothingItems
 
 
 class OutfitClothingItemRepository(private val outfitClothingItemDao: OutfitClothingItemDao) {

@@ -3,22 +3,34 @@ package com.example.closet.data.database
 import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.closet.data.dao.ClothingItemDao
-import com.example.closet.data.dao.OutfitClothingItemDao
-import com.example.closet.data.dao.OutfitDao
-import com.example.closet.data.dao.TypeDao
-import com.example.closet.data.model.ClothingItem
-import com.example.closet.data.model.Outfit
-import com.example.closet.data.model.OutfitClothingItemCrossRef
-import com.example.closet.data.model.Type
+import com.example.closet.data.dao.*
+import com.example.closet.data.model.*
+import com.example.closet.data.relations.*
 
 
-@Database(entities = [Outfit::class, ClothingItem::class, OutfitClothingItemCrossRef::class,Type::class], version = 1)
+@Database(
+    entities = [
+        Outfit::class,
+        ClothingItem::class,
+        OutfitClothingItemCrossRef::class,
+        Type::class,
+        Color::class,
+        OutfitColorCrossRef::class,
+        ClothingItemColorCrossRef::class,
+        Attribute::class,
+        ClothingItemAttributeCrossRef::class,
+        OutfitAttributeCrossRef::class
+    ],
+    version = 1
+)
+
 abstract class AppDatabase : RoomDatabase() {
     abstract fun outfitDao(): OutfitDao
     abstract fun clothingItemDao(): ClothingItemDao
     abstract fun outfitClothingItemDao(): OutfitClothingItemDao
     abstract fun typeDao(): TypeDao
+    abstract fun colorDao(): ColorDao
+    abstract fun attributeDao(): AttributeDao
 
     companion object {
         @Volatile
@@ -30,7 +42,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "closetDB"
-                )   .fallbackToDestructiveMigration()
+                ).fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance

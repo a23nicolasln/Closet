@@ -16,9 +16,6 @@ import androidx.room.PrimaryKey
 )
 data class ClothingItem(
     @PrimaryKey(autoGenerate = true) val clothingItemId: Long = 0L,
-    val typeOwnerId: Long, //Foreign key to Type
-    val brand: String,
-    val color: String,
-    val size: String,
+    val typeOwnerId: Long,
     val imageUrl: String
 )
