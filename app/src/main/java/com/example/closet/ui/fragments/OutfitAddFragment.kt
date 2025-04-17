@@ -99,7 +99,7 @@ class OutfitAddFragment : Fragment() {
                         if (outfit.imageUrl.isNotEmpty()) {
                             Glide.with(requireContext())
                                 .load(outfit.imageUrl)
-                                .placeholder(R.drawable.default_outfit)
+                                .placeholder(R.drawable.icon_add)
                                 .into(imageViewOutfit)
                         }
                     }
@@ -119,7 +119,7 @@ class OutfitAddFragment : Fragment() {
                 if (it.imageUrl.isNotEmpty()) {
                     Glide.with(requireContext())
                         .load(it.imageUrl)
-                        .placeholder(R.drawable.default_outfit)
+                        .placeholder(R.drawable.icon_add)
                         .into(imageViewOutfit)
                 }
                 view.findViewById<TextView>(R.id.outfitName)?.text = it.name

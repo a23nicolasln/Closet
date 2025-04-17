@@ -79,4 +79,8 @@ dependencies {
     // Material Design Components
     implementation ("com.google.android.material:material:1.11.0")
 
+    // RecyclerView flexbox
+    implementation ("com.google.android.flexbox:flexbox:3.0.0")
+
+
 }

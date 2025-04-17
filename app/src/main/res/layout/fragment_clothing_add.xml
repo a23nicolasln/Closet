@@ -15,7 +15,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/icon_back"
-        app:backgroundTint="@color/black"
+        app:backgroundTint="@color/primary"
         app:fabCustomSize="40dp"
         app:tint="@null" />
 
@@ -32,7 +32,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="500dp">
+                android:layout_height="600dp">
 
                 <ImageView
                     android:id="@+id/imageViewClothing"
@@ -50,53 +50,29 @@
                     android:background="@drawable/background_image_fade" />
             </FrameLayout>
 
-            <EditText
-                android:id="@+id/colors"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_colors"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/box_outfit_name"
-                android:hint="@string/colors"
-                android:textAlignment="center"
-                android:textColor="@color/dark_grey"
-                android:textColorHint="@color/dark_grey" />
-
-
-            <EditText
-                android:id="@+id/brand"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/box_outfit_name"
-                android:hint="@string/brand"
-                android:textAlignment="center"
-                android:textColor="@color/dark_grey"
-                android:textColorHint="@color/dark_grey"/>
-
-
-            <EditText
-                android:id="@+id/size"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/box_outfit_name"
-                android:hint="@string/size"
-                android:textAlignment="center"
-                android:textColor="@color/dark_grey"
-                android:textColorHint="@color/dark_grey"/>
-
-
-            <TextView
-                android:id="@+id/save_button"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/box_save_button"
-                android:text="@string/save"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/grey" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_attributes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
 
 
         </LinearLayout>

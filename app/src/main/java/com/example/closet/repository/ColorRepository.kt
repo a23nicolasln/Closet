@@ -2,6 +2,7 @@ package com.example.closet.repository
 
 import com.example.closet.data.dao.ColorDao
 import com.example.closet.data.model.Color
+import com.example.closet.data.relations.ClothingItemWithColors
 import com.example.closet.data.relations.ColorWithClothingItems
 import com.example.closet.data.relations.ColorWithOutfits
 
@@ -20,4 +21,11 @@ class ColorRepository(
 
     suspend fun getColorWithOutfits(colorId: Long): ColorWithOutfits =
         colorDao.getColorWithOutfits(colorId)
+
+    suspend fun getClothingItemWithColors(clothingItemId: Long): ClothingItemWithColors =
+        colorDao.getClothingItemWithColors(clothingItemId)
+
+    suspend fun getClothingItemColors(clothingItemId: Long): List<Color> {
+        return colorDao.getColorsForClothingItem(clothingItemId)
+    }
 }

@@ -53,4 +53,11 @@ interface ColorDao {
     @Transaction
     @Query("SELECT * FROM Outfit WHERE outfitId = :outfitId")
     suspend fun getOutfitWithColors(outfitId: Long): OutfitWithColors
+
+    @Query("""
+    SELECT c.* FROM Color c
+    INNER JOIN ClothingItemColorCrossRef ref ON c.colorId = ref.colorId
+    WHERE ref.clothingItemId = :id
+""")
+    suspend fun getColorsForClothingItem(id: Long): List<Color>
 }

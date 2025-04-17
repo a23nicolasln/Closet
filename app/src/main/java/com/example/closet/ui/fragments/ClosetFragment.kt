@@ -113,6 +113,7 @@ class ClosetFragment : Fragment() {
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
             .create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         btnSave.setOnClickListener {
             val name = input.text.toString().trim()

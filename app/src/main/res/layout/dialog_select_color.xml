@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/box_dialog">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_color_picker"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:overScrollMode="ifContentScrolls"/>
+
+</LinearLayout>

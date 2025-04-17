@@ -92,4 +92,15 @@ interface AttributeDao {
     @Transaction
     @Query("SELECT * FROM Attribute")
     fun getAllAttributes(): LiveData<List<Attribute>>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM Attribute 
+        WHERE attributeId IN (
+            SELECT attributeId 
+            FROM ClothingItemAttributeCrossRef 
+            WHERE clothingItemId = :clothingItemId
+        )
+    """)
+    suspend fun getClothingItemAttributes(clothingItemId: Long): List<Attribute>
 }

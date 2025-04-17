@@ -68,4 +68,8 @@ class AttributeRepository(private val attributeDao: AttributeDao) {
     fun getAllAttributes(): LiveData<List<Attribute>> {
         return attributeDao.getAllAttributes()
     }
+
+    suspend fun getClothingItemAttributes(clothingItemId: Long): List<Attribute> {
+        return attributeDao.getClothingItemAttributes(clothingItemId)
+    }
 }
