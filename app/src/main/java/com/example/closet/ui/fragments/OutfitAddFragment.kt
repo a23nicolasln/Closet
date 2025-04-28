@@ -1,6 +1,7 @@
 package com.example.closet.ui.fragments
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,14 +22,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.closet.R
 import com.example.closet.data.database.AppDatabase
+import com.example.closet.data.model.Attribute
+import com.example.closet.data.model.Type
+import com.example.closet.repository.AttributeRepository
 import com.example.closet.repository.ClothingItemRepository
+import com.example.closet.repository.ColorRepository
 import com.example.closet.repository.OutfitClothingItemRepository
 import com.example.closet.repository.OutfitRepository
 import com.example.closet.repository.TypeRepository
+import com.example.closet.ui.adapters.AttributeAdapter
 import com.example.closet.ui.adapters.ClothingItemAdapterSmall
+import com.example.closet.ui.adapters.ColorAdapter
 import com.example.closet.ui.viewmodels.OutfitCreationViewModel
 import com.example.closet.ui.viewmodels.ViewModelFactory
 import com.example.closet.utils.FileUtils
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 import java.util.*
@@ -43,7 +54,9 @@ class OutfitAddFragment : Fragment() {
                 outfitRepo = OutfitRepository(database.outfitDao()),
                 clothingRepo = ClothingItemRepository(database.clothingItemDao()),
                 joinRepo = OutfitClothingItemRepository(database.outfitClothingItemDao()),
-                typeRepo = TypeRepository(database.typeDao())
+                typeRepo = TypeRepository(database.typeDao()),
+                colorRepository = ColorRepository(database.colorDao()),
+                attributeRepository = AttributeRepository(database.attributeDao())
             )
         }
     }
@@ -146,7 +159,7 @@ class OutfitAddFragment : Fragment() {
     }
 
     private fun setupButtons(view: View) {
-        // Back button - clears ViewModel state
+        // Back button - clears ViewModel state and saves outfit
         view.findViewById<FloatingActionButton>(R.id.back_button).setOnClickListener {
             lifecycleScope.launch {
                 val outfitName = view.findViewById<TextView>(R.id.outfitName)?.text?.toString() ?: ""
@@ -194,14 +207,257 @@ class OutfitAddFragment : Fragment() {
             )
         }
 
-        // Delete button - handles null states
+        // Delete button with dialog confirmation
         view.findViewById<FloatingActionButton>(R.id.delete_button).setOnClickListener {
-            lifecycleScope.launch {
-                sharedVM.currentOutfit.value?.let { current ->
-                    sharedVM.deleteOutfit(current)
-                    findNavController().navigateUp()
+            val dialogView = LayoutInflater.from(requireContext())
+                .inflate(R.layout.dialog_confirmation, null)
+            val dialogQuestion = dialogView.findViewById<TextView>(R.id.question_text)
+            dialogQuestion.text = getString(R.string.delete_outfit)
+            val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
+            val cancelButton = dialogView.findViewById<View>(R.id.cancel_button)
+            val dialog = AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .create()
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            acceptButton.setOnClickListener {
+                lifecycleScope.launch {
+                    sharedVM.currentOutfit.value?.let { current ->
+                        sharedVM.deleteOutfit(current)
+                        sharedVM.clearOutfitData()
+                    }
+                }
+                imagePath?.let { path ->
+                    FileUtils.deleteImageFromInternalStorage(requireContext(), path)
+                }
+                dialog.dismiss()
+                findNavController().navigateUp()
+            }
+            cancelButton.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
+
+        //Set up colors recycled view
+        lifecycleScope.launch {
+            val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_colors)
+            val adapter = ColorAdapter(
+                emptyList(),
+                onColorClick = { selectedColor ->
+                    val dialogView = LayoutInflater.from(requireContext())
+                        .inflate(R.layout.dialog_confirmation, null)
+                    val dialogTitle = dialogView.findViewById<TextView>(R.id.question_text)
+                    dialogTitle.text = getString(R.string.remove_color)
+                    val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
+                    val cancelButton = dialogView.findViewById<View>(R.id.cancel_button)
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(dialogView)
+                        .create()
+                    dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+                    acceptButton.setOnClickListener {
+                        lifecycleScope.launch {
+                            sharedVM.currentOutfit.value?.let { outfit ->
+                                sharedVM.deleteColorFromOutfit(outfit.outfitId, selectedColor.colorId)
+                            }
+                        }
+
+                        dialog.dismiss()
+                    }
+                    cancelButton.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                    dialog.show()
+                },
+                onAddClick = {
+                    lifecycleScope.launch {
+                        val dialogView = LayoutInflater.from(requireContext())
+                            .inflate(R.layout.dialog_select_color_attribute, null)
+                        val dialogRecyclerView =
+                            dialogView.findViewById<RecyclerView>(R.id.recycler_view_color_picker)
+
+                        val allColors = sharedVM.getAllColors()
+
+                        var dialog: AlertDialog? = null
+
+                        val dialogAdapter = ColorAdapter(
+                            allColors,
+                            onColorClick = { selectedColor ->
+                                lifecycleScope.launch {
+                                    sharedVM.currentOutfit.value?.let { outfit ->
+                                        sharedVM.addColorToOutfit(outfit.outfitId, selectedColor.colorId)
+                                    }
+                                }
+                                dialog?.dismiss()
+                            },
+                            onAddClick = {
+
+                            },
+                            colorBackground = "#000000"
+                        )
+
+                        dialogRecyclerView.layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                            flexDirection = FlexDirection.ROW
+                            flexWrap = FlexWrap.WRAP
+                        }
+                        dialogRecyclerView.adapter = dialogAdapter
+
+                        dialog = AlertDialog.Builder(requireContext())
+                            .setView(dialogView)
+                            .create()
+
+                        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                        dialog.show()
+                    }
+                },
+                colorBackground = "#3B3B3B"
+            )
+
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                flexWrap = FlexWrap.WRAP
+            }
+
+            sharedVM.currentOutfit.observe(viewLifecycleOwner) { outfit ->
+                outfit?.let {
+                    sharedVM.getOutfitColors(it.outfitId).observe(viewLifecycleOwner) { colorList ->
+                        adapter.updateColors(colorList)
+                    }
                 }
             }
         }
+
+        // Set up attributes recycler view
+        lifecycleScope.launch {
+            val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_attributes)
+            val adapter = AttributeAdapter(
+                emptyList(),
+                onAttributeClick = { selectedAttribute ->
+                    val dialogView = LayoutInflater.from(requireContext())
+                        .inflate(R.layout.dialog_confirmation, null)
+                    val dialogTitle = dialogView.findViewById<TextView>(R.id.question_text)
+                    dialogTitle.text = getString(R.string.remove_attribute)
+                    val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
+                    val cancelButton = dialogView.findViewById<View>(R.id.cancel_button)
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(dialogView)
+                        .create()
+                    dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+                    acceptButton.setOnClickListener {
+                        lifecycleScope.launch {
+                            sharedVM.currentOutfit.value?.let { outfit ->
+                                sharedVM.deleteAttributeFromOutfit(
+                                    outfit.outfitId,
+                                    selectedAttribute.attributeId
+                                )
+                            }
+                        }
+
+                        dialog.dismiss()
+                    }
+                    cancelButton.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                    dialog.show()
+                },
+                onAddClick = {
+                    lifecycleScope.launch {
+                        val dialogView = LayoutInflater.from(requireContext())
+                            .inflate(R.layout.dialog_select_color_attribute, null)
+                        val dialogRecyclerView =
+                            dialogView.findViewById<RecyclerView>(R.id.recycler_view_color_picker)
+
+                        val allAttributes = sharedVM.getAllAttributes()
+
+                        var dialog: AlertDialog? = null
+
+                        val dialogAdapter = AttributeAdapter(
+                            emptyList(),
+                            onAttributeClick = { selectedAttribute ->
+                                lifecycleScope.launch {
+                                    sharedVM.currentOutfit.value?.let { outfit ->
+                                        sharedVM.addAttributeToOutfit(
+                                            outfit.outfitId,
+                                            selectedAttribute.attributeId
+                                        )
+                                    }
+                                }
+                                dialog?.dismiss()
+                            },
+                            onAddClick = {
+                                showAddAttributeDialog()
+                            },
+                            colorBackground = "#000000"
+                        )
+
+                        allAttributes.observe(viewLifecycleOwner) { attributes ->
+                            dialogAdapter.updateAttributeList(attributes)
+                        }
+
+                        dialogRecyclerView.layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                            flexDirection = FlexDirection.ROW
+                            flexWrap = FlexWrap.WRAP
+                        }
+                        dialogRecyclerView.adapter = dialogAdapter
+
+                        dialog = AlertDialog.Builder(requireContext())
+                            .setView(dialogView)
+                            .create()
+
+                        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                        dialog?.show()
+                    }
+
+                },
+                colorBackground = "#3B3B3B"
+            )
+
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                flexWrap = FlexWrap.WRAP
+            }
+
+            sharedVM.currentOutfit.observe(viewLifecycleOwner) { outfit ->
+                outfit?.let {
+                    sharedVM.getOutfitAttributes(it.outfitId).observe(viewLifecycleOwner) { attributeList ->
+                        adapter.updateAttributeList(attributeList)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showAddAttributeDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_type, null)
+        val input = dialogView.findViewById<EditText>(R.id.typeNameInput)
+        val btnSave = dialogView.findViewById<Button>(R.id.btnSave)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+        val dialogTitle = dialogView.findViewById<TextView>(R.id.dialog_title)
+        dialogTitle.text = getString(R.string.create_attribute)
+        input.hint = getString(R.string.attribute_hint)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        btnSave.setOnClickListener {
+            val name = input.text.toString().trim()
+            if (name.isNotEmpty()) {
+                sharedVM.createNewAttribute(name)
+                dialog.dismiss()
+            } else {
+                input.error = "Attribute name can't be empty"
+            }
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

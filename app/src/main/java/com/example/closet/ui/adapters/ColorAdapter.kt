@@ -13,7 +13,7 @@ import com.example.closet.R
 import com.example.closet.data.model.Color as ColorEntity
 
 class ColorAdapter(
-    private val colorList: List<ColorEntity>,
+    private var colorList: List<ColorEntity>,
     private val onColorClick: (ColorEntity) -> Unit,
     private val onAddClick: () -> Unit,
     private val colorBackground: String,
@@ -76,7 +76,9 @@ class ColorAdapter(
                 }
             }
             is AddButtonViewHolder -> {
-                // Add button view does not need to bind any data
+                val bgDrawable = holder.itemView.background.mutate()
+                bgDrawable.setTint(parseColor(colorBackground))
+                holder.itemView.background = bgDrawable
             }
         }
     }
@@ -90,4 +92,10 @@ class ColorAdapter(
             TYPE_ADD_BUTTON
         }
     }
+
+    fun updateColors(newColors: List<ColorEntity>) {
+        this.colorList = newColors
+        notifyDataSetChanged()
+    }
+
 }

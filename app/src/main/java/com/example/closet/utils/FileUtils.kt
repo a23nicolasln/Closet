@@ -2,6 +2,9 @@ package com.example.closet.utils
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import java.io.File
 import java.io.FileOutputStream
@@ -33,4 +36,5 @@ object FileUtils {
             file.delete()
         }
     }
+
 }

@@ -14,7 +14,9 @@ import com.example.closet.R
 import com.example.closet.data.database.AppDatabase
 import com.example.closet.data.model.ClothingItem
 import com.example.closet.data.model.Type
+import com.example.closet.repository.AttributeRepository
 import com.example.closet.repository.ClothingItemRepository
+import com.example.closet.repository.ColorRepository
 import com.example.closet.repository.OutfitClothingItemRepository
 import com.example.closet.repository.OutfitRepository
 import com.example.closet.repository.TypeRepository
@@ -34,7 +36,9 @@ class OutfitAddTypeSelectorFragment : Fragment() {
                 outfitRepo = OutfitRepository(database.outfitDao()),
                 clothingRepo = ClothingItemRepository(database.clothingItemDao()),
                 joinRepo = OutfitClothingItemRepository(database.outfitClothingItemDao()),
-                typeRepo = TypeRepository(database.typeDao())
+                typeRepo = TypeRepository(database.typeDao()),
+                colorRepository = ColorRepository(database.colorDao()),
+                attributeRepository = AttributeRepository(database.attributeDao())
             )
         }
     }

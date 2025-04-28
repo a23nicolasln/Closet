@@ -5,12 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.example.closet.data.model.Attribute
 import com.example.closet.data.model.ClothingItem
+import com.example.closet.data.model.Color
 import com.example.closet.data.model.Outfit
 import com.example.closet.data.relations.OutfitClothingItemCrossRef
 import com.example.closet.data.relations.OutfitWithClothingItems
 import com.example.closet.data.model.Type
+import com.example.closet.data.relations.OutfitAttributeCrossRef
+import com.example.closet.repository.AttributeRepository
 import com.example.closet.repository.ClothingItemRepository
+import com.example.closet.repository.ColorRepository
 import com.example.closet.repository.OutfitClothingItemRepository
 import com.example.closet.repository.OutfitRepository
 import com.example.closet.repository.TypeRepository
@@ -20,7 +25,9 @@ class OutfitCreationViewModel(
     private val outfitRepo: OutfitRepository,
     private val clothingRepo: ClothingItemRepository,
     private val joinRepo: OutfitClothingItemRepository,
-    private val typeRepo: TypeRepository
+    private val typeRepo: TypeRepository,
+    private val colorRepository: ColorRepository,
+    private val attributeRepository: AttributeRepository
 ) : ViewModel() {
 
     // Private mutable backing properties
@@ -133,6 +140,55 @@ class OutfitCreationViewModel(
         viewModelScope.launch {
             val outfit = _currentOutfit.value ?: return@launch
             outfitRepo.update(outfit)
+        }
+    }
+
+    fun getOutfitColors(outfitId: Long): LiveData<List<Color>> {
+        return colorRepository.getOutfitColors(outfitId)
+    }
+
+    suspend fun getAllColors(): List<Color> {
+        return colorRepository.getAllColors()
+    }
+
+    fun getAllAttributes(): LiveData<List<Attribute>> {
+        return attributeRepository.getAllAttributes()
+    }
+
+    suspend fun addColorToOutfit(outfitId: Long, colorId: Long) {
+        colorRepository.addColorToOutfit(outfitId, colorId)
+    }
+
+    suspend fun deleteColorFromOutfit(outfitId: Long, colorId: Long) {
+        colorRepository.deleteColorFromOutfit(outfitId, colorId)
+    }
+
+    fun getOutfitAttributes(outfitId: Long): LiveData<List<Attribute>> {
+        return attributeRepository.getAttributesForOutfit(outfitId)
+    }
+
+    suspend fun addAttributeToOutfit(outfitId: Long, attributeId: Long) {
+        attributeRepository.addAttributeToOutfit(
+            OutfitAttributeCrossRef(
+                outfitId = outfitId,
+                attributeId = attributeId
+            )
+        )
+    }
+
+    suspend fun deleteAttributeFromOutfit(outfitId: Long, attributeId: Long) {
+        attributeRepository.deleteAttributeFromOutfit(
+            OutfitAttributeCrossRef(
+                outfitId = outfitId,
+                attributeId = attributeId
+            )
+        )
+    }
+
+    fun createNewAttribute(name: String) {
+        viewModelScope.launch {
+            val newAttribute = Attribute(name = name)
+            val attributeId = attributeRepository.insertAttribute(newAttribute)
         }
     }
 }

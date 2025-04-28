@@ -17,4 +17,16 @@
     <string name="items">Items</string>
     <string name="outfit_name">Outfit name</string>
     <string name="add_clothing">Add Clothing</string>
+    <string name="remove_color">Remove color?</string>
+    <string name="cancel">Cancel</string>
+    <string name="accept">Accept</string>
+    <string name="delete_clothing_item">Delete item?</string>
+    <string name="delete_outfit">Delete outfit?</string>
+    <string name="remove_attribute">Remove attribute?</string>
+    <string name="create_attribute">Create new attribute</string>
+    <string name="attribute_hint">Attribute</string>
+    <string name="create_type">Create new type</string>
+    <string name="create_color">Create new color</string>
+
+
 </resources>

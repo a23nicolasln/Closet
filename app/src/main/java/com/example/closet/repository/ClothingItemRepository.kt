@@ -11,8 +11,8 @@ class ClothingItemRepository (private val clothingItemDao: ClothingItemDao) {
     val clothingItemsWithType: LiveData<List<ClothingItemWithType>> =
         clothingItemDao.getClothingItemsWithType()
 
-    suspend fun insert(clothingItem: ClothingItem) {
-        clothingItemDao.insert(clothingItem)
+    suspend fun insertClothingItem(clothingItem: ClothingItem): Long {
+        return clothingItemDao.insert(clothingItem)
     }
 
     fun getAllClothingItems(): LiveData<List<ClothingItem>> {
@@ -21,6 +21,10 @@ class ClothingItemRepository (private val clothingItemDao: ClothingItemDao) {
 
     suspend fun delete(clothingItem: ClothingItem) {
         clothingItemDao.delete(clothingItem)
+    }
+
+    suspend fun deleteById(clothingItemId: Long) {
+        clothingItemDao.delete(clothingItemDao.getById(clothingItemId)!!)
     }
 
     suspend fun deleteAll() {

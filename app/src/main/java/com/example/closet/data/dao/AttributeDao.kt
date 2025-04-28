@@ -102,5 +102,11 @@ interface AttributeDao {
             WHERE clothingItemId = :clothingItemId
         )
     """)
-    suspend fun getClothingItemAttributes(clothingItemId: Long): List<Attribute>
+    fun getClothingItemAttributes(clothingItemId: Long): LiveData<List<Attribute>>
+
+    @Delete
+    suspend fun deleteAttributeFromClothingItem(crossRef: ClothingItemAttributeCrossRef)
+
+    @Delete
+    suspend fun deleteAttributeFromOutfit(crossRef: OutfitAttributeCrossRef)
 }

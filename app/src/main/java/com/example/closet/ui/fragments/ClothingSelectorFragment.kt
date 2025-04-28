@@ -64,7 +64,7 @@ class ClothingSelectorFragment : Fragment() {
         // Add button
         view.findViewById<View>(R.id.add_button).setOnClickListener {
             val action = ClothingSelectorFragmentDirections
-                .actionClothingSelectorToClothingAdd(args.clothingType,0L)
+                .actionClothingSelectorToClothingAdd(typeId, 0L)
             view.findNavController().navigate(action)
         }
 

@@ -69,7 +69,15 @@ class AttributeRepository(private val attributeDao: AttributeDao) {
         return attributeDao.getAllAttributes()
     }
 
-    suspend fun getClothingItemAttributes(clothingItemId: Long): List<Attribute> {
+    fun getClothingItemAttributes(clothingItemId: Long): LiveData<List<Attribute>> {
         return attributeDao.getClothingItemAttributes(clothingItemId)
+    }
+
+    suspend fun deleteAttributeFromClothingItem(crossRef: ClothingItemAttributeCrossRef) {
+        attributeDao.deleteAttributeFromClothingItem(crossRef)
+    }
+
+    suspend fun deleteAttributeFromOutfit(crossRef: OutfitAttributeCrossRef) {
+        attributeDao.deleteAttributeFromOutfit(crossRef)
     }
 }

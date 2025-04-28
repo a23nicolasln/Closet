@@ -1,3 +1,5 @@
+import java.util.regex.Pattern.compile
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -81,6 +83,11 @@ dependencies {
 
     // RecyclerView flexbox
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
+
+    //Color Picker
+    implementation ("com.github.skydoves:colorpickerview:2.2.4")
+
+
 
 
 }
