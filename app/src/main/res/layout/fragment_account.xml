@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.Account"
-    android:background="@color/dark_grey">
+    android:background="@color/black">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/back_button"
@@ -15,7 +14,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/icon_back"
-        app:backgroundTint="@color/black"
+        app:backgroundTint="@color/primary"
         app:fabCustomSize="40dp"
         app:tint="@null" />
 
@@ -31,7 +30,9 @@
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:src="@drawable/icon_account_big" />
+            android:src="@drawable/icon_account"
+            app:tint="@color/primary"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

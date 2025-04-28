@@ -16,7 +16,7 @@ class ColorRepository(
     suspend fun insertColor(color: Color): Long =
         colorDao.insertColor(color)
 
-    suspend fun getAllColors(): List<Color> =
+    fun getAllColors(): LiveData<List<Color>>  =
         colorDao.getAllColors()
 
     suspend fun getColorWithClothingItems(colorId: Long): ColorWithClothingItems =

@@ -34,6 +34,13 @@ class OutfitsFragment : Fragment() {
             view.findNavController().navigate(R.id.action_outfits_to_account)
         }
 
+        // Filters button
+        val filtersButton = view.findViewById<FloatingActionButton>(R.id.filter_button)
+        filtersButton.setOnClickListener {
+            val action = OutfitsFragmentDirections.actionOutfitsToFiltersFragment(true)
+            view.findNavController().navigate(action)
+        }
+
         // Set up navigation for closet button
         val closetIcon = view.findViewById<ImageView>(R.id.closet_icon)
         closetIcon.isSelected = false

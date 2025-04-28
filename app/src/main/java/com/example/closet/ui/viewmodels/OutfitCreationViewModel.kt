@@ -147,7 +147,7 @@ class OutfitCreationViewModel(
         return colorRepository.getOutfitColors(outfitId)
     }
 
-    suspend fun getAllColors(): List<Color> {
+    fun getAllColors(): LiveData<List<Color>> {
         return colorRepository.getAllColors()
     }
 

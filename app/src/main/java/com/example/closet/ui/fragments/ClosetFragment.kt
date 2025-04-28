@@ -50,6 +50,13 @@ class ClosetFragment : Fragment() {
         }
         viewModel = ViewModelProvider(this, viewModelFactory)[ClosetViewModel::class.java]
 
+        // Filters button
+        val filtersButton = view.findViewById<FloatingActionButton>(R.id.filter_button)
+        filtersButton.setOnClickListener {
+            val action = ClosetFragmentDirections.actionClosetToFiltersFragment(false)
+            view.findNavController().navigate(action)
+        }
+
         // Set up RecyclerView
         val recyclerView = view.findViewById<RecyclerView>(R.id.typesRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

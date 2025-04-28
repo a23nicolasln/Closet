@@ -7,9 +7,11 @@
     android:background="@drawable/box_dialog">
 
     <TextView
+        android:id="@+id/dialog_title"
         android:text="Enter new type name"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="24sp"
+        android:layout_gravity="center"
         android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -34,20 +36,22 @@
             android:id="@+id/btnCancel"
             android:text="Cancel"
             android:textColor="@color/white"
-            android:backgroundTint="@color/primary"
-            android:layout_width="wrap_content"
+            android:backgroundTint="@color/black"
+            android:layout_width="150dp"
+            android:textSize="20sp"
             android:layout_height="wrap_content" />
 
         <Space
-            android:layout_width="70dp"
+            android:layout_width="30dp"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btnSave"
             android:text="Save"
+            android:textSize="20sp"
             android:textColor="@color/white"
             android:backgroundTint="@color/primary"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

@@ -48,4 +48,8 @@ interface OutfitDao{
     """)
     suspend fun getOutfitsByColor(colorId: Long): List<Outfit>
 
+    @Transaction
+    @Query("SELECT * FROM Outfit")
+    fun getAllOutfits(): LiveData<List<Outfit>>
+
 }

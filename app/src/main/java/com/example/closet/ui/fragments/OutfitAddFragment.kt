@@ -281,7 +281,7 @@ class OutfitAddFragment : Fragment() {
                         var dialog: AlertDialog? = null
 
                         val dialogAdapter = ColorAdapter(
-                            allColors,
+                            emptyList(),
                             onColorClick = { selectedColor ->
                                 lifecycleScope.launch {
                                     sharedVM.currentOutfit.value?.let { outfit ->
@@ -301,6 +301,9 @@ class OutfitAddFragment : Fragment() {
                             flexWrap = FlexWrap.WRAP
                         }
                         dialogRecyclerView.adapter = dialogAdapter
+                        allColors.observe(viewLifecycleOwner) { colors ->
+                            dialogAdapter.updateColors(colors)
+                        }
 
                         dialog = AlertDialog.Builder(requireContext())
                             .setView(dialogView)

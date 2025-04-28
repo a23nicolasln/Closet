@@ -278,7 +278,7 @@ class ClothingAddFragment : Fragment() {
             }
 
             recyclerView.adapter = ColorAdapter(
-                colors,
+                emptyList(),
                 onColorClick = { color ->
                     lifecycleScope.launch {
                         viewModel.addColorToClothingItem(clothingId ?: 0L, color.colorId)
@@ -288,6 +288,10 @@ class ClothingAddFragment : Fragment() {
                 onAddClick = {},
                 colorBackground = "#000000"
             )
+
+            colors.observe(viewLifecycleOwner) { colorList ->
+                (recyclerView.adapter as ColorAdapter).updateColors(colorList)
+            }
 
             dialog.show()
         }

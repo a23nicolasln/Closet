@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_outfits_to_account"
             app:destination="@id/account" />
+        <action
+            android:id="@+id/action_outfits_to_filtersFragment"
+            app:destination="@id/filtersFragment" />
     </fragment>
     <fragment
         android:id="@+id/closet"
@@ -37,6 +40,9 @@
         <action
             android:id="@+id/action_closet_to_clothingAdd"
             app:destination="@id/clothingAdd" />
+        <action
+            android:id="@+id/action_closet_to_filtersFragment"
+            app:destination="@id/filtersFragment" />
     </fragment>
     <fragment
         android:id="@+id/account"
@@ -110,5 +116,20 @@
             android:name="clothingId"
             app:argType="long" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/filtersFragment"
+        android:name="com.example.closet.ui.fragments.FiltersFragment"
+        android:label="fragment_filters"
+        tools:layout="@layout/fragment_filters" >
+        <argument
+            android:name="isOutfit"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_filtersFragment_to_closet"
+            app:destination="@id/closet" />
+        <action
+            android:id="@+id/action_filtersFragment_to_outfits"
+            app:destination="@id/outfits" />
     </fragment>
 </navigation>

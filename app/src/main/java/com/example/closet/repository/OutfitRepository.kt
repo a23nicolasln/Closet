@@ -29,4 +29,8 @@ class OutfitRepository(private val outfitDao: OutfitDao) {
     suspend fun getById(outfitId: Long): Outfit? {
         return outfitDao.getById(outfitId)
     }
+
+    fun getAllOutfits(): LiveData<List<Outfit>> {
+        return outfitDao.getAllOutfits()
+    }
 }

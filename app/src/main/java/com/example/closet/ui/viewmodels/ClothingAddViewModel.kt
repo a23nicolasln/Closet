@@ -55,7 +55,7 @@ class ClothingAddViewModel(
         colorRepository.addColorToClothingItem(clothingItemId, colorId)
     }
 
-    suspend fun getAllColors(): List<Color> {
+    fun getAllColors(): LiveData<List<Color>> {
         return colorRepository.getAllColors()
     }
 

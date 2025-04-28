@@ -23,7 +23,7 @@ interface ColorDao {
     suspend fun insertColor(color: Color): Long
 
     @Query("SELECT * FROM Color")
-    suspend fun getAllColors(): List<Color>
+    fun getAllColors(): LiveData<List<Color>>
 
     // Relations with ClothingItem
     @Insert(onConflict = OnConflictStrategy.REPLACE)
