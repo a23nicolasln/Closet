@@ -75,4 +75,7 @@ interface ColorDao {
     """)
     fun getOutfitColors(outfitId: Long): LiveData<List<Color>>
 
+    @Delete
+    suspend fun delete(color: Color)
+
 }

@@ -25,9 +25,9 @@
 
             <!-- Colors Title -->
             <FrameLayout
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -127,12 +127,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="60dp"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:paddingBottom="60dp" />
 
         </LinearLayout>
-
-
 
 
     </ScrollView>
@@ -149,16 +147,29 @@
         app:fabCustomSize="40dp"
         app:tint="@null" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/menu_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/icon_menu"
+        app:backgroundTint="@color/primary"
+        app:fabCustomSize="40dp"
+        app:tint="@null" />
+
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/search_button"
         android:layout_width="220dp"
         android:layout_height="60dp"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/primary"
         android:text="Search"
-        android:textSize="24sp"
         android:textColor="@color/white"
-        android:backgroundTint="@color/primary"/>
+        android:textSize="24sp" />
 </FrameLayout>
 
 

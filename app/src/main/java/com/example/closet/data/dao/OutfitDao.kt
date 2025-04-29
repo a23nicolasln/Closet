@@ -52,4 +52,22 @@ interface OutfitDao{
     @Query("SELECT * FROM Outfit")
     fun getAllOutfits(): LiveData<List<Outfit>>
 
+    @Transaction
+    @Query("""
+        SELECT * FROM Outfit
+        WHERE outfitId IN (
+            SELECT outfitId FROM OutfitAttributeCrossRef WHERE attributeId = :attributeId
+        )
+    """)
+    suspend fun getOutfitsByAttributeId(attributeId: Long): List<Outfit>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM Outfit
+        WHERE outfitId IN (
+            SELECT outfitId FROM OutfitColorCrossRef WHERE colorId = :colorId
+        )
+    """)
+    suspend fun getOutfitsByColorId(colorId: Long): List<Outfit>
+
 }

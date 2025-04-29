@@ -2,6 +2,7 @@ package com.example.closet.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.closet.data.model.Attribute
 import com.example.closet.data.model.ClothingItem
 import com.example.closet.data.relations.ClothingItemColorCrossRef
 import com.example.closet.data.relations.ClothingItemWithColors
@@ -32,10 +33,6 @@ interface ClothingItemDao {
     suspend fun update(clothingItem: ClothingItem)
 
     @Transaction
-    @Query("SELECT * FROM ClothingItem WHERE typeOwnerId == :typeId")
-    fun getClothingItemsByTypeId( typeId: Long ): LiveData<List<ClothingItem>>
-
-    @Transaction
     @Query("SELECT * FROM ClothingItem")
     fun getClothingItemsWithType(): LiveData<List<ClothingItemWithType>>
 
@@ -53,12 +50,25 @@ interface ClothingItemDao {
     @Query("SELECT * FROM ClothingItem WHERE clothingItemId = :id")
     suspend fun getClothingItemWithColors(id: Long): ClothingItemWithColors
 
-    @Transaction
+    @Query("SELECT * FROM ClothingItem WHERE typeOwnerId = :typeId")
+    fun getClothingItemsByType(typeId: Long): LiveData<List<ClothingItem>>
+
+    @Query("SELECT * FROM ClothingItem WHERE typeOwnerId = :typeId")
+    suspend fun getClothingItemsByTypeId(typeId: Long): List<ClothingItem>
+
     @Query("""
-        SELECT * FROM ClothingItem
-        WHERE clothingItemId IN (
-            SELECT clothingItemId FROM ClothingItemColorCrossRef WHERE colorId = :colorId
-        )
-    """)
-    suspend fun getClothingItemsByColor(colorId: Long): List<ClothingItem>
+    SELECT ci.* FROM ClothingItem ci
+    INNER JOIN ClothingItemColorCrossRef ref ON ci.clothingItemId = ref.clothingItemId
+    WHERE ref.colorId = :colorId
+""")
+    suspend fun getClothingItemsByColorId(colorId: Long): List<ClothingItem>
+
+    @Query("""
+    SELECT ci.* FROM ClothingItem ci
+    INNER JOIN ClothingItemAttributeCrossRef ref ON ci.clothingItemId = ref.clothingItemId
+    WHERE ref.attributeId = :attributeId
+""")
+    suspend fun getClothingItemsByAttributeId(attributeId: Long): List<ClothingItem>
+
+
 }

@@ -22,11 +22,15 @@
     <string name="accept">Accept</string>
     <string name="delete_clothing_item">Delete item?</string>
     <string name="delete_outfit">Delete outfit?</string>
+    <string name="delete_filters">Delete filters?</string>
     <string name="remove_attribute">Remove attribute?</string>
     <string name="create_attribute">Create new attribute</string>
     <string name="attribute_hint">Attribute</string>
     <string name="create_type">Create new type</string>
     <string name="create_color">Create new color</string>
+    <string name="filter_outfits">Filter by outfits</string>
+    <string name="filter_items">Filter by items</string>
+
 
 
 </resources>

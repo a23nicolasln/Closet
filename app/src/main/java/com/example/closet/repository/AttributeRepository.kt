@@ -80,4 +80,8 @@ class AttributeRepository(private val attributeDao: AttributeDao) {
     suspend fun deleteAttributeFromOutfit(crossRef: OutfitAttributeCrossRef) {
         attributeDao.deleteAttributeFromOutfit(crossRef)
     }
+
+    suspend fun delete(attribute: Attribute) {
+        attributeDao.delete(attribute)
+    }
 }

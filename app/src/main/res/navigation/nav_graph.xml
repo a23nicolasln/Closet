@@ -131,5 +131,22 @@
         <action
             android:id="@+id/action_filtersFragment_to_outfits"
             app:destination="@id/outfits" />
+        <action
+            android:id="@+id/action_filtersFragment_to_filteredFragment"
+            app:destination="@id/filteredFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/filteredFragment"
+        android:name="com.example.closet.FilteredFragment"
+        android:label="FilteredFragment" >
+        <action
+            android:id="@+id/action_filteredFragment_to_filtersFragment"
+            app:destination="@id/filtersFragment" />
+        <argument
+            android:name="isOutfit"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_filteredFragment_to_clothingAdd"
+            app:destination="@id/clothingAdd" />
     </fragment>
 </navigation>

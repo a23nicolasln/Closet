@@ -33,4 +33,27 @@ class OutfitRepository(private val outfitDao: OutfitDao) {
     fun getAllOutfits(): LiveData<List<Outfit>> {
         return outfitDao.getAllOutfits()
     }
+
+    suspend fun getFilteredOutfits(
+        selectedAttributes: List<Long>,
+        selectedColors: List<Long>
+    ): List<Outfit> {
+        val results = mutableListOf<List<Outfit>>()
+
+        if (selectedAttributes.isNotEmpty()) {
+            val byAttribute = selectedAttributes.flatMap { outfitDao.getOutfitsByAttributeId(it) }
+            results.add(byAttribute)
+        }
+
+        if (selectedColors.isNotEmpty()) {
+            val byColor = selectedColors.flatMap { outfitDao.getOutfitsByColorId(it) }
+            results.add(byColor)
+        }
+
+        return if (results.isNotEmpty()) {
+            results.reduce { acc, list -> acc.intersect(list).toList() }
+        } else {
+            emptyList()
+        }
+    }
 }

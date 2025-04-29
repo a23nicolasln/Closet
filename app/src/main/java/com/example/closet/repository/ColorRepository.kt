@@ -49,4 +49,8 @@ class ColorRepository(
         val ref = OutfitColorCrossRef(outfitId, colorId)
         colorDao.deleteOutfitColorRef(ref)
     }
+
+    suspend fun delete(color: Color) {
+        colorDao.delete(color)
+    }
 }

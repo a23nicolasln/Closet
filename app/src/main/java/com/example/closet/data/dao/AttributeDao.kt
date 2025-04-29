@@ -109,4 +109,7 @@ interface AttributeDao {
 
     @Delete
     suspend fun deleteAttributeFromOutfit(crossRef: OutfitAttributeCrossRef)
+
+    @Delete
+    suspend fun delete(attribute: Attribute)
 }
