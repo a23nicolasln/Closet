@@ -191,4 +191,11 @@ class OutfitCreationViewModel(
             val attributeId = attributeRepository.insertAttribute(newAttribute)
         }
     }
+
+    fun removeClothingItemFromOutfit(item: ClothingItem) {
+        viewModelScope.launch {
+            joinRepo.delete(OutfitClothingItemCrossRef(_currentOutfit.value!!.outfitId, item.clothingItemId))
+            _selectedItems.value = _selectedItems.value?.filter { it.clothingItemId != item.clothingItemId }
+        }
+    }
 }

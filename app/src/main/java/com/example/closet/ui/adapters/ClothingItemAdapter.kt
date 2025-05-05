@@ -28,12 +28,21 @@ class ClothingItemAdapter(
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val clothingItem = dataSet[position]
-
         val imageUrl = clothingItem.imageUrl
-        Log.d("ClothingItemAdapter", "Loading image URL: $imageUrl")
-        Glide.with(viewHolder.imageView.context)
-            .load(File(imageUrl))
-            .into(viewHolder.imageView)
+        val context = viewHolder.imageView.context
+
+        val imageFile = if (imageUrl.isNotEmpty()) File(imageUrl) else null
+        val shouldLoadPlaceholder = imageUrl.isEmpty() || imageFile == null || !imageFile.exists()
+
+        if (shouldLoadPlaceholder) {
+            viewHolder.imageView.setImageResource(R.drawable.placeholder_image) // Your placeholder
+        } else {
+            Glide.with(context)
+                .load(imageFile)
+                .placeholder(R.drawable.icon_loading)
+                .into(viewHolder.imageView)
+
+        }
 
         viewHolder.imageView.setOnClickListener {
             onItemClick(clothingItem)

@@ -124,6 +124,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/box_add_clothing"
                 android:text="@string/add_clothing"
                 android:textAlignment="center"

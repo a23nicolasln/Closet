@@ -19,4 +19,7 @@ interface OutfitClothingItemDao {
     @Transaction
     @Query("SELECT * FROM ClothingItem WHERE clothingItemId == :clothingItemId ")
     fun getClothingItemWithOutfits(clothingItemId: Long): LiveData<List<ClothingItemWithOutfits>>
+
+    @Delete
+    suspend fun delete(crossRef: OutfitClothingItemCrossRef)
 }

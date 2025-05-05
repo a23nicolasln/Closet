@@ -62,7 +62,13 @@ class OutfitsFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(context, 2)
 
         // Initialize the adapter with an empty list or initial data
-        adapter = OutfitAdapter(emptyList())  // Empty list initially
+        adapter = OutfitAdapter(
+            emptyList(),
+            onItemClick = { outfit ->
+                val action = OutfitsFragmentDirections.actionOutfitsToOutfitAdd(outfit.outfitId)
+                view.findNavController().navigate(action)
+            }
+        )
         recyclerView.adapter = adapter
 
         // Observe LiveData and update the adapter

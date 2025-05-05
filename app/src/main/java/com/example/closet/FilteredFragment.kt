@@ -68,12 +68,12 @@ class FilteredFragment : Fragment() {
         if (isOutfit) {
             val outfitAdapter = OutfitAdapter(
                 dataSet = emptyList(),
-                /*onItemClick = {
+                onItemClick = {
                     val action = FilteredFragmentDirections.actionFilteredFragmentToOutfitAdd(
                         outfitId = it.outfitId,
                     )
                     findNavController().navigate(action)
-                }*/
+                }
             )
             recyclerView.adapter = outfitAdapter
 

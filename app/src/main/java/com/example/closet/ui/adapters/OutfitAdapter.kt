@@ -13,20 +13,18 @@ import com.example.closet.data.model.Outfit
 import com.example.closet.ui.fragments.OutfitsFragmentDirections
 import java.io.File
 
-class OutfitAdapter(private var dataSet: List<Outfit>) :
-    RecyclerView.Adapter<OutfitAdapter.ViewHolder>() {
+class OutfitAdapter(
+    private var dataSet: List<Outfit>,
+    private val onItemClick: (Outfit) -> Unit // Listener for item click
+) : RecyclerView.Adapter<OutfitAdapter.ViewHolder>() {
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder)
-     */
+    // Provide a reference to the type of views that you are using (custom ViewHolder)
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.item_image)
     }
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.recycled_item, viewGroup, false)
         return ViewHolder(view)
@@ -35,18 +33,27 @@ class OutfitAdapter(private var dataSet: List<Outfit>) :
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val imageUrl = dataSet[position].imageUrl
-        Log.d("ClothingItemAdapter", "Loading image URL: $imageUrl")
+        val context = viewHolder.imageView.context
 
-        Glide.with(viewHolder.imageView.context)
-            .load(File(imageUrl))
-            .into(viewHolder.imageView)
+        val imageFile = if (imageUrl.isNotEmpty()) File(imageUrl) else null
+        val shouldLoadPlaceholder = imageUrl.isEmpty() || imageFile == null || !imageFile.exists()
 
+        if (shouldLoadPlaceholder) {
+            viewHolder.imageView.setImageResource(R.drawable.placeholder_image) // Your placeholder
+        } else {
+            Glide.with(context)
+                .load(imageFile)
+                .placeholder(R.drawable.icon_loading)
+                .into(viewHolder.imageView)
+
+        }
+
+        // Set the click listener
         viewHolder.imageView.setOnClickListener {
-            val action =
-                OutfitsFragmentDirections.actionOutfitsToOutfitAdd(dataSet[position].outfitId)
-            viewHolder.imageView.findNavController().navigate(action)
+            onItemClick(dataSet[position])
         }
     }
+
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size

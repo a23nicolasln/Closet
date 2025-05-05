@@ -20,4 +20,8 @@ class OutfitClothingItemRepository(private val outfitClothingItemDao: OutfitClot
         return outfitClothingItemDao.getClothingItemWithOutfits(clothingItemId)
     }
 
+    suspend fun delete(outfitClothingItem: OutfitClothingItemCrossRef) {
+        outfitClothingItemDao.delete(outfitClothingItem)
+    }
+
 }

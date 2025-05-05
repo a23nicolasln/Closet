@@ -37,6 +37,7 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
+import java.io.File
 import java.util.UUID
 
 class ClothingAddFragment : Fragment() {
@@ -107,10 +108,19 @@ class ClothingAddFragment : Fragment() {
             item?.let {
                 imagePath = it.imageUrl
 
-                Glide.with(requireContext())
-                    .load(it.imageUrl)
-                    .centerCrop()
-                    .into(imageViewClothing)
+                val imageFile = if (!it.imageUrl.isNullOrEmpty()) File(it.imageUrl) else null
+                val shouldLoadPlaceholder = imageFile == null || !imageFile.exists()
+
+                if (shouldLoadPlaceholder) {
+                    imageViewClothing.setImageResource(R.drawable.icon_add)
+                } else {
+                    Glide.with(requireContext())
+                        .load(imageFile)
+                        .centerCrop()
+                        .placeholder(R.drawable.icon_loading)
+                        .into(imageViewClothing)
+
+                }
 
                 setupColorRecyclerView(view)
                 setupAttributeRecyclerView(view)

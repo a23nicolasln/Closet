@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +46,8 @@ import java.util.*
 class OutfitAddFragment : Fragment() {
     private var imagePath: String? = null
     private lateinit var imageViewOutfit: ImageView
+    private val defaultImageResId = R.drawable.icon_add
+
 
     private val sharedVM: OutfitCreationViewModel by activityViewModels {
         val application = requireActivity().application
@@ -70,20 +73,23 @@ class OutfitAddFragment : Fragment() {
                 imageViewOutfit.setImageBitmap(selectedImage)
 
                 val imageName = "outfit_image_${UUID.randomUUID()}.jpg"
-                imagePath = FileUtils.saveImageToInternalStorage(requireContext(), imageName, result.data)
+                val newImagePath = FileUtils.saveImageToInternalStorage(requireContext(), imageName, result.data)
 
-                // Use ViewModel's public method instead of direct value assignment
                 lifecycleScope.launch {
-                    val outfit = sharedVM.currentOutfit.value
-                    if (outfit != null) {
-                        sharedVM.updateOutfit(outfit.copy(imageUrl = imagePath ?: ""))
-                    } else {
-                        sharedVM.createNewOutfit()
+                    sharedVM.currentOutfit.value?.let { outfit ->
+                        // Delete previous image if it's not empty and not the default
+                        if (outfit.imageUrl.isNotEmpty()) {
+                            FileUtils.deleteImageFromInternalStorage(requireContext(), outfit.imageUrl)
+                        }
+                        imagePath = newImagePath
+                        newImagePath?.let { outfit.copy(imageUrl = it) }
+                            ?.let { sharedVM.updateOutfit(it) }
                     }
                 }
             }
         }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -112,9 +118,12 @@ class OutfitAddFragment : Fragment() {
                         if (outfit.imageUrl.isNotEmpty()) {
                             Glide.with(requireContext())
                                 .load(outfit.imageUrl)
-                                .placeholder(R.drawable.icon_add)
+                                .placeholder(R.drawable.icon_loading)
                                 .into(imageViewOutfit)
+                        } else {
+                            imageViewOutfit.setImageResource(defaultImageResId)
                         }
+
                     }
                 }
                 view.findViewById<TextView>(R.id.outfitName)?.text = sharedVM.currentOutfit.value?.name
@@ -132,14 +141,17 @@ class OutfitAddFragment : Fragment() {
                 if (it.imageUrl.isNotEmpty()) {
                     Glide.with(requireContext())
                         .load(it.imageUrl)
-                        .placeholder(R.drawable.icon_add)
+                        .placeholder(defaultImageResId)
                         .into(imageViewOutfit)
+                } else {
+                    imageViewOutfit.setImageResource(defaultImageResId)
                 }
                 view.findViewById<TextView>(R.id.outfitName)?.text = it.name
             }
         }
 
-        // Observe selected items with empty state handling
+
+        // Observe selected Clothing items
         sharedVM.selectedItems.observe(viewLifecycleOwner) { items ->
             val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewItems)
             recyclerView.layoutManager = LinearLayoutManager(
@@ -148,9 +160,26 @@ class OutfitAddFragment : Fragment() {
                 false
             )
             recyclerView.adapter = ClothingItemAdapterSmall(items ?: emptyList()) { item ->
-                findNavController().navigate(
-                    OutfitAddFragmentDirections.actionOutfitAddToClothingAdd(item.typeOwnerId,item.clothingItemId)
-                )
+                val dialogView = LayoutInflater.from(requireContext())
+                    .inflate(R.layout.dialog_confirmation, null)
+                val dialogTitle = dialogView.findViewById<TextView>(R.id.question_text)
+                dialogTitle.text = getString(R.string.remove_item)
+                val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
+                val cancelButton = dialogView.findViewById<View>(R.id.cancel_button)
+                val dialog = AlertDialog.Builder(requireContext())
+                    .setView(dialogView)
+                    .create()
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                acceptButton.setOnClickListener {
+                    lifecycleScope.launch {
+                        sharedVM.removeClothingItemFromOutfit(item)
+                    }
+                    dialog.dismiss()
+                }
+                cancelButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+                dialog.show()
             }
         }
 
@@ -173,10 +202,7 @@ class OutfitAddFragment : Fragment() {
                     }
                     // Save outfit to database
                     sharedVM.saveOutfitAndClear()
-                    // Navigate back to main activity
-                    val action =
-                        OutfitAddFragmentDirections.actionOutfitAddToOutfits()
-                    findNavController().navigate(action)
+                    findNavController().navigate(R.id.action_outfitAdd_to_outfits)
                 }
             }
         }
@@ -202,6 +228,8 @@ class OutfitAddFragment : Fragment() {
                     sharedVM.updateOutfit(current.copy(name = outfitName))
                 }
             }
+
+
             findNavController().navigate(
                 OutfitAddFragmentDirections.actionOutfitAddToOutfitAddTypeSelector()
             )

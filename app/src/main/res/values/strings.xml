@@ -24,6 +24,7 @@
     <string name="delete_outfit">Delete outfit?</string>
     <string name="delete_filters">Delete filters?</string>
     <string name="remove_attribute">Remove attribute?</string>
+    <string name="remove_item">Remove item?</string>
     <string name="create_attribute">Create new attribute</string>
     <string name="attribute_hint">Attribute</string>
     <string name="create_type">Create new type</string>
