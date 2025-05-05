@@ -92,6 +92,12 @@ class ClothingAddViewModel(
         }
     }
 
+    fun insertColor(color: Color) {
+        viewModelScope.launch {
+            colorRepository.insertColor(color)
+        }
+    }
+
 
 
 

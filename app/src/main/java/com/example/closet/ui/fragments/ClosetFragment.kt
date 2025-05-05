@@ -129,7 +129,7 @@ class ClosetFragment : Fragment() {
                 viewModel.insertType(Type(0, name)) // Replace with actual type logic
                 dialog.dismiss()
             } else {
-                input.error = "Type name can't be empty"
+                input.error = getString(R.string.error_type_empty)
             }
         }
 

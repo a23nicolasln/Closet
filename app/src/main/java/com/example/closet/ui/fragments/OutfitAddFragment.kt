@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import com.bumptech.glide.Glide
 import com.example.closet.R
 import com.example.closet.data.database.AppDatabase
 import com.example.closet.data.model.Attribute
+import com.example.closet.data.model.Color
 import com.example.closet.data.model.Type
 import com.example.closet.repository.AttributeRepository
 import com.example.closet.repository.ClothingItemRepository
@@ -41,6 +43,9 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.skydoves.colorpickerview.ColorPickerView
+import com.skydoves.colorpickerview.listeners.ColorListener
+import com.skydoves.colorpickerview.sliders.BrightnessSlideBar
 import kotlinx.coroutines.launch
 import java.util.*
 class OutfitAddFragment : Fragment() {
@@ -319,7 +324,7 @@ class OutfitAddFragment : Fragment() {
                                 dialog?.dismiss()
                             },
                             onAddClick = {
-
+                                showColorPickerDialog()
                             },
                             colorBackground = "#000000"
                         )
@@ -481,7 +486,7 @@ class OutfitAddFragment : Fragment() {
                 sharedVM.createNewAttribute(name)
                 dialog.dismiss()
             } else {
-                input.error = "Attribute name can't be empty"
+                input.error = getString(R.string.error_attribute_empty)
             }
         }
 
@@ -489,6 +494,54 @@ class OutfitAddFragment : Fragment() {
             dialog.dismiss()
         }
 
+        dialog.show()
+    }
+
+    private fun showColorPickerDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_color_picker_custom, null)
+
+        val colorPreview = dialogView.findViewById<View>(R.id.colorPreview)
+        val colorPickerView = dialogView.findViewById<ColorPickerView>(R.id.colorPickerView)
+        val brightnessSlide = dialogView.findViewById<BrightnessSlideBar>(R.id.brightnessSlide)
+
+        // Delay attachment until views are laid out
+        colorPickerView.post {
+            colorPickerView.attachBrightnessSlider(brightnessSlide)
+        }
+
+        // Update color preview live
+        colorPickerView.setColorListener(ColorListener { colorEnvelope, _ ->
+            val drawable = colorPreview.background.mutate() as GradientDrawable
+            drawable.setColor(colorEnvelope)
+        })
+
+
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        val buttonAccept = dialogView.findViewById<Button>(R.id.buttonAccept)
+        val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
+
+        buttonAccept.setOnClickListener {
+            val selectedColor = colorPickerView.color
+            val hex = String.format("#%06X", (0xFFFFFF and selectedColor))
+            lifecycleScope.launch {
+                sharedVM.insertColor(
+                    Color(
+                    name = dialogView.findViewById<EditText>(R.id.colorName).text.toString()
+                    , hexCode = hex)
+                )
+            }
+            dialog.dismiss()
+        }
+
+        buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(R.drawable.box_bottom_navigation)
         dialog.show()
     }
 }

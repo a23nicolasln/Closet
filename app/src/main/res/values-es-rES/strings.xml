@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Armario</string>
+    <!-- TODO: Eliminar o cambiar este texto de marcador de posición -->
+    <string name="clothes">Ropa</string>
+    <string name="accessories">Accesorios</string>
+    <string name="save">Guardar</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="account_settings">Configuración de la cuenta</string>
+    <string name="feedback">Comentarios</string>
+    <string name="settings">Configuración</string>
+    <string name="delete_data">Eliminar datos</string>
+    <string name="colors">Colores</string>
+    <string name="size">Tamaño</string>
+    <string name="brand">Marca</string>
+    <string name="delete">Eliminar</string>
+    <string name="items">Artículos</string>
+    <string name="outfit_name">Nombre del conjunto</string>
+    <string name="add_clothing">Agregar ropa</string>
+    <string name="remove_color">¿Eliminar color?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept">Aceptar</string>
+    <string name="delete_clothing_item">¿Eliminar artículo?</string>
+    <string name="delete_outfit">¿Eliminar conjunto?</string>
+    <string name="delete_filters">¿Eliminar filtros?</string>
+    <string name="remove_attribute">¿Eliminar atributo?</string>
+    <string name="remove_item">¿Eliminar artículo?</string>
+    <string name="create_attribute">Crear nuevo atributo</string>
+    <string name="attribute_hint">Atributo</string>
+    <string name="create_type">Crear nuevo tipo</string>
+    <string name="create_color">Crear nuevo color</string>
+    <string name="filter_outfits">Filtrar por conjuntos</string>
+    <string name="filter_items">Filtrar por artículos</string>
+    <string name="color_name">Nombre del color</string>
+    <string name="error_type_empty">El nombre del tipo no puede estar vacío</string>
+    <string name="error_attribute_empty">El nombre del atributo no puede estar vacío</string>
+    <string name="enter_new_type_name">Introduce el nuevo nombre del tipo</string>
+    <string name="type_name">Nombre del tipo</string>
+    <string name="types">Tipos</string>
+    <string name="search">Buscar</string>
+</resources>

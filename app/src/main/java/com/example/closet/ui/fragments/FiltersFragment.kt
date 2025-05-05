@@ -246,7 +246,7 @@ class FiltersFragment : Fragment() {
                 viewModel.insertType(Type(0, name))
                 dialog.dismiss()
             } else {
-                input.error = "Type name can't be empty"
+                input.error = getString(R.string.error_type_empty)
             }
         }
 
@@ -277,7 +277,7 @@ class FiltersFragment : Fragment() {
                 viewModel.insertAttribute(Attribute(0, name))
                 dialog.dismiss()
             } else {
-                input.error = "Attribute name can't be empty"
+                input.error = getString(R.string.error_attribute_empty)
             }
         }
 

@@ -198,4 +198,10 @@ class OutfitCreationViewModel(
             _selectedItems.value = _selectedItems.value?.filter { it.clothingItemId != item.clothingItemId }
         }
     }
+
+    fun insertColor(color: Color) {
+        viewModelScope.launch {
+            colorRepository.insertColor(color)
+        }
+    }
 }

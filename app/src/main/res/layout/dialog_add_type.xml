@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/dialog_title"
-        android:text="Enter new type name"
+        android:text="@string/enter_new_type_name"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:layout_gravity="center"
@@ -18,7 +18,7 @@
 
     <EditText
         android:id="@+id/typeNameInput"
-        android:hint="Type name"
+        android:hint="@string/type_name"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
 
         <Button
             android:id="@+id/btnCancel"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="@color/white"
             android:backgroundTint="@color/black"
             android:layout_width="150dp"
@@ -47,7 +47,7 @@
 
         <Button
             android:id="@+id/btnSave"
-            android:text="Save"
+            android:text="@string/save"
             android:textSize="20sp"
             android:textColor="@color/white"
             android:backgroundTint="@color/primary"
