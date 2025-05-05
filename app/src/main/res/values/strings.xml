@@ -31,7 +31,7 @@
     <string name="create_color">Create new color</string>
     <string name="filter_outfits">Filter by outfits</string>
     <string name="filter_items">Filter by items</string>
-
+    <string name="color_name">Color name</string>
 
 
 </resources>

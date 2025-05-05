@@ -102,6 +102,12 @@ class FiltersViewModel(
         }
     }
 
+    fun insertColor(color: Color) {
+        viewModelScope.launch {
+            colorRepository.insertColor(color)
+        }
+    }
+
     fun deleteSelected() {
         viewModelScope.launch {
             for (type in selectedTypes) {

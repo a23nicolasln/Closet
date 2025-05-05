@@ -47,7 +47,7 @@ class OutfitAddClothingSelectorFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_clothing_selector, container, false)
+        val view = inflater.inflate(R.layout.fragment_outfit_add_clothing_selector, container, false)
 
         // Get clothing type from arguments
         val clothingType = arguments?.getLong("clothingType") ?: 0L
