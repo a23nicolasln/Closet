@@ -87,6 +87,9 @@ dependencies {
     //Color Picker
     implementation ("com.github.skydoves:colorpickerview:2.2.4")
 
+    // Lottie for animations
+    implementation ("com.airbnb.android:lottie:6.4.0")
+
 
 
 

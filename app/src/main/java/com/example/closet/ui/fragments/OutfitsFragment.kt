@@ -31,7 +31,9 @@ class OutfitsFragment : Fragment() {
         // Set up navigation for account button
         val accountButton = view.findViewById<FloatingActionButton>(R.id.account_button)
         accountButton.setOnClickListener {
-            view.findNavController().navigate(R.id.action_outfits_to_account)
+
+
+
         }
 
         // Filters button
@@ -46,6 +48,12 @@ class OutfitsFragment : Fragment() {
         closetIcon.isSelected = false
         closetIcon.setOnClickListener {
             view.findNavController().navigate(R.id.action_outfits_to_closet)
+        }
+        // Set up navigation for social button
+        val socialIcon = view.findViewById<ImageView>(R.id.social_icon)
+        socialIcon.isSelected = false
+        socialIcon.setOnClickListener {
+            view.findNavController().navigate(OutfitsFragmentDirections.actionOutfitsToLoadingFragment(false))
         }
 
         // Background color change for outfits button

@@ -52,7 +52,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/grey"
                     android:scaleType="center"
-                    android:src="@drawable/icon_plus" />
+                    android:src="@drawable/icon_add" />
 
                 <!-- Gradient overlay -->
                 <View

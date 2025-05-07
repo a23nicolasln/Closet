@@ -79,7 +79,9 @@ class ClosetFragment : Fragment() {
         // Icons navigation
         val accountIcon = view.findViewById<FloatingActionButton>(R.id.account_button)
         accountIcon.setOnClickListener {
-            view.findNavController().navigate(R.id.action_closet_to_account)
+
+
+
         }
 
         val outfitsIcon = view.findViewById<ImageView>(R.id.outfits_icon)
@@ -89,6 +91,12 @@ class ClosetFragment : Fragment() {
 
         val closetIcon = view.findViewById<ImageView>(R.id.closet_icon)
         closetIcon.isSelected = true
+
+        val socialIcon = view.findViewById<ImageView>(R.id.social_icon)
+        socialIcon.isSelected = false
+        socialIcon.setOnClickListener {
+            view.findNavController().navigate(ClosetFragmentDirections.actionClosetToLoadingFragment(false))
+        }
 
         // Add new type button
         val addTypeButton = view.findViewById<FloatingActionButton>(R.id.add_button)

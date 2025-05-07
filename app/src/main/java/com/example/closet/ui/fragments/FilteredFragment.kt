@@ -1,4 +1,4 @@
-package com.example.closet
+package com.example.closet.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.closet.data.database.AppDatabase
+import com.example.closet.R
 import com.example.closet.repository.AttributeRepository
 import com.example.closet.repository.ClothingItemRepository
 import com.example.closet.repository.ColorRepository
@@ -17,7 +17,6 @@ import com.example.closet.repository.OutfitRepository
 import com.example.closet.repository.TypeRepository
 import com.example.closet.ui.adapters.ClothingItemAdapter
 import com.example.closet.ui.adapters.OutfitAdapter
-import com.example.closet.ui.fragments.FiltersFragmentDirections
 import com.example.closet.ui.viewmodels.FiltersViewModel
 import com.example.closet.ui.viewmodels.ViewModelFactory
 

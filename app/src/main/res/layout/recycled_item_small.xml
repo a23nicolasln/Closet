@@ -8,5 +8,5 @@
     android:layout_margin="10dp"
     android:scaleType="centerCrop"
     android:layout_gravity="center_vertical"
-    app:shapeAppearanceOverlay="@style/RoundedImageStyle" />
+    app:shapeAppearanceOverlay="@style/RoundedCornersImageStyle" />
 
