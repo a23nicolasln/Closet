@@ -13,6 +13,7 @@ import com.example.closet.R
 import com.example.closet.data.database.AppDatabase
 import com.example.closet.repository.OutfitRepository
 import com.example.closet.ui.adapters.OutfitAdapter
+import com.example.closet.ui.adapters.OutfitWithProfilePictureAdapter
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -63,7 +64,7 @@ class HomeFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         // as a test get all outfits from the repository directly and set it to the adapter
         val outfitRepository = OutfitRepository(AppDatabase.getDatabase(requireContext()).outfitDao())
-        val outfitAdapter = OutfitAdapter(
+        val outfitAdapter = OutfitWithProfilePictureAdapter(
             dataSet = emptyList(),
             onItemClick = {}
         )

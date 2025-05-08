@@ -83,7 +83,7 @@
         android:layout_gravity="top|end"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:src="@drawable/icon_account"
+        android:src="@drawable/icon_settings"
         app:backgroundTint="@color/primary"
         android:elevation="6dp"
         app:tint="@null"
