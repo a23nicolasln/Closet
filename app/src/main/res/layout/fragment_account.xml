@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/upload_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="100dp"
+        android:elevation="6dp"
+        android:src="@drawable/icon_upload"
+        app:backgroundTint="@color/primary"
+        app:tint="@null" />
+
     <!-- Scrollable content -->
     <ScrollView
         android:layout_width="match_parent"
@@ -36,7 +48,7 @@
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/placeholder_image"
+                    android:src="@drawable/icon_account"
                     app:shapeAppearanceOverlay="@style/RoundedImage" />
 
                 <LinearLayout
@@ -159,6 +171,7 @@
             android:background="@drawable/icon_background_selector"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
+            android:elevation="5dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:src="@drawable/icon_home"
@@ -174,6 +187,7 @@
             android:background="@drawable/icon_background_selector"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
+            android:elevation="5dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:src="@drawable/icon_search"
@@ -182,20 +196,29 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/account_icon" />
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/account_icon"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:background="@drawable/icon_background_selector"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:src="@drawable/icon_account"
+            android:elevation="5dp"
+            android:orientation="vertical"
+            android:gravity="center"
             app:layout_constraintStart_toEndOf="@id/search_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/closet_icon" />
+            app:layout_constraintEnd_toStartOf="@+id/closet_icon">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/account_icon_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_account"
+                app:shapeAppearanceOverlay="@style/RoundedImage"
+                />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/closet_icon"
@@ -204,6 +227,7 @@
             android:background="@drawable/icon_background_selector"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
+            android:elevation="5dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:src="@drawable/icon_closet"

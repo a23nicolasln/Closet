@@ -17,12 +17,13 @@ import com.example.closet.R
 import com.example.closet.data.database.AppDatabase
 import com.example.closet.data.model.ClothingItem
 import com.example.closet.data.model.Type
-import com.example.closet.repository.ClothingItemRepository
-import com.example.closet.repository.TypeRepository
+import com.example.closet.data.repository.ClothingItemRepository
+import com.example.closet.data.repository.TypeRepository
 import com.example.closet.ui.viewmodels.ClosetViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.example.closet.ui.adapters.TypeAdapter
 import com.example.closet.ui.viewmodels.ViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
 
 class ClosetFragment : Fragment() {
     private lateinit var clothingItemRepository: ClothingItemRepository
@@ -77,11 +78,10 @@ class ClosetFragment : Fragment() {
         }
 
         // Icons navigation
-        val accountIcon = view.findViewById<FloatingActionButton>(R.id.account_button)
+        val accountIcon = view.findViewById<FloatingActionButton>(R.id.settings_button)
         accountIcon.setOnClickListener {
-
-
-
+            // Log out of firebase
+            FirebaseAuth.getInstance().signOut()
         }
 
         val outfitsIcon = view.findViewById<ImageView>(R.id.outfits_icon)

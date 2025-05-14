@@ -6,7 +6,7 @@
     android:background="@color/black">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/account_button"
+        android:id="@+id/settings_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
@@ -46,54 +46,61 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_gravity="bottom"
-        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/box_bottom_navigation"
         android:elevation="5dp">
+
 
         <ImageView
             android:id="@+id/outfits_icon"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:background="@drawable/icon_background_selector"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
+            android:background="@drawable/icon_background_selector"
+            android:elevation="5dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:src="@drawable/icon_outfit"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/closet_icon" />
+            app:layout_constraintEnd_toStartOf="@+id/closet_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/closet_icon"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:background="@drawable/icon_background_selector"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
+            android:elevation="5dp"
+            android:background="@drawable/icon_background_selector"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:src="@drawable/icon_hanger"
-            app:layout_constraintStart_toEndOf="@id/outfits_icon"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/social_icon" />
+            app:layout_constraintEnd_toStartOf="@+id/social_icon"
+            app:layout_constraintStart_toEndOf="@id/outfits_icon"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/social_icon"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:background="@drawable/icon_background_selector"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
+            android:elevation="5dp"
+            android:background="@drawable/icon_background_selector"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:src="@drawable/icon_social"
-            app:layout_constraintStart_toEndOf="@id/closet_icon"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/closet_icon"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

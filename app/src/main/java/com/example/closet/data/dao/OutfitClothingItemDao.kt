@@ -22,4 +22,7 @@ interface OutfitClothingItemDao {
 
     @Delete
     suspend fun delete(crossRef: OutfitClothingItemCrossRef)
+
+    @Query("SELECT clothingItemId FROM outfitclothingitemcrossref WHERE outfitId = :outfitId")
+    suspend fun getClothingItemIdsForOutfit(outfitId: Long): List<Long>
 }

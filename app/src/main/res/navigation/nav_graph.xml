@@ -160,6 +160,9 @@
         <action
             android:id="@+id/action_accountFragment_to_loadingFragment"
             app:destination="@id/loadingFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_uploadSelectorFragment"
+            app:destination="@id/uploadSelectorFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -190,6 +193,9 @@
         <action
             android:id="@+id/action_searchFragment_to_loadingFragment"
             app:destination="@id/loadingFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/loadingFragment"
@@ -205,5 +211,25 @@
             android:id="@+id/action_loadingFragment_to_outfits"
             app:destination="@id/outfits" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/uploadSelectorFragment"
+        android:name="com.example.closet.ui.fragments.UploadSelectorFragment"
+        android:label="UploadSelectorFragment" >
+        <action
+            android:id="@+id/action_uploadSelectorFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.example.closet.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" >
+        <action
+            android:id="@+id/action_userProfileFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- For files in your internal storage files directory -->
+    <files-path name="files" path="." />
+
+    <!-- If you need to access cache directory -->
+    <cache-path name="cache" path="." />
+
+    <!-- If you need to access external files -->
+    <external-files-path name="external_files" path="." />
+
+    <!-- If you need to access external cache -->
+    <external-cache-path name="external_cache" path="." />
+</paths>

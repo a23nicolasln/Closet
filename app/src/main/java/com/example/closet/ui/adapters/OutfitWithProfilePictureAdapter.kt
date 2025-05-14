@@ -7,57 +7,82 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.closet.R
-import com.example.closet.data.model.Outfit
-import java.io.File
+import com.example.closet.data.firebase.dto.OutfitDTO
+import com.google.firebase.database.FirebaseDatabase
 
 class OutfitWithProfilePictureAdapter(
-    private var dataSet: List<Outfit>,
-    private val onItemClick: (Outfit) -> Unit // Listener for item click
+    private var dataSet: List<OutfitDTO>,
+    private val onItemClick: (OutfitDTO) -> Unit,
+    private val showProfilePicture: Boolean
 ) : RecyclerView.Adapter<OutfitWithProfilePictureAdapter.ViewHolder>() {
 
-    // Provide a reference to the type of views that you are using (custom ViewHolder)
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imageView: ImageView = view.findViewById(R.id.item_image)
+        val outfitImageView: ImageView = view.findViewById(R.id.item_image)
+        val profilePictureView: ImageView = view.findViewById(R.id.profile_picture)
     }
 
-    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.recycled_item_with_profile_picture, viewGroup, false)
         return ViewHolder(view)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val imageUrl = dataSet[position].imageUrl
-        val context = viewHolder.imageView.context
+        val outfit = dataSet[position]
+        val context = viewHolder.outfitImageView.context
 
-        val imageFile = if (imageUrl.isNotEmpty()) File(imageUrl) else null
-        val shouldLoadPlaceholder = imageUrl.isEmpty() || imageFile == null || !imageFile.exists()
-
-        if (shouldLoadPlaceholder) {
-            viewHolder.imageView.setImageResource(R.drawable.placeholder_image) // Your placeholder
+        // Load outfit image
+        if (outfit.imageUrl.isEmpty()) {
+            viewHolder.outfitImageView.setImageResource(R.drawable.placeholder_image)
         } else {
             Glide.with(context)
-                .load(imageFile)
+                .load(outfit.imageUrl)
                 .placeholder(R.drawable.icon_loading)
-                .into(viewHolder.imageView)
-
+                .error(R.drawable.placeholder_image)
+                .into(viewHolder.outfitImageView)
         }
 
-        // Set the click listener
-        viewHolder.imageView.setOnClickListener {
-            onItemClick(dataSet[position])
+        // Conditionally show profile picture
+        if (showProfilePicture) {
+            viewHolder.profilePictureView.visibility = View.VISIBLE
+            val userId = outfit.userId
+            if (userId.isNotEmpty()) {
+                val userRef = FirebaseDatabase.getInstance()
+                    .getReference("users")
+                    .child(userId)
+                    .child("profilePictureUrl")
+
+                userRef.get().addOnSuccessListener { snapshot ->
+                    val profileUrl = snapshot.getValue(String::class.java)
+                    if (!profileUrl.isNullOrEmpty()) {
+                        Glide.with(context)
+                            .load(profileUrl)
+                            .placeholder(R.drawable.icon_account)
+                            .error(R.drawable.icon_account)
+                            .into(viewHolder.profilePictureView)
+                    } else {
+                        viewHolder.profilePictureView.setImageResource(R.drawable.icon_account)
+                    }
+                }.addOnFailureListener {
+                    viewHolder.profilePictureView.setImageResource(R.drawable.icon_account)
+                }
+            } else {
+                viewHolder.profilePictureView.setImageResource(R.drawable.icon_account)
+            }
+        } else {
+            viewHolder.profilePictureView.visibility = View.GONE
+        }
+
+        viewHolder.outfitImageView.setOnClickListener {
+            onItemClick(outfit)
         }
     }
 
-
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
 
-    // 🆕 Method to update the list dynamically
-    fun updateItems(newItems: List<Outfit>) {
+    fun updateItems(newItems: List<OutfitDTO>) {
         dataSet = newItems
-        notifyDataSetChanged()  // Notify the adapter that the data has changed
+        notifyDataSetChanged()
     }
 }
+

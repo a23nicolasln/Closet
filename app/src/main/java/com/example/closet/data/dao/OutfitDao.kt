@@ -2,6 +2,7 @@ package com.example.closet.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.closet.data.model.ClothingItem
 import com.example.closet.data.model.Outfit
 import com.example.closet.data.relations.OutfitColorCrossRef
 import com.example.closet.data.relations.OutfitWithColors
@@ -69,5 +70,14 @@ interface OutfitDao{
         )
     """)
     suspend fun getOutfitsByColorId(colorId: Long): List<Outfit>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM ClothingItem
+        WHERE clothingItemId IN (
+            SELECT clothingItemId FROM OutfitClothingItemCrossRef WHERE outfitId = :outfitId
+        )
+    """)
+    suspend fun getClothingItemsForOutfit(outfitId: Long): List<ClothingItem>
 
 }

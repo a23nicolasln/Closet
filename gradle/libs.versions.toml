@@ -1,7 +1,7 @@
 [versions]
 # Plugins
 agp = "8.7.3"
-kotlin = "1.9.24"
+kotlin = "2.1.20"
 
 # Navigation
 navigation = "2.7.7"
@@ -19,12 +19,13 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 
 # Room
-room = "2.6.1"
+room = "2.7.1"
 coroutines = "1.7.3"
 lifecycle = "2.6.2"
 
 # Glide
 glide = "4.16.0"
+firebaseStorageKtx = "21.0.1"
 
 [libraries]
 # AndroidX Core
@@ -58,6 +59,7 @@ androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecy
 # Glide
 com-github-bumptech-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 com-github-bumptech-glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

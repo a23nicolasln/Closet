@@ -16,6 +16,7 @@ import com.example.closet.ui.adapters.OutfitAdapter
 import com.example.closet.ui.viewmodels.OutfitsViewModel
 import com.example.closet.ui.viewmodels.ViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 
 class OutfitsFragment : Fragment() {
 
@@ -29,11 +30,9 @@ class OutfitsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_outfits, container, false)
 
         // Set up navigation for account button
-        val accountButton = view.findViewById<FloatingActionButton>(R.id.account_button)
+        val accountButton = view.findViewById<FloatingActionButton>(R.id.settings_button)
         accountButton.setOnClickListener {
-
-
-
+            FirebaseAuth.getInstance().signOut()
         }
 
         // Filters button

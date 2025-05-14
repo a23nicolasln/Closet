@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.closet.data.model.ClothingItem
-import com.example.closet.repository.ClothingItemRepository
+import com.example.closet.data.repository.ClothingItemRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 

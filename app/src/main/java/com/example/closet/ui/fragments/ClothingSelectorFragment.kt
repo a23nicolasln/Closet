@@ -15,7 +15,7 @@ import com.example.closet.ui.adapters.ClothingItemAdapter
 import com.example.closet.ui.viewmodels.ClothingSelectorViewModel
 import com.example.closet.ui.viewmodels.ViewModelFactory
 import com.example.closet.MyApp
-import com.example.closet.repository.ClothingItemRepository
+import com.example.closet.data.repository.ClothingItemRepository
 
 class ClothingSelectorFragment : Fragment() {
 

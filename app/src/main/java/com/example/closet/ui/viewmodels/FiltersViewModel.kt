@@ -9,11 +9,11 @@ import com.example.closet.data.model.ClothingItem
 import com.example.closet.data.model.Color
 import com.example.closet.data.model.Outfit
 import com.example.closet.data.model.Type
-import com.example.closet.repository.AttributeRepository
-import com.example.closet.repository.ClothingItemRepository
-import com.example.closet.repository.ColorRepository
-import com.example.closet.repository.OutfitRepository
-import com.example.closet.repository.TypeRepository
+import com.example.closet.data.repository.AttributeRepository
+import com.example.closet.data.repository.ClothingItemRepository
+import com.example.closet.data.repository.ColorRepository
+import com.example.closet.data.repository.OutfitRepository
+import com.example.closet.data.repository.TypeRepository
 import kotlinx.coroutines.launch
 
 class FiltersViewModel(

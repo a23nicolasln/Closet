@@ -3,8 +3,8 @@ package com.example.closet.ui.viewmodels
 import androidx.lifecycle.*
 import com.example.closet.data.model.ClothingItem
 import com.example.closet.data.model.Type
-import com.example.closet.repository.ClothingItemRepository
-import com.example.closet.repository.TypeRepository
+import com.example.closet.data.repository.ClothingItemRepository
+import com.example.closet.data.repository.TypeRepository
 import kotlinx.coroutines.launch
 
 class ClosetViewModel(

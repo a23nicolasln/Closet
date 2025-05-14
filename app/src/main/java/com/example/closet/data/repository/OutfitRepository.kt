@@ -1,4 +1,4 @@
-package com.example.closet.repository
+package com.example.closet.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.closet.data.dao.OutfitDao

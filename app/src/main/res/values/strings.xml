@@ -42,6 +42,13 @@
     <string name="followers">followers</string>
     <string name="following">following</string>
     <string name="edit_profile">Edit profile</string>
+    <string name="login">Login</string>
+    <string name="no_account">Don\'t have an account? Register</string>
+    <string name="enter_password">Enter your Password</string>
+    <string name="enter_email">Enter your Email</string>
+    <string name="register">Register</string>
+    <string name="already_have_account">Already have an account? Login</string>
+    <string name="enter_username">Enter your username</string>
 
 
 </resources>

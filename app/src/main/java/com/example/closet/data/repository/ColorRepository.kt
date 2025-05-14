@@ -1,7 +1,8 @@
-package com.example.closet.repository
+package com.example.closet.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.closet.data.dao.ColorDao
+import com.example.closet.data.firebase.FirebaseSyncManager
 import com.example.closet.data.model.Color
 import com.example.closet.data.relations.ClothingItemColorCrossRef
 import com.example.closet.data.relations.ClothingItemWithColors
@@ -10,11 +11,17 @@ import com.example.closet.data.relations.ColorWithOutfits
 import com.example.closet.data.relations.OutfitColorCrossRef
 
 class ColorRepository(
-    private val colorDao: ColorDao
+    private val colorDao: ColorDao,
 ) {
 
-    suspend fun insertColor(color: Color): Long =
-        colorDao.insertColor(color)
+    suspend fun insertColor(color: Color): Long {
+        val id = colorDao.insertColor(color)
+
+        // Create a copy with the new generated ID
+        val colorWithId = color.copy(colorId = id)
+
+        return id
+    }
 
     fun getAllColors(): LiveData<List<Color>>  =
         colorDao.getAllColors()
