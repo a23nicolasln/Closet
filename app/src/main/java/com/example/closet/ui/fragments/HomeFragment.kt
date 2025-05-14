@@ -63,7 +63,14 @@ class HomeFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         val outfitAdapter = OutfitWithProfilePictureAdapter(
             dataSet = emptyList(),
-            onItemClick = { /* handle item click */ },
+            onItemClick = {
+                val outfitId = it.outfitId
+                val action = HomeFragmentDirections.actionHomeFragmentToOutfitViewSocialFragment(
+                    outfitId = outfitId,
+                    userId = it.userId
+                )
+                view.findNavController().navigate(action)
+            },
             showProfilePicture = true
         )
         recyclerView.adapter = outfitAdapter

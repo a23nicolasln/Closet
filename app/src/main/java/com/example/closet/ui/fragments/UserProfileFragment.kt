@@ -1,4 +1,4 @@
-package com.example.closet
+package com.example.closet.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.closet.R
 import com.example.closet.data.firebase.FirebaseSyncManager
 import com.example.closet.ui.adapters.OutfitWithProfilePictureAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -72,7 +73,8 @@ class UserProfileFragment : Fragment() {
             val outfitAdapter = OutfitWithProfilePictureAdapter(
                 dataSet = outfitList,
                 onItemClick = { outfit ->
-
+                    val action = UserProfileFragmentDirections.actionUserProfileFragmentToOutfitViewSocialFragment(outfit.outfitId, outfit.userId)
+                    findNavController().navigate(action)
                 },
                 showProfilePicture = false
             )

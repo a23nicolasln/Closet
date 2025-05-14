@@ -1,29 +1,57 @@
 package com.example.closet.data.firebase
 
+import android.net.Uri
 import android.util.Log
+import androidx.core.net.toUri
 import com.example.closet.data.firebase.dto.ClothingItemDTO
 import com.example.closet.data.firebase.dto.OutfitDTO
 import com.example.closet.data.firebase.dto.UserDTO
+import com.example.closet.data.model.ClothingItem
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.tasks.await
+import java.io.File
+import java.util.UUID
 
 object FirebaseSyncManager {
 
     private val database = FirebaseDatabase.getInstance().reference
 
+    suspend fun uploadImageToFirebaseStorage(localPath: String, storagePath: String): String {
+        val uri = Uri.fromFile(File(localPath))
+        val storageRef = FirebaseStorage.getInstance().reference.child(storagePath)
+        storageRef.putFile(uri).await()
+        return storageRef.downloadUrl.await().toString()
+    }
 
-    fun publishOutfit(outfit: OutfitDTO) {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        if (userId != null) {
-            database
-                .child("users")
-                .child(userId)
-                .child("publishedOutfits")
-                .child(outfit.outfitId.toString())
-                .setValue(outfit)
-        } else {
-            Log.e("Firebase", "User not authenticated")
+    suspend fun prepareOutfitWithUploadedImages(originalOutfit: OutfitDTO, userId: String): OutfitDTO {
+        // Upload outfit image
+        val outfitImageUrl = uploadImageToFirebaseStorage(
+            originalOutfit.imageUrl,
+            "publishedOutfits/$userId/${UUID.randomUUID()}.jpg"
+        )
+
+        // Upload each clothing item image
+        val updatedClothingItems = originalOutfit.clothingItems.map { item ->
+            val uploadedUrl = uploadImageToFirebaseStorage(
+                item.imgUrl,
+                "publishedOutfits/$userId/clothing_items/${UUID.randomUUID()}.jpg"
+            )
+            item.copy(imgUrl = uploadedUrl)
         }
+
+        return originalOutfit.copy(
+            imageUrl = outfitImageUrl,
+            clothingItems = updatedClothingItems
+        )
+    }
+
+    suspend fun uploadOutfitToRealtimeDatabase(outfit: OutfitDTO, userId: String) {
+        val dbRef = FirebaseDatabase.getInstance().getReference("users/$userId/publishedOutfits")
+        dbRef.child(outfit.outfitId.toString()).setValue(outfit).await()
     }
 
     fun getAllPublishedOutfits(callback: (List<OutfitDTO>) -> Unit) {
@@ -39,17 +67,31 @@ object FirebaseSyncManager {
                     val outfitId = outfitSnapshot.child("outfitId").getValue(Long::class.java) ?: continue
                     val name = outfitSnapshot.child("name").getValue(String::class.java) ?: "Unnamed Outfit"
                     val imgUrl = outfitSnapshot.child("imageUrl").getValue(String::class.java) ?: ""
-                    val clothingItemsSnapshot = outfitSnapshot.child("clothingItems")
-                    val clothingItems = mutableListOf<ClothingItemDTO>()
 
-                    val outfit = OutfitDTO(
-                        outfitId = outfitId,
-                        name = name,
-                        imageUrl = imgUrl,
-                        userId = userId,
-                        clothingItems = emptyList()
+                    val clothingItems = mutableListOf<ClothingItemDTO>()
+                    val clothingItemsSnapshot = outfitSnapshot.child("clothingItems")
+
+                    for (itemSnapshot in clothingItemsSnapshot.children) {
+                        val clothingItemId = itemSnapshot.child("clothingItemId").getValue(Long::class.java) ?: continue
+                        val itemImgUrl = itemSnapshot.child("imgUrl").getValue(String::class.java) ?: ""
+
+                        clothingItems.add(
+                            ClothingItemDTO(
+                                clothingItemId = clothingItemId,
+                                imgUrl = itemImgUrl
+                            )
+                        )
+                    }
+
+                    allOutfits.add(
+                        OutfitDTO(
+                            outfitId = outfitId,
+                            name = name,
+                            imageUrl = imgUrl,
+                            userId = userId,
+                            clothingItems = clothingItems
+                        )
                     )
-                    allOutfits.add(outfit)
                 }
             }
             callback(allOutfits)
@@ -58,6 +100,7 @@ object FirebaseSyncManager {
             callback(emptyList())
         }
     }
+
 
     fun getPublishedOutfitsByUserId(userId: String, callback: (List<OutfitDTO>) -> Unit) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("users/$userId/publishedOutfits")
@@ -68,17 +111,31 @@ object FirebaseSyncManager {
                 val outfitId = child.child("outfitId").getValue(Long::class.java) ?: continue
                 val name = child.child("name").getValue(String::class.java) ?: "Unnamed Outfit"
                 val imgUrl = child.child("imageUrl").getValue(String::class.java) ?: ""
-                val clothingItemsSnapshot = child.child("clothingItems")
-                val clothingItems = mutableListOf<ClothingItemDTO>()
 
-                val outfit = OutfitDTO(
-                    outfitId = outfitId,
-                    name = name,
-                    imageUrl = imgUrl,
-                    userId = userId,
-                    clothingItems = emptyList()
+                val clothingItems = mutableListOf<ClothingItemDTO>()
+                val clothingItemsSnapshot = child.child("clothingItems")
+
+                for (itemSnapshot in clothingItemsSnapshot.children) {
+                    val clothingItemId = itemSnapshot.child("clothingItemId").getValue(Long::class.java) ?: continue
+                    val itemImgUrl = itemSnapshot.child("imgUrl").getValue(String::class.java) ?: ""
+
+                    clothingItems.add(
+                        ClothingItemDTO(
+                            clothingItemId = clothingItemId,
+                            imgUrl = itemImgUrl
+                        )
+                    )
+                }
+
+                outfitList.add(
+                    OutfitDTO(
+                        outfitId = outfitId,
+                        name = name,
+                        imageUrl = imgUrl,
+                        userId = userId,
+                        clothingItems = clothingItems
+                    )
                 )
-                outfitList.add(outfit)
             }
             callback(outfitList)
         }.addOnFailureListener { exception ->
@@ -86,6 +143,7 @@ object FirebaseSyncManager {
             callback(emptyList())
         }
     }
+
 
     fun getUsersByUsernamePrefix(prefix: String, callback: (List<UserDTO>) -> Unit) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("users")
@@ -122,6 +180,57 @@ object FirebaseSyncManager {
                 callback(emptyList())
             }
     }
+
+    fun getOutfitById(outfitId: Long, userId: String, callback: (OutfitDTO?) -> Unit) {
+        val outfitRef = FirebaseDatabase.getInstance()
+            .getReference("users")
+            .child(userId)
+            .child("publishedOutfits")
+            .child(outfitId.toString())
+
+        outfitRef.get()
+            .addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    val outfitIdValue = snapshot.child("outfitId").getValue(Long::class.java) ?: 0
+                    val name = snapshot.child("name").getValue(String::class.java) ?: ""
+                    val imageUrl = snapshot.child("imageUrl").getValue(String::class.java) ?: ""
+
+                    val clothingItems = mutableListOf<ClothingItemDTO>()
+                    val clothingItemsSnapshot = snapshot.child("clothingItems")
+
+                    for (itemSnapshot in clothingItemsSnapshot.children) {
+                        val clothingItemId = itemSnapshot.child("clothingItemId").getValue(Long::class.java) ?: continue
+                        val itemImgUrl = itemSnapshot.child("imgUrl").getValue(String::class.java) ?: ""
+
+                        clothingItems.add(
+                            ClothingItemDTO(
+                                clothingItemId = clothingItemId,
+                                imgUrl = itemImgUrl
+                            )
+                        )
+                    }
+
+                    val outfit = OutfitDTO(
+                        outfitId = outfitIdValue,
+                        name = name,
+                        imageUrl = imageUrl,
+                        userId = userId,
+                        clothingItems = clothingItems
+                    )
+                    callback(outfit)
+                } else {
+                    callback(null)
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.e("FirebaseSyncManager", "Error fetching outfit by ID: ${exception.message}")
+                callback(null)
+            }
+    }
+
+
+
+
 
 
 }

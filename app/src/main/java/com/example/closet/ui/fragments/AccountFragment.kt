@@ -80,7 +80,10 @@ class AccountFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_outfits)
         val outfitAdapter = OutfitWithProfilePictureAdapter(
             dataSet = emptyList(),
-            onItemClick = {},
+            onItemClick = {
+                val action = AccountFragmentDirections.actionAccountFragmentToOutfitViewSocialFragment(it.outfitId, it.userId)
+                findNavController().navigate(action)
+            },
             showProfilePicture = false
         )
         recyclerView.adapter = outfitAdapter

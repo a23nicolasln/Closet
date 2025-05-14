@@ -163,6 +163,9 @@
         <action
             android:id="@+id/action_accountFragment_to_uploadSelectorFragment"
             app:destination="@id/uploadSelectorFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_outfitViewSocialFragment"
+            app:destination="@id/outfitViewSocialFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -178,6 +181,9 @@
         <action
             android:id="@+id/action_homeFragment_to_loadingFragment"
             app:destination="@id/loadingFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_outfitViewSocialFragment"
+            app:destination="@id/outfitViewSocialFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -222,12 +228,25 @@
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="com.example.closet.UserProfileFragment"
+        android:name="com.example.closet.ui.fragments.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" >
         <action
             android:id="@+id/action_userProfileFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_outfitViewSocialFragment"
+            app:destination="@id/outfitViewSocialFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/outfitViewSocialFragment"
+        android:name="com.example.closet.ui.fragments.OutfitViewSocialFragment"
+        android:label="OutfitViewSocialFragment" >
+        <argument android:name="outfitId"
+            app:argType="long" />
         <argument
             android:name="userId"
             app:argType="string" />

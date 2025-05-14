@@ -2,6 +2,7 @@ package com.example.closet.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.closet.data.dao.OutfitDao
+import com.example.closet.data.model.ClothingItem
 import com.example.closet.data.model.Outfit
 
 
@@ -55,5 +56,9 @@ class OutfitRepository(private val outfitDao: OutfitDao) {
         } else {
             emptyList()
         }
+    }
+
+    suspend fun getClothingItemsForOutfit(outfitId: Long): List<ClothingItem> {
+        return outfitDao.getClothingItemsForOutfit(outfitId)
     }
 }
