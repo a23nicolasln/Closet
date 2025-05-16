@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,12 +16,13 @@ import com.example.closet.data.firebase.FirebaseSyncManager
 import com.example.closet.ui.adapters.OutfitWithProfilePictureAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class UserProfileFragment : Fragment() {
 
     // Get the user ID from the arguments
-    private lateinit var userId : String
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +50,8 @@ class UserProfileFragment : Fragment() {
 
         // Load profile picture and username from Firebase Realtime Database
         if (userId != null) {
-            val databaseRef = FirebaseDatabase.getInstance().getReference("users/$userId/profilePictureUrl")
+            val databaseRef =
+                FirebaseDatabase.getInstance().getReference("users/$userId/profilePictureUrl")
             databaseRef.get().addOnSuccessListener { snapshot ->
                 val imageUrl = snapshot.getValue(String::class.java)
                 if (!imageUrl.isNullOrEmpty()) {
@@ -73,7 +76,11 @@ class UserProfileFragment : Fragment() {
             val outfitAdapter = OutfitWithProfilePictureAdapter(
                 dataSet = outfitList,
                 onItemClick = { outfit ->
-                    val action = UserProfileFragmentDirections.actionUserProfileFragmentToOutfitViewSocialFragment(outfit.outfitId, outfit.userId)
+                    val action =
+                        UserProfileFragmentDirections.actionUserProfileFragmentToOutfitViewSocialFragment(
+                            outfit.outfitId,
+                            outfit.userId
+                        )
                     findNavController().navigate(action)
                 },
                 showProfilePicture = false
@@ -82,6 +89,43 @@ class UserProfileFragment : Fragment() {
             recyclerView.adapter = outfitAdapter
             recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         }
+
+        // Load the user's followers and following count
+        val followersCountTextView = view.findViewById<TextView>(R.id.num_followers)
+        val followingCountTextView = view.findViewById<TextView>(R.id.num_following)
+
+        FirebaseSyncManager.observeFollowerCount(userId) { count ->
+            followersCountTextView.text = count.toString()
+        }
+
+        FirebaseSyncManager.observeFollowingCount(userId) { count ->
+            followingCountTextView.text = count.toString()
+        }
+
+
+        // Follow/Unfollow button setup
+        val followButton = view.findViewById<Button>(R.id.follow_button)
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?:
+            throw IllegalStateException("Current user ID is null")
+
+        var isFollowing = false
+
+        FirebaseSyncManager.isUserFollowing(userId, currentUserId) { following ->
+            isFollowing = following
+            followButton.text = if (isFollowing) "Unfollow" else "Follow"
+        }
+
+        followButton.setOnClickListener {
+            if (isFollowing) {
+                FirebaseSyncManager.unfollowUser(userId, currentUserId)
+                followButton.text = "Follow"
+            } else {
+                FirebaseSyncManager.followUser(userId, currentUserId)
+                followButton.text = "Unfollow"
+            }
+            isFollowing = !isFollowing
+        }
+
 
         return view
     }

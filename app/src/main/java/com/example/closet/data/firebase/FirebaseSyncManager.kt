@@ -2,16 +2,14 @@ package com.example.closet.data.firebase
 
 import android.net.Uri
 import android.util.Log
-import androidx.core.net.toUri
 import com.example.closet.data.firebase.dto.ClothingItemDTO
 import com.example.closet.data.firebase.dto.OutfitDTO
 import com.example.closet.data.firebase.dto.UserDTO
-import com.example.closet.data.model.ClothingItem
-import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.tasks.await
 import java.io.File
 import java.util.UUID
@@ -144,6 +142,38 @@ object FirebaseSyncManager {
         }
     }
 
+    fun getFollowingOutfits(userId: String, callback: (List<OutfitDTO>) -> Unit) {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("users/$userId/following")
+        val outfitList = mutableListOf<OutfitDTO>()
+
+        databaseRef.get().addOnSuccessListener { snapshot ->
+            val followedUserIds = snapshot.children.mapNotNull { it.key }
+
+            if (followedUserIds.isEmpty()) {
+                callback(emptyList())
+                return@addOnSuccessListener
+            }
+
+            var completedRequests = 0
+
+            for (followingUserId in followedUserIds) {
+                getPublishedOutfitsByUserId(followingUserId) { outfits ->
+                    outfitList.addAll(outfits)
+                    completedRequests++
+
+                    if (completedRequests == followedUserIds.size) {
+                        callback(outfitList)
+                    }
+                }
+            }
+
+        }.addOnFailureListener { exception ->
+            Log.e("FirebaseSyncManager", "Error fetching following outfits: ${exception.message}")
+            callback(emptyList())
+        }
+    }
+
+
 
     fun getUsersByUsernamePrefix(prefix: String, callback: (List<UserDTO>) -> Unit) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("users")
@@ -227,6 +257,66 @@ object FirebaseSyncManager {
                 callback(null)
             }
     }
+
+    fun followUser(currentViewingUser: String, currentUser: String) {
+        val userRef = FirebaseDatabase.getInstance().getReference("users/$currentViewingUser/followers")
+        val followerRef = FirebaseDatabase.getInstance().getReference("users/$currentUser/following")
+
+        userRef.child(currentUser).setValue(true)
+        followerRef.child(currentViewingUser).setValue(true)
+    }
+
+    fun unfollowUser(currentViewingUser: String, currentUser: String) {
+        val followersRef = FirebaseDatabase.getInstance()
+            .getReference("users/$currentViewingUser/followers/$currentUser")
+        val followingRef = FirebaseDatabase.getInstance()
+            .getReference("users/$currentUser/following/$currentViewingUser")
+
+        followersRef.removeValue()
+        followingRef.removeValue()
+    }
+
+
+    fun isUserFollowing(userId: String, followerId: String, callback: (Boolean) -> Unit) {
+        val userRef = FirebaseDatabase.getInstance().getReference("users/$userId/followers")
+
+        userRef.child(followerId).get().addOnSuccessListener { snapshot ->
+            callback(snapshot.exists())
+        }.addOnFailureListener { exception ->
+            Log.e("FirebaseSyncManager", "Error checking if user is following: ${exception.message}")
+            callback(false)
+        }
+    }
+    fun observeFollowerCount(userId: String, onCountChanged: (Int) -> Unit) {
+        val followersRef = FirebaseDatabase.getInstance().getReference("users/$userId/followers")
+
+        followersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                onCountChanged(snapshot.childrenCount.toInt())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseSyncManager", "Error observing followers: ${error.message}")
+                onCountChanged(0)
+            }
+        })
+    }
+
+    fun observeFollowingCount(userId: String, onCountChanged: (Int) -> Unit) {
+        val followingRef = FirebaseDatabase.getInstance().getReference("users/$userId/following")
+
+        followingRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                onCountChanged(snapshot.childrenCount.toInt())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseSyncManager", "Error observing following: ${error.message}")
+                onCountChanged(0)
+            }
+        })
+    }
+
 
 
 

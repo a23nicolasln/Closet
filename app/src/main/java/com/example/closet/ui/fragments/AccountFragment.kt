@@ -138,6 +138,22 @@ class AccountFragment : Fragment() {
             }
         }
 
+        // Load the user's followers and following count
+        val followersCountTextView = view.findViewById<TextView>(R.id.num_followers)
+        val followingCountTextView = view.findViewById<TextView>(R.id.num_following)
+
+        if (userId != null) {
+            FirebaseSyncManager.observeFollowerCount(userId) { count ->
+                followersCountTextView.text = count.toString()
+            }
+        }
+
+        if (userId != null) {
+            FirebaseSyncManager.observeFollowingCount(userId) { count ->
+                followingCountTextView.text = count.toString()
+            }
+        }
+
 
         return view
     }

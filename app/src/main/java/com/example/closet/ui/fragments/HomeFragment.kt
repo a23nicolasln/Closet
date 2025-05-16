@@ -76,8 +76,11 @@ class HomeFragment : Fragment() {
         recyclerView.adapter = outfitAdapter
         recyclerView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(requireContext(), 2)
 
-        FirebaseSyncManager.getAllPublishedOutfits { outfitList ->
-            outfitAdapter.updateItems(outfitList)
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+        if (currentUserId != null) {
+            FirebaseSyncManager.getFollowingOutfits(currentUserId) { outfitList ->
+                outfitAdapter.updateItems(outfitList)
+            }
         }
 
         // Load profile picture from Firebase DB

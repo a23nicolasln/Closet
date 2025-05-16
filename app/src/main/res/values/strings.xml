@@ -49,6 +49,7 @@
     <string name="register">Register</string>
     <string name="already_have_account">Already have an account? Login</string>
     <string name="enter_username">Enter your username</string>
+    <string name="follow">Follow</string>
 
 
 </resources>
