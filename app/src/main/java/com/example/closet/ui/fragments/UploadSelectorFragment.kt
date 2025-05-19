@@ -59,6 +59,12 @@ class UploadSelectorFragment : Fragment() {
             outfitAdapter.updateItems(outfitList)
         }
 
+        // Back button
+        val backButton = view.findViewById<View>(R.id.back_button)
+        backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         return view
     }
 

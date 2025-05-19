@@ -50,6 +50,7 @@
     <string name="already_have_account">Already have an account? Login</string>
     <string name="enter_username">Enter your username</string>
     <string name="follow">Follow</string>
+    <string name="log_out">Log Out</string>
 
 
 </resources>

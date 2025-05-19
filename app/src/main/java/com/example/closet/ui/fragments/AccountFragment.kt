@@ -28,6 +28,7 @@ import com.example.closet.data.firebase.FirebaseSyncManager
 import com.example.closet.data.firebase.dto.OutfitDTO
 import com.example.closet.data.model.Outfit
 import com.example.closet.ui.adapters.OutfitWithProfilePictureAdapter
+import com.example.closet.ui.login.LoginActivity
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -152,6 +153,17 @@ class AccountFragment : Fragment() {
             FirebaseSyncManager.observeFollowingCount(userId) { count ->
                 followingCountTextView.text = count.toString()
             }
+        }
+
+        // Logout button
+        val logoutButton = view.findViewById<TextView>(R.id.log_out_button)
+        logoutButton.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+
         }
 
 
