@@ -52,6 +52,7 @@ class OutfitAddFragment : Fragment() {
     private var imagePath: String? = null
     private lateinit var imageViewOutfit: ImageView
     private val defaultImageResId = R.drawable.icon_add
+    private var shouldClearOnDestroy = true
 
 
     private val sharedVM: OutfitCreationViewModel by activityViewModels {
@@ -195,6 +196,7 @@ class OutfitAddFragment : Fragment() {
     private fun setupButtons(view: View) {
         // Back button - clears ViewModel state and saves outfit
         view.findViewById<FloatingActionButton>(R.id.back_button).setOnClickListener {
+            shouldClearOnDestroy = false
             lifecycleScope.launch {
                 val outfitName = view.findViewById<TextView>(R.id.outfitName)?.text?.toString() ?: ""
                 sharedVM.currentOutfit.value?.let { current ->
@@ -543,5 +545,13 @@ class OutfitAddFragment : Fragment() {
 
         dialog.window?.setBackgroundDrawableResource(R.drawable.box_bottom_navigation)
         dialog.show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (shouldClearOnDestroy) {
+            sharedVM.clearOutfitData()
+        }
     }
 }

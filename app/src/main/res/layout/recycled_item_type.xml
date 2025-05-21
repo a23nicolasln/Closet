@@ -8,10 +8,14 @@
     android:layout_marginBottom="15dp">
 
     <LinearLayout
+        android:id="@+id/item_type"
         android:layout_width="370dp"
         android:layout_height="220dp"
         android:background="@drawable/box_recycled_item_type_back"
+        android:clickable="true"
         android:elevation="6dp"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,14 +28,13 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/box_recycled_item_type_front" >
+            android:background="@drawable/box_recycled_item_type_front">
 
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_items"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_items"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
 
         </LinearLayout>
 

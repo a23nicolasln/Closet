@@ -39,6 +39,7 @@ object FirebaseSyncManager {
                 "publishedOutfits/$userId/clothing_items/${UUID.randomUUID()}.jpg"
             )
             item.copy(imgUrl = uploadedUrl)
+
         }
 
         return originalOutfit.copy(
@@ -65,6 +66,7 @@ object FirebaseSyncManager {
                     val outfitId = outfitSnapshot.child("outfitId").getValue(Long::class.java) ?: continue
                     val name = outfitSnapshot.child("name").getValue(String::class.java) ?: "Unnamed Outfit"
                     val imgUrl = outfitSnapshot.child("imageUrl").getValue(String::class.java) ?: ""
+                    val timestamp = outfitSnapshot.child("timestamp").getValue(Long::class.java)?: 0
 
                     val clothingItems = mutableListOf<ClothingItemDTO>()
                     val clothingItemsSnapshot = outfitSnapshot.child("clothingItems")
@@ -87,12 +89,13 @@ object FirebaseSyncManager {
                             name = name,
                             imageUrl = imgUrl,
                             userId = userId,
-                            clothingItems = clothingItems
+                            clothingItems = clothingItems,
+                            timestamp = timestamp
                         )
                     )
                 }
             }
-            callback(allOutfits)
+            callback(allOutfits.sortedByDescending { it.timestamp })
         }.addOnFailureListener { exception ->
             Log.e("FirebaseSyncManager", "Error fetching published outfits: ${exception.message}")
             callback(emptyList())
@@ -109,6 +112,8 @@ object FirebaseSyncManager {
                 val outfitId = child.child("outfitId").getValue(Long::class.java) ?: continue
                 val name = child.child("name").getValue(String::class.java) ?: "Unnamed Outfit"
                 val imgUrl = child.child("imageUrl").getValue(String::class.java) ?: ""
+                val timestamp = child.child("timestamp").getValue(Long::class.java)?: 0
+
 
                 val clothingItems = mutableListOf<ClothingItemDTO>()
                 val clothingItemsSnapshot = child.child("clothingItems")
@@ -131,11 +136,12 @@ object FirebaseSyncManager {
                         name = name,
                         imageUrl = imgUrl,
                         userId = userId,
-                        clothingItems = clothingItems
+                        clothingItems = clothingItems,
+                        timestamp = timestamp
                     )
                 )
             }
-            callback(outfitList)
+            callback(outfitList.sortedByDescending { it.timestamp })
         }.addOnFailureListener { exception ->
             Log.e("FirebaseSyncManager", "Error fetching published outfits: ${exception.message}")
             callback(emptyList())
@@ -162,7 +168,7 @@ object FirebaseSyncManager {
                     completedRequests++
 
                     if (completedRequests == followedUserIds.size) {
-                        callback(outfitList)
+                        callback(outfitList.sortedByDescending { it.timestamp })
                     }
                 }
             }
@@ -317,9 +323,102 @@ object FirebaseSyncManager {
         })
     }
 
+    fun getFollowersForUser(userId: String, callback: (List<UserDTO>) -> Unit) {
+        val followersRef = FirebaseDatabase.getInstance().getReference("users/$userId/followers")
+        val userList = mutableListOf<UserDTO>()
+
+        followersRef.get().addOnSuccessListener { snapshot ->
+            val total = snapshot.childrenCount
+            var processed = 0
+
+            if (total == 0L) {
+                callback(emptyList())
+                return@addOnSuccessListener
+            }
+
+            for (followerSnapshot in snapshot.children) {
+                val followerId = followerSnapshot.key ?: continue
+
+                FirebaseDatabase.getInstance().getReference("users/$followerId").get()
+                    .addOnSuccessListener { userSnapshot ->
+                        val username = userSnapshot.child("username").getValue(String::class.java) ?: "Unknown"
+                        val email = userSnapshot.child("email").getValue(String::class.java) ?: ""
+                        val profilePictureUrl = userSnapshot.child("profilePictureUrl").getValue(String::class.java) ?: ""
+
+                        userList.add(
+                            UserDTO(
+                                userId = followerId,
+                                username = username,
+                                email = email,
+                                profilePictureUrl = profilePictureUrl
+                            )
+                        )
+                        processed++
+                        if (processed == total.toInt()) {
+                            callback(userList)
+                        }
+                    }
+                    .addOnFailureListener {
+                        processed++
+                        if (processed == total.toInt()) {
+                            callback(userList)
+                        }
+                    }
+            }
+        }.addOnFailureListener { exception ->
+            Log.e("FirebaseSyncManager", "Error fetching followers: ${exception.message}")
+            callback(emptyList())
+        }
+    }
 
 
+    fun getFollowingForUser(userId: String, callback: (List<UserDTO>) -> Unit) {
+        val followingRef = FirebaseDatabase.getInstance().getReference("users/$userId/following")
+        val userList = mutableListOf<UserDTO>()
 
+        followingRef.get().addOnSuccessListener { snapshot ->
+            val total = snapshot.childrenCount
+            var processed = 0
+
+            if (total == 0L) {
+                callback(emptyList())
+                return@addOnSuccessListener
+            }
+
+            for (followingSnapshot in snapshot.children) {
+                val followingId = followingSnapshot.key ?: continue
+
+                FirebaseDatabase.getInstance().getReference("users/$followingId").get()
+                    .addOnSuccessListener { userSnapshot ->
+                        val username = userSnapshot.child("username").getValue(String::class.java) ?: "Unknown"
+                        val email = userSnapshot.child("email").getValue(String::class.java) ?: ""
+                        val profilePictureUrl = userSnapshot.child("profilePictureUrl").getValue(String::class.java) ?: ""
+
+                        userList.add(
+                            UserDTO(
+                                userId = followingId,
+                                username = username,
+                                email = email,
+                                profilePictureUrl = profilePictureUrl
+                            )
+                        )
+                        processed++
+                        if (processed == total.toInt()) {
+                            callback(userList)
+                        }
+                    }
+                    .addOnFailureListener {
+                        processed++
+                        if (processed == total.toInt()) {
+                            callback(userList)
+                        }
+                    }
+            }
+        }.addOnFailureListener { exception ->
+            Log.e("FirebaseSyncManager", "Error fetching following: ${exception.message}")
+            callback(emptyList())
+        }
+    }
 
 
 

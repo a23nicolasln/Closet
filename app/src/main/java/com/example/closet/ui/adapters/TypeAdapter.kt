@@ -3,7 +3,9 @@ package com.example.closet.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,9 +40,10 @@ class TypeAdapter(
         val type = types[position]
         holder.typeNameTextView.text = type.name
 
-        holder.itemView.setOnClickListener {
+        holder.itemView.findViewById<View>(R.id.item_type).setOnClickListener {
             onTypeClick(type)
         }
+
 
         val clothingItems = clothingItemsByType[type.typeId].orEmpty()
 

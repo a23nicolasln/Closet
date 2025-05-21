@@ -155,6 +155,27 @@ class AccountFragment : Fragment() {
             }
         }
 
+        // Followers and following list navigation
+        followersCountTextView.setOnClickListener {
+            val action = userId?.let { it1 ->
+                AccountFragmentDirections.actionAccountFragmentToFollowListFragment(
+                    it1,true)
+            }
+            if (action != null) {
+                findNavController().navigate(action)
+            }
+        }
+
+        followingCountTextView.setOnClickListener {
+            val action = userId?.let { it1 ->
+                AccountFragmentDirections.actionAccountFragmentToFollowListFragment(
+                    it1,false)
+            }
+            if (action != null) {
+                findNavController().navigate(action)
+            }
+        }
+
         // Logout button
         val logoutButton = view.findViewById<TextView>(R.id.log_out_button)
         logoutButton.setOnClickListener {

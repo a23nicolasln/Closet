@@ -166,6 +166,9 @@
         <action
             android:id="@+id/action_accountFragment_to_outfitViewSocialFragment"
             app:destination="@id/outfitViewSocialFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_followListFragment"
+            app:destination="@id/followListFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -243,6 +246,9 @@
         <action
             android:id="@+id/action_userProfileFragment_to_outfitViewSocialFragment"
             app:destination="@id/outfitViewSocialFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_followListFragment"
+            app:destination="@id/followListFragment" />
     </fragment>
     <fragment
         android:id="@+id/outfitViewSocialFragment"
@@ -253,5 +259,20 @@
         <argument
             android:name="userId"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/followListFragment"
+        android:name="com.example.closet.ui.fragments.FollowListFragment"
+        android:label="fragment_follow_list"
+        tools:layout="@layout/fragment_follow_list" >
+        <argument
+            android:name="userId"
+            app:argType="string" />
+        <argument
+            android:name="isFollowers"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_followListFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
     </fragment>
 </navigation>

@@ -6,4 +6,5 @@ data class OutfitDTO(
     var imageUrl: String = "",
     var clothingItems: List<ClothingItemDTO> = emptyList(),
     var userId: String = "",
+    var timestamp: Long = System.currentTimeMillis()
 )

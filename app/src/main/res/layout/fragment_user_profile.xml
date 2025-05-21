@@ -7,7 +7,7 @@
     android:background="@color/black">
 
     <!-- Scrollable content -->
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -15,8 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="100dp">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,7 +67,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="1.987"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textSize="30sp" />
 
@@ -78,7 +77,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="687"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textSize="30sp" />
                     </LinearLayout>
@@ -135,10 +134,13 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_outfits"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"/>
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/back_button"

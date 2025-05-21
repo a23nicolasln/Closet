@@ -41,8 +41,7 @@ class UserProfileFragment : Fragment() {
         // Back button setup
         val backButton = view.findViewById<FloatingActionButton>(R.id.back_button)
         backButton.setOnClickListener {
-            val action = UserProfileFragmentDirections.actionUserProfileFragmentToSearchFragment()
-            findNavController().navigate(action)
+            findNavController().popBackStack()
         }
 
         val profilePicture = view.findViewById<ShapeableImageView>(R.id.profile_picture)
@@ -100,6 +99,25 @@ class UserProfileFragment : Fragment() {
 
         FirebaseSyncManager.observeFollowingCount(userId) { count ->
             followingCountTextView.text = count.toString()
+        }
+
+        // Followers and following list navigation
+        followersCountTextView.setOnClickListener {
+            val action = userId.let {
+                UserProfileFragmentDirections.actionUserProfileFragmentToFollowListFragment(
+                    it, true
+                )
+            }
+            findNavController().navigate(action)
+        }
+
+        followingCountTextView.setOnClickListener {
+            val action = userId.let {
+                UserProfileFragmentDirections.actionUserProfileFragmentToFollowListFragment(
+                    it, false
+                )
+            }
+            findNavController().navigate(action)
         }
 
 
