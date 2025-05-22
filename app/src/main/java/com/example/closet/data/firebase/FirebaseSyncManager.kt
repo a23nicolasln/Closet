@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.closet.data.firebase.dto.ClothingItemDTO
 import com.example.closet.data.firebase.dto.OutfitDTO
 import com.example.closet.data.firebase.dto.UserDTO
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -420,6 +421,88 @@ object FirebaseSyncManager {
         }
     }
 
+    fun getUsersProfilePicture(userId: String, callback: (String?) -> Unit) {
+        val userRef = FirebaseDatabase.getInstance().getReference("users/$userId/profilePictureUrl")
+        userRef.get().addOnSuccessListener { snapshot ->
+            val profilePictureUrl = snapshot.getValue(String::class.java)
+            callback(profilePictureUrl)
+        }.addOnFailureListener { exception ->
+            Log.e("FirebaseSyncManager", "Error fetching profile picture: ${exception.message}")
+            callback(null)
+        }
+    }
 
+    fun likeOutfit(outfitOwnerId: String, outfitId: Long, callback: (Boolean) -> Unit) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId == null) {
+            Log.e("FirebaseSyncManager", "User not authenticated")
+            return
+        }
+
+        val likesRef = FirebaseDatabase.getInstance()
+            .getReference("users/$outfitOwnerId/publishedOutfits/$outfitId/likes/$userId")
+
+        likesRef.get().addOnSuccessListener { snapshot ->
+            Log.d("FirebaseSyncManager", "Snapshot exists: ${snapshot.exists()}")
+            if (snapshot.exists()) {
+                // Unlike
+                likesRef.removeValue().addOnSuccessListener {
+                    Log.d("FirebaseSyncManager", "Successfully unliked")
+                    callback(false)
+                }.addOnFailureListener {
+                    Log.e("FirebaseSyncManager", "Failed to unlike: ${it.message}")
+                    callback(true)
+                }
+            } else {
+                // Like
+                likesRef.setValue(true).addOnSuccessListener {
+                    Log.d("FirebaseSyncManager", "Successfully liked")
+                    callback(true)
+                }.addOnFailureListener {
+                    Log.e("FirebaseSyncManager", "Failed to like: ${it.message}")
+                    callback(false)
+                }
+            }
+        }.addOnFailureListener {
+            Log.e("FirebaseSyncManager", "Failed to read like state: ${it.message}")
+            callback(false)
+        }
+    }
+
+
+
+    fun observeLikeCount(outfitOwnerId: String, outfitId: Long, callback: (Int) -> Unit) {
+        val likesRef = FirebaseDatabase.getInstance()
+            .getReference("users/$outfitOwnerId/publishedOutfits/$outfitId/likes")
+
+        likesRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                callback(snapshot.childrenCount.toInt())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseSyncManager", "Failed to observe like count: ${error.message}")
+                callback(0)
+            }
+        })
+    }
+
+    fun isLikedOutfit(outfitOwnerId: String, outfitId: Long, callback: (Boolean) -> Unit) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId == null) {
+            Log.e("FirebaseSyncManager", "User not authenticated")
+            return
+        }
+
+        val likesRef = FirebaseDatabase.getInstance()
+            .getReference("users/$outfitOwnerId/publishedOutfits/$outfitId/likes/$userId")
+
+        likesRef.get().addOnSuccessListener { snapshot ->
+            callback(snapshot.exists())
+        }.addOnFailureListener {
+            Log.e("FirebaseSyncManager", "Failed to check like state: ${it.message}")
+            callback(false)
+        }
+    }
 
 }

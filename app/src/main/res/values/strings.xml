@@ -51,6 +51,7 @@
     <string name="enter_username">Enter your username</string>
     <string name="follow">Follow</string>
     <string name="log_out">Log Out</string>
+    <string name="unfollow">Unfollow</string>
 
 
 </resources>

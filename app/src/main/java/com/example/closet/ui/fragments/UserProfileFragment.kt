@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.closet.R
 import com.example.closet.data.firebase.FirebaseSyncManager
+import com.example.closet.data.firebase.FirebaseSyncManager.getUsersProfilePicture
 import com.example.closet.ui.adapters.OutfitWithProfilePictureAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.imageview.ShapeableImageView
@@ -49,10 +50,7 @@ class UserProfileFragment : Fragment() {
 
         // Load profile picture and username from Firebase Realtime Database
         if (userId != null) {
-            val databaseRef =
-                FirebaseDatabase.getInstance().getReference("users/$userId/profilePictureUrl")
-            databaseRef.get().addOnSuccessListener { snapshot ->
-                val imageUrl = snapshot.getValue(String::class.java)
+            getUsersProfilePicture(userId) { imageUrl ->
                 if (!imageUrl.isNullOrEmpty()) {
                     Glide.with(this)
                         .load(imageUrl)
@@ -130,16 +128,22 @@ class UserProfileFragment : Fragment() {
 
         FirebaseSyncManager.isUserFollowing(userId, currentUserId) { following ->
             isFollowing = following
-            followButton.text = if (isFollowing) "Unfollow" else "Follow"
+            followButton.text = if (isFollowing) resources.getString(R.string.unfollow) else resources.getString(R.string.follow)
+            followButton.setBackgroundColor(
+                if (isFollowing) resources.getColor(R.color.grey)
+                else resources.getColor(R.color.primary)
+            )
         }
 
         followButton.setOnClickListener {
             if (isFollowing) {
                 FirebaseSyncManager.unfollowUser(userId, currentUserId)
-                followButton.text = "Follow"
+                followButton.text = resources.getString(R.string.follow)
+                followButton.setBackgroundColor(resources.getColor(R.color.primary))
             } else {
                 FirebaseSyncManager.followUser(userId, currentUserId)
-                followButton.text = "Unfollow"
+                followButton.text = resources.getString(R.string.unfollow)
+                followButton.setBackgroundColor(resources.getColor(R.color.grey))
             }
             isFollowing = !isFollowing
         }
