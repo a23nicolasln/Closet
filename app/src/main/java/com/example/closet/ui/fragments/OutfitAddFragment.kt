@@ -124,7 +124,7 @@ class OutfitAddFragment : Fragment() {
                         if (outfit.imageUrl.isNotEmpty()) {
                             Glide.with(requireContext())
                                 .load(outfit.imageUrl)
-                                .placeholder(R.drawable.icon_loading)
+                                .placeholder(R.drawable.placeholder_image)
                                 .into(imageViewOutfit)
                         } else {
                             imageViewOutfit.setImageResource(defaultImageResId)

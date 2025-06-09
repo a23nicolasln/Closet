@@ -86,6 +86,25 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/grey" />
+
+            <EditText
+                android:id="@+id/item_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="8dp"
+                android:hint="@string/item_link"
+                />
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

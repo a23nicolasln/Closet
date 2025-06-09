@@ -77,13 +77,14 @@ class ClosetFragment : Fragment() {
             typeAdapter.updateItems(types, groupedItems)
         }
 
-        // Icons navigation
-        val accountIcon = view.findViewById<FloatingActionButton>(R.id.settings_button)
+        // Settings button
+        /*val accountIcon = view.findViewById<FloatingActionButton>(R.id.settings_button)
         accountIcon.setOnClickListener {
             // Log out of firebase
             FirebaseAuth.getInstance().signOut()
-        }
+        }*/
 
+        // Icons navigation
         val outfitsIcon = view.findViewById<ImageView>(R.id.outfits_icon)
         outfitsIcon.setOnClickListener {
             view.findNavController().navigate(R.id.action_closet_to_outfits)

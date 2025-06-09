@@ -1,6 +1,9 @@
 package com.example.closet.ui.fragments
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,6 +15,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.marginBottom
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +27,7 @@ import com.example.closet.data.firebase.FirebaseSyncManager.getUsersProfilePictu
 import com.example.closet.data.firebase.FirebaseSyncManager.isLikedOutfit
 import com.example.closet.ui.adapters.ClothingItemDTOAdapterSmall
 import com.example.closet.ui.adapters.CommentAdapter
+import java.net.URLEncoder
 import kotlin.properties.Delegates
 
 class OutfitViewSocialFragment : Fragment() {
@@ -60,9 +65,35 @@ class OutfitViewSocialFragment : Fragment() {
 
         val clothingItemAdapter = ClothingItemDTOAdapterSmall(
             dataSet = emptyList(),
-            onItemClick = {
-                // Optional: handle click
+            onItemClick = { clothingItem ->
+                val context = requireContext()
+                val url = clothingItem.link
+
+                if (url.isNullOrBlank()) {
+                    Toast.makeText(context, "User didn't add link", Toast.LENGTH_SHORT).show()
+                    return@ClothingItemDTOAdapterSmall
+                }
+
+                val formattedUrl = if (url.startsWith("http://") || url.startsWith("https://")) {
+                    url
+                } else {
+                    "https://$url"
+                }
+
+                val chromeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(formattedUrl)).apply {
+                    setPackage("com.android.chrome")
+                }
+
+                try {
+                    context.startActivity(chromeIntent)
+                } catch (e: ActivityNotFoundException) {
+                    // Fallback if Chrome is not installed
+                    val fallbackIntent = Intent(Intent.ACTION_VIEW, Uri.parse(formattedUrl))
+                    context.startActivity(fallbackIntent)
+                }
             }
+
+
         )
         recyclerClothingItems.adapter = clothingItemAdapter
 

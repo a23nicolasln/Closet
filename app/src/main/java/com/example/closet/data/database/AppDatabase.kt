@@ -21,7 +21,7 @@ import com.example.closet.data.relations.*
         ClothingItemAttributeCrossRef::class,
         OutfitAttributeCrossRef::class
     ],
-    version = 1
+    version = 2
 )
 
 abstract class AppDatabase : RoomDatabase() {

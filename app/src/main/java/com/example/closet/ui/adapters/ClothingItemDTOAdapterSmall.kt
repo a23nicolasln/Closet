@@ -34,7 +34,7 @@ class ClothingItemDTOAdapterSmall(
         } else {
             Glide.with(context)
                 .load(imageUrl) // Load from Firebase URL
-                .placeholder(R.drawable.icon_loading)
+                .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.placeholder_image)
                 .into(viewHolder.imageView)
         }

@@ -87,7 +87,8 @@ class UploadSelectorFragment : Fragment() {
                     clothingItems = clothingItems.map {
                         ClothingItemDTO(
                             clothingItemId = it.clothingItemId,
-                            imgUrl = it.imageUrl
+                            imgUrl = it.imageUrl,
+                            link = it.link
                         )
                     }
                 )

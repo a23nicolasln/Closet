@@ -39,7 +39,7 @@ class ClothingItemAdapterSmall(
         } else {
             Glide.with(context)
                 .load(imageFile)
-                .placeholder(R.drawable.icon_loading)
+                .placeholder(R.drawable.placeholder_image)
                 .into(viewHolder.imageView)
         }
 

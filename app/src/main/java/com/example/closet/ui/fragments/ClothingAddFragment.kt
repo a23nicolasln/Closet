@@ -102,7 +102,8 @@ class ClothingAddFragment : Fragment() {
                 clothingId = clothingItemRepository.insertClothingItem(
                     ClothingItem(
                         imageUrl = "",
-                        typeOwnerId = clothingType ?: 0L
+                        typeOwnerId = clothingType ?: 0L,
+                        link = ""
                     )
                 )
                 viewModel.getClothingItemById(clothingId!!)
@@ -122,13 +123,16 @@ class ClothingAddFragment : Fragment() {
                     Glide.with(requireContext())
                         .load(imageFile)
                         .centerCrop()
-                        .placeholder(R.drawable.icon_loading)
+                        .placeholder(R.drawable.placeholder_image)
                         .into(imageViewClothing)
 
                 }
 
                 setupColorRecyclerView(view)
                 setupAttributeRecyclerView(view)
+
+                val linkText = view.findViewById<EditText>(R.id.item_link)
+                linkText.setText(it.link)
             }
         }
 
@@ -139,12 +143,14 @@ class ClothingAddFragment : Fragment() {
             startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE)
         }
 
+        val linkText = view.findViewById<EditText>(R.id.item_link)
         // Back button
         view.findViewById<View>(R.id.back_button).setOnClickListener {
             lifecycleScope.launch {
                 val clothingItem = viewModel.currentItem.value
                 if (clothingItem != null) {
                     clothingItem.imageUrl = imagePath.toString()
+                    clothingItem.link = linkText.text.toString().trim()
                     viewModel.updateClothingItem(clothingItem)
                 }
                 viewModel.clearCurrentItem()

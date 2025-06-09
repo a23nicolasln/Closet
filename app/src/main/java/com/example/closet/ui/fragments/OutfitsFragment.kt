@@ -29,11 +29,11 @@ class OutfitsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_outfits, container, false)
 
-        // Set up navigation for account button
-        val accountButton = view.findViewById<FloatingActionButton>(R.id.settings_button)
+        // Settings button
+        /*val accountButton = view.findViewById<FloatingActionButton>(R.id.settings_button)
         accountButton.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-        }
+        }*/
 
         // Filters button
         val filtersButton = view.findViewById<FloatingActionButton>(R.id.filter_button)

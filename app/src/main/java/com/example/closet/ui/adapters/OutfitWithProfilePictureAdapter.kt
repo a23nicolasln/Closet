@@ -37,7 +37,7 @@ class OutfitWithProfilePictureAdapter(
         } else {
             Glide.with(context)
                 .load(outfit.imageUrl)
-                .placeholder(R.drawable.icon_loading)
+                .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.placeholder_image)
                 .into(viewHolder.outfitImageView)
         }

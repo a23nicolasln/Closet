@@ -40,7 +40,7 @@ object FirebaseSyncManager {
                 item.imgUrl,
                 "publishedOutfits/$userId/clothing_items/${UUID.randomUUID()}.jpg"
             )
-            item.copy(imgUrl = uploadedUrl)
+            item.copy(imgUrl = uploadedUrl, link = item.link)
 
         }
 
@@ -76,11 +76,13 @@ object FirebaseSyncManager {
                     for (itemSnapshot in clothingItemsSnapshot.children) {
                         val clothingItemId = itemSnapshot.child("clothingItemId").getValue(Long::class.java) ?: continue
                         val itemImgUrl = itemSnapshot.child("imgUrl").getValue(String::class.java) ?: ""
+                        val itemLink = itemSnapshot.child("link").getValue(String::class.java) ?: ""
 
                         clothingItems.add(
                             ClothingItemDTO(
                                 clothingItemId = clothingItemId,
-                                imgUrl = itemImgUrl
+                                imgUrl = itemImgUrl,
+                                link = itemLink
                             )
                         )
                     }
@@ -123,11 +125,13 @@ object FirebaseSyncManager {
                 for (itemSnapshot in clothingItemsSnapshot.children) {
                     val clothingItemId = itemSnapshot.child("clothingItemId").getValue(Long::class.java) ?: continue
                     val itemImgUrl = itemSnapshot.child("imgUrl").getValue(String::class.java) ?: ""
+                    val itemLink = itemSnapshot.child("link").getValue(String::class.java) ?: ""
 
                     clothingItems.add(
                         ClothingItemDTO(
                             clothingItemId = clothingItemId,
-                            imgUrl = itemImgUrl
+                            imgUrl = itemImgUrl,
+                            link = itemLink
                         )
                     )
                 }
@@ -239,11 +243,13 @@ object FirebaseSyncManager {
                     for (itemSnapshot in clothingItemsSnapshot.children) {
                         val clothingItemId = itemSnapshot.child("clothingItemId").getValue(Long::class.java) ?: continue
                         val itemImgUrl = itemSnapshot.child("imgUrl").getValue(String::class.java) ?: ""
+                        val itemLink = itemSnapshot.child("link").getValue(String::class.java) ?: ""
 
                         clothingItems.add(
                             ClothingItemDTO(
                                 clothingItemId = clothingItemId,
-                                imgUrl = itemImgUrl
+                                imgUrl = itemImgUrl,
+                                link = itemLink
                             )
                         )
                     }

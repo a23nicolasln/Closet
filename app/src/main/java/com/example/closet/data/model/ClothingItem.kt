@@ -17,5 +17,6 @@ import androidx.room.PrimaryKey
 data class ClothingItem(
     @PrimaryKey(autoGenerate = true) val clothingItemId: Long = 0L,
     val typeOwnerId: Long,
-    var imageUrl: String
+    var imageUrl: String,
+    var link: String
 )
