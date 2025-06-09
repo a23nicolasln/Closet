@@ -1,13 +1,18 @@
 package com.example.closet.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.marginBottom
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +22,7 @@ import com.example.closet.data.firebase.FirebaseSyncManager
 import com.example.closet.data.firebase.FirebaseSyncManager.getUsersProfilePicture
 import com.example.closet.data.firebase.FirebaseSyncManager.isLikedOutfit
 import com.example.closet.ui.adapters.ClothingItemDTOAdapterSmall
+import com.example.closet.ui.adapters.CommentAdapter
 import kotlin.properties.Delegates
 
 class OutfitViewSocialFragment : Fragment() {
@@ -83,6 +89,7 @@ class OutfitViewSocialFragment : Fragment() {
         val commentButton = view.findViewById<ImageView>(R.id.comment_button)
         val likecount = view.findViewById<TextView>(R.id.like_count)
         val accountButton = view.findViewById<ImageView>(R.id.account_button)
+        val itemsButton = view.findViewById<ImageView>(R.id.items_button)
 
 
 
@@ -120,8 +127,38 @@ class OutfitViewSocialFragment : Fragment() {
             }
         }
 
+        val commentInputLayout = view.findViewById<LinearLayout>(R.id.comment_input_layout)
+
         commentButton.setOnClickListener {
-            // Handle comment button click
+            commentInputLayout.visibility = View.VISIBLE
+            recyclerClothingItems.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            recyclerClothingItems.setPadding(0, 0, 0, 200)
+            recyclerClothingItems.adapter = CommentAdapter(
+                comments = emptyList(),
+                onProfileClick = { comment ->
+                    val action = OutfitViewSocialFragmentDirections.actionOutfitViewSocialFragmentToUserProfileFragment(comment.userId)
+                    findNavController().navigate(action)
+                }
+            )
+            FirebaseSyncManager.getCommentsForOutfit(
+                outfitOwnerId = userId,
+                outfitId = outfitId
+            ) { comments ->
+                (recyclerClothingItems.adapter as CommentAdapter).updateItems(comments.sortedByDescending { it.timestamp })
+            }
+        }
+
+        itemsButton.setOnClickListener {
+            commentInputLayout.visibility = View.GONE
+            recyclerClothingItems.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            recyclerClothingItems.adapter = clothingItemAdapter
+            FirebaseSyncManager.getOutfitById(outfitId, userId) { outfit ->
+                if (outfit != null) {
+                    clothingItemAdapter.updateItems(outfit.clothingItems)
+                } else {
+                    clothingItemAdapter.updateItems(emptyList())
+                }
+            }
         }
 
         accountButton.setOnClickListener {
@@ -131,6 +168,38 @@ class OutfitViewSocialFragment : Fragment() {
                 )
             }
             findNavController().navigate(action)
+        }
+
+        val send = view.findViewById<ImageView>(R.id.send_comment_button)
+        val commentInput = view.findViewById<EditText>(R.id.comment_edit_text)
+
+        send.setOnClickListener {
+            val commentText = commentInput.text.toString().trim()
+            if (commentText.isNotEmpty()) {
+                FirebaseSyncManager.uploadComment(
+                    outfitOwnerId = userId,
+                    OutfitID = outfitId,
+                    comment = commentText,
+                    callback = { success ->
+                        if (success) {
+                            commentInput.text.clear()
+                            commentInput.clearFocus()
+                            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                            imm.hideSoftInputFromWindow(commentInput.windowToken, 0)
+
+                            // Refresh comments
+                            FirebaseSyncManager.getCommentsForOutfit(
+                                outfitOwnerId = userId,
+                                outfitId = outfitId
+                            ) { comments ->
+                                (recyclerClothingItems.adapter as CommentAdapter).updateItems(comments)
+                            }
+                        } else {
+                            Log.e("OutfitViewSocialFragment", "Failed to upload comment")
+                        }
+                    }
+                )
+            }
         }
     }
 }

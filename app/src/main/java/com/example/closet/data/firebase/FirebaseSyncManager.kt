@@ -3,6 +3,7 @@ package com.example.closet.data.firebase
 import android.net.Uri
 import android.util.Log
 import com.example.closet.data.firebase.dto.ClothingItemDTO
+import com.example.closet.data.firebase.dto.CommentDTO
 import com.example.closet.data.firebase.dto.OutfitDTO
 import com.example.closet.data.firebase.dto.UserDTO
 import com.google.firebase.auth.FirebaseAuth
@@ -432,6 +433,30 @@ object FirebaseSyncManager {
         }
     }
 
+    fun getUserById(userId: String, callback: (UserDTO?) -> Unit) {
+        val userRef = FirebaseDatabase.getInstance().getReference("users/$userId")
+        userRef.get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                val username = snapshot.child("username").getValue(String::class.java) ?: "Unknown"
+                val email = snapshot.child("email").getValue(String::class.java) ?: ""
+                val profilePictureUrl = snapshot.child("profilePictureUrl").getValue(String::class.java) ?: ""
+
+                val user = UserDTO(
+                    userId = userId,
+                    username = username,
+                    email = email,
+                    profilePictureUrl = profilePictureUrl
+                )
+                callback(user)
+            } else {
+                callback(null)
+            }
+        }.addOnFailureListener { exception ->
+            Log.e("FirebaseSyncManager", "Error fetching user by ID: ${exception.message}")
+            callback(null)
+        }
+    }
+
     fun likeOutfit(outfitOwnerId: String, outfitId: Long, callback: (Boolean) -> Unit) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId == null) {
@@ -502,6 +527,55 @@ object FirebaseSyncManager {
         }.addOnFailureListener {
             Log.e("FirebaseSyncManager", "Failed to check like state: ${it.message}")
             callback(false)
+        }
+    }
+
+    fun uploadComment(outfitOwnerId: String,OutfitID: Long, comment: String, callback: (Boolean) -> Unit) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId == null) {
+            Log.e("FirebaseSyncManager", "User not authenticated")
+            callback(false)
+            return
+        }
+
+        val commentId = UUID.randomUUID().toString()
+        val commentRef = FirebaseDatabase.getInstance()
+            .getReference("users/$outfitOwnerId/publishedOutfits/$OutfitID/comments/$commentId")
+
+        val commentData = mapOf(
+            "userId" to userId,
+            "comment" to comment,
+            "timestamp" to System.currentTimeMillis()
+        )
+
+        commentRef.setValue(commentData).addOnSuccessListener {
+            Log.d("FirebaseSyncManager", "Comment uploaded successfully")
+            callback(true)
+        }.addOnFailureListener { exception ->
+            Log.e("FirebaseSyncManager", "Failed to upload comment: ${exception.message}")
+            callback(false)
+        }
+    }
+
+    fun getCommentsForOutfit(outfitOwnerId: String, outfitId: Long, callback: (List<CommentDTO>) -> Unit) {
+        val commentsRef = FirebaseDatabase.getInstance()
+            .getReference("users/$outfitOwnerId/publishedOutfits/${outfitId}/comments")
+
+        commentsRef.get().addOnSuccessListener { snapshot ->
+            val commentList = mutableListOf<CommentDTO>()
+
+            for (child in snapshot.children) {
+                val userId = child.child("userId").getValue(String::class.java) ?: continue
+                val commentText = child.child("comment").getValue(String::class.java) ?: continue
+                val timestamp = child.child("timestamp").getValue(Long::class.java) ?: System.currentTimeMillis()
+
+                commentList.add(CommentDTO(userId, outfitId, commentText, timestamp))
+            }
+
+            callback(commentList)
+        }.addOnFailureListener { exception ->
+            Log.e("FirebaseSyncManager", "Error fetching comments: ${exception.message}")
+            callback(emptyList())
         }
     }
 
