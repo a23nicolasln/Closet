@@ -53,6 +53,7 @@
     <string name="log_out">Log Out</string>
     <string name="unfollow">Unfollow</string>
     <string name="item_link">Item Link</string>
+    <string name="upload_outfit">Upload outfit: %1$s?</string>
 
 
 </resources>

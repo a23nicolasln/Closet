@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -140,5 +141,17 @@ class SearchFragment : Fragment() {
         })
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Prevent bottom nav from moving when keyboard shows
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Restore default behavior for other fragments
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 }
