@@ -47,13 +47,21 @@ class TypeAdapter(
 
         val clothingItems = clothingItemsByType[type.typeId].orEmpty()
 
-        val clothingItemAdapter = ClothingItemAdapterSmall(clothingItems) { clothingItem ->
-            onClothingItemClick(clothingItem)
+        val adapter = holder.innerRecyclerView.adapter as? ClothingItemAdapterSmall
+        if (adapter == null) {
+            // First time creation
+            val newAdapter = ClothingItemAdapterSmall(emptyList()) { clothingItem ->
+                onClothingItemClick(clothingItem)
+            }
+            holder.innerRecyclerView.layoutManager =
+                LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
+            holder.innerRecyclerView.adapter = newAdapter
+            newAdapter.updateItems(clothingItems) // this call will sort
+        } else {
+            // Just update items — this will trigger sorting
+            adapter.updateItems(clothingItems)
         }
 
-        holder.innerRecyclerView.layoutManager =
-            LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
-        holder.innerRecyclerView.adapter = clothingItemAdapter
     }
 
     override fun getItemCount(): Int = types.size

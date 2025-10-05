@@ -51,9 +51,10 @@ class ClothingItemAdapterSmall(
 
     override fun getItemCount() = dataSet.size
 
-    // Method to update the list dynamically
     fun updateItems(newItems: List<ClothingItem>) {
-        dataSet = newItems
+        // Sort by timestamp (newest first)
+        dataSet = newItems.sortedByDescending { it.timestamp }
         notifyDataSetChanged()
     }
+
 }

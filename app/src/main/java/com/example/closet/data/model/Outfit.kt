@@ -8,5 +8,6 @@ import java.util.UUID
 data class Outfit(
     @PrimaryKey(autoGenerate = true) var outfitId: Long = 0L,
     var name: String,
-    var imageUrl: String
+    var imageUrl: String,
+    var timestamp: Long = System.currentTimeMillis()
 )

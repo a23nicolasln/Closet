@@ -58,9 +58,10 @@ class OutfitAdapter(
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
 
-    // 🆕 Method to update the list dynamically
     fun updateItems(newItems: List<Outfit>) {
-        dataSet = newItems
-        notifyDataSetChanged()  // Notify the adapter that the data has changed
+        // Sort by timestamp (newest first)
+        dataSet = newItems.sortedByDescending { it.timestamp }
+        notifyDataSetChanged()
     }
+
 }
